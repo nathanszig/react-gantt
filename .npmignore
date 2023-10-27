@@ -1,0 +1,12 @@
+node_modules/
+package-lock.json
+.babelrc
+.eslintrc
+.prettierrc
+
+# Dossiers de build
+build/
+dist/
+
+# Fichiers de documentation source
+docs/
