@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 
-import {constants, calculateWidthAndMargin, fakeData} from './../constants/ganttUtils';
-
+import {calculateWidthAndMargin, constants, fakeData} from './../constants/ganttUtils';
 
 
 const GanttViewTeam = ({ mode }) => {
@@ -12,7 +11,7 @@ const GanttViewTeam = ({ mode }) => {
   const [timelineWeeks, setTimelineWeeks] = useState([]);
 
   function returnTwoFirstsCharacters(string) {
-    return string.substring(0, 2);
+    return string ? string.substring(0, 2) : '';
   }
 
   function getWeekList(fixtures) {
@@ -40,16 +39,17 @@ const GanttViewTeam = ({ mode }) => {
   }
 
   function formatAssignments(fixtures) {
-    const formattedFixtures = fixtures.map((fixture) => {
-      const { assignments, ...rest } = fixture;
-      const sortedAssignments = assignments.sort((a, b) => {
+    return fixtures.map((fixture) => {
+      const {assignments, ...rest} = fixture;
+      console.log(fixtures)
+      const sortedAssignments = fixtures.sort((a, b) => {
         return new Date(a.startAt) - new Date(b.startAt);
       });
       const formattedAssignments = [];
       for (let i = 0; i < sortedAssignments.length; i++) {
         const currentAssignment = sortedAssignments[i];
         const currentAssignmentEnd = new Date(currentAssignment.endAt);
-        let assignmentData = { ...currentAssignment };
+        let assignmentData = {...currentAssignment};
         let assignmentUnder = [];
         for (let j = i + 1; j < sortedAssignments.length; j++) {
           const nextAssignment = sortedAssignments[j];
@@ -62,13 +62,12 @@ const GanttViewTeam = ({ mode }) => {
           }
         }
         if (assignmentUnder.length > 0) {
-          assignmentData = { ...assignmentData, assignmentUnder };
+          assignmentData = {...assignmentData, assignmentUnder};
         }
         formattedAssignments.push(assignmentData);
       }
-      return { ...rest, assignments: formattedAssignments };
+      return {...rest, assignments: formattedAssignments};
     });
-    return formattedFixtures;
   }
 
   const getTasks = async () => {
@@ -208,11 +207,11 @@ const GanttViewTeam = ({ mode }) => {
             >
               <div className="gantt-container-section-sidebar-task">
                 <div className="gantt-container-section-sidebar-task-client">
-                  <p className="gantt-container-section-sidebar-task-client-name">{fixture.firstname}</p>
-                  <p className="gantt-container-section-sidebar-task-client-adress">{fixture.lastname}</p>
+                  <p className="gantt-container-section-sidebar-task-client-name">{fixture.client.firstname}</p>
+                  <p className="gantt-container-section-sidebar-task-client-adress">{fixture.client.lastname}</p>
                 </div>
                 <div className="gantt-container-section-sidebar-task-icon">
-                  <img className='gantt-container-section-sidebar-dropdown-content-user-image' src={process.env.REACT_APP_PROD_URL + fixture.urlAvatar} alt={"user avatar"} />
+                  <img className='gantt-container-section-sidebar-dropdown-content-user-image' src={fixture.client.urlAvatar} alt={"user avatar"} />
                 </div>
               </div>
             </div>

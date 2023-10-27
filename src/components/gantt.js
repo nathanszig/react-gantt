@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import moment from 'moment';
-import arrowLeft from '../img/icons/arrow-left.svg';
-import arrowRight from '../img/icons/arrow-right.svg';
+import arrowLeft from '../assets/img/icons/arrow-left.svg';
+import arrowRight from '../assets/img/icons/arrow-right.svg';
 import '../styles/gantt.scss';
 import GanttViewTeam from './GanttViewTeam'
 import GanttViewProject from './GanttViewProject'

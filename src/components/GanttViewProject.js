@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import moment from "moment";
 
-import {constants, calculateWidthAndMargin, fakeData} from './../constants/ganttUtils';
+import {calculateWidthAndMargin, constants, fakeData} from './../constants/ganttUtils';
 
 
 const GanttViewProject = ({ mode }) => {
@@ -14,8 +14,7 @@ const GanttViewProject = ({ mode }) => {
     const hours = Math.floor(number);
     const decimalPart = number - hours;
     const minutes = Math.round(decimalPart * 60);
-    const formattedTime = `${hours}h${minutes < 10 ? "0" : ""}${minutes}`;
-    return formattedTime;
+    return `${hours}h${minutes < 10 ? "0" : ""}${minutes}`;
   }
 
   const [selectedDropdownId, setSelectedDropdownId] = useState(null);
@@ -62,7 +61,7 @@ const GanttViewProject = ({ mode }) => {
     //   setTasks(fixtures);
     //   setTimelineWeeks(timelineWeeks);
     // }
-    const fixtures = fakeData['hydra:member'];
+    const fixtures = fakeData['users'];
     const timelineWeeks = getWeekList(fixtures);
     setTimelineWeeks(timelineWeeks);
   };
@@ -77,17 +76,15 @@ const GanttViewProject = ({ mode }) => {
 
   const calculateTaskStyle = (fixture) => {
     const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(
-      fixture.startAt,
-      fixture.endAt,
+      fixture.tasks[0].start,
+      fixture.tasks[0].start,
       timelineWeeks[0].start,
       mode === "Mois" ? 250 : 750
     );
-    const leftPosition = taskMarginLeft;
-    const taskStyle = {
+    return {
       width: `${widthPercentage}px`,
-      left: `calc(${leftPosition}px)`,
+      left: `calc(${taskMarginLeft}px)`,
     };
-    return taskStyle;
   };
 
   function navigateToday() {
