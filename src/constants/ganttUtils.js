@@ -69,6 +69,7 @@ export const fakeData = {
             "urlAvatar": "",
             "tasks" : [
                 {
+                    "id": "MXP-1",
                     "project": {
                         "name": "projectTest",
                         "id": 1

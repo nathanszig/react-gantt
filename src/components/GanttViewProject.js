@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import moment from "moment";
 
-import {calculateWidthAndMargin, constants, fakeData} from './../constants/ganttUtils';
+import {calculateWidthAndMargin, constants, fakeData} from '../constants/ganttUtils';
 
 
 const GanttViewProject = ({ mode }) => {
   const { ExclamationIcon, ArrowLeft, ArrowRight } = constants;
-
+  const [users, setUsers] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [timelineWeeks, setTimelineWeeks] = useState([]);
   function returnTwoFirstsCharacters(string) {
     return string.substring(0, 2);
   }
@@ -26,15 +28,49 @@ const GanttViewProject = ({ mode }) => {
     }
   };
 
-  const [tasks, setTasks] = useState([]);
-  const [timelineWeeks, setTimelineWeeks] = useState([]);
+  useEffect(() => {
+    getUsers();
+  }, []);
 
-  function getWeekList(fixtures) {
+  useEffect(() => {
+    console.log('users:', users);
+    console.log('fake data users:', fakeData.users);
+    if (users.length > 0) {
+      setTimelineWeeks(getWeekList());
+    }
+  }, [users]);
+
+  useEffect(() => {
+    console.log('avant verif users')
+    if(users.length > 0) {
+      console.log("dans le if", users)
+      setProjects(getProjects())
+    }
+  }, [users])
+
+  useEffect(() => {
+    navigateToday();
+  }, [timelineWeeks]);
+
+  const getUsers = () => {
+    setUsers(fakeData.users);
+  };
+
+  function getWeekList() {
     const startDate = moment.min(
-      fixtures.map((item) => moment(item.startAt).startOf("isoWeek"))
+      users.map((user) =>
+        user.tasks.map((task) =>
+          moment(task.start).startOf("isoWeek")
+        )
+      ).flat()
     );
+
     const endDate = moment.max(
-      fixtures.map((item) => moment(item.endAt).endOf("isoWeek"))
+      users.map((user) =>
+          user.tasks.map((task) =>
+              moment(task.end).startOf("isoWeek")
+          )
+      ).flat()
     );
 
     const weekList = [];
@@ -53,31 +89,49 @@ const GanttViewProject = ({ mode }) => {
     return weekList;
   }
 
-  const getTasks = async () => {
-    // let request = await GlobalService.get("/projects/context/gantt");
-    // if (request.status === 200) {
-    //   const fixtures = request.data["hydra:member"];
-    //   const timelineWeeks = getWeekList(fixtures);
-    //   setTasks(fixtures);
-    //   setTimelineWeeks(timelineWeeks);
-    // }
-    const fixtures = fakeData['users'];
-    const timelineWeeks = getWeekList(fixtures);
-    setTimelineWeeks(timelineWeeks);
-  };
+  function getProjects() {
+    console.log('getProjects')
+    const projectsMap = [];
+    users.map((user) =>
+        user.tasks.map((task) => {
+          const project = task.project;
+          const projectId = project.id;
+          const taskId = task.id;
+          console.log('taskId')
+          console.log(taskId)
+          console.log('projectId')
+          console.log(projectId)
+          const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
+          console.log('projectIndex')
+          console.log(projectIndex)
+          task.user = user;
+          console.log('task')
+          console.log(task)
+          if (projectIndex === -1) {
+            projectsMap.push({
+                id: projectId,
+                name: project.name,
+                tasks: [task],
+                users: [user]
+            });
+          } else {
+            const taskIndex = projectsMap.tasks.findIndex((t) => t.id === taskId);
+            if (taskIndex === -1) {
+              projectsMap[projectIndex].tasks.push(task);
+              projectsMap[projectIndex].users.push(user);
+            }
+          }
+        })
+    );
+    console.log('projectsMap')
+    console.log(projectsMap)
+    return projectsMap;
+  }
 
-  useEffect(() => {
-    getTasks();
-  }, []);
-
-  useEffect(() => {
-    navigateToday();
-  }, [timelineWeeks]);
-
-  const calculateTaskStyle = (fixture) => {
+  const calculateTaskStyle = (task) => {
     const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(
-      fixture.tasks[0].start,
-      fixture.tasks[0].start,
+      task.start,
+      task.end,
       timelineWeeks[0].start,
       mode === "Mois" ? 250 : 750
     );
@@ -161,53 +215,45 @@ const GanttViewProject = ({ mode }) => {
       </div>
 
       <div className="gantt-container-section-sidebar">
-        {tasks.map((fixture) => (
+        {projects.map((project) => (
           <div
             className="gantt-container-section-sidebar-line"
-            key={fixture.id}
+            key={project.id}
           >
+
             <div className="gantt-container-section-sidebar-tasks project">
               <div className="gantt-container-section-sidebar-task">
                 <div className="gantt-container-section-sidebar-task-client">
                   <p className="gantt-container-section-sidebar-task-client-name">
-                    {fixture.client.firstname} {fixture.client.lastname}
-                  </p>
-                  <p className="gantt-container-section-sidebar-task-client-adress">
-                    {fixture.address.street}
-                  </p>
-                  <p className="gantt-container-section-sidebar-task-client-p">
-                    {fixture.address.nicePostcode}
-                  </p>
-                  <p className="gantt-container-section-sidebar-task-client-city">
-                    {fixture.address.city}
+                    {project.name}
                   </p>
                 </div>
                 <div
                   className="gantt-container-section-sidebar-task-icon"
-                  onClick={() => toggleDropdown(fixture.id)}
+                  onClick={() => toggleDropdown(project.id)}
                 >
                   <img
                     src={"/images/pictos/arrow-dropdown-gantt.svg"}
                     alt={"dropdown-arrow-gantt"}
                     style={{
                       transform:
-                        fixture.id === selectedDropdownId
+                        project.id === selectedDropdownId
                           ? "rotate(180deg)"
                           : "rotate(0deg)",
                     }}
                   />
                 </div>
               </div>
-              {fixture.id === selectedDropdownId && (
+              {project.id === selectedDropdownId && (
                 <div className="gantt-container-section-sidebar-dropdown-content">
-                  {fixture.ings.map((user) => (
+                  {project.users.map((user) => (
                     <div
                       className="gantt-container-section-sidebar-dropdown-content-user"
                       key={user.id}
                     >
                       <div className="gantt-container-section-sidebar-dropdown-content-user-p">
-                        <p>{user.firstname}</p>
-                        <p>{user.lastname}</p>
+                        <p>{user.firstName}</p>
+                        <p>{user.lastName}</p>
                       </div>
                       <img
                         className="gantt-container-section-sidebar-dropdown-content-user-image"
@@ -219,47 +265,43 @@ const GanttViewProject = ({ mode }) => {
                 </div>
               )}
             </div>
-
+          {project.tasks.map((task) => (
             <div className="gantt-container-section-main-tasks project">
               <div className="gantt-container-section-main-tasks-m">
                 <div
                   className="gantt-container-section-main-tasks-t"
-                  style={calculateTaskStyle(fixture)}
+                  style={calculateTaskStyle(task)}
                 >
                   <div className="gantt-container-section-main-tasks-t-content">
                     <p>
                       <span>
-                        {moment(fixture.startAt).format("DD/MM/YYYY")} -{" "}
-                        {moment(fixture.endAt).format("DD/MM/YYYY")}
-                      </span>
-                      <span>
-                        {fixture.type} / {fixture.reference}
+                        {moment(task.start).format("DD/MM/YYYY")} -{" "}
+                        {moment(task.end).format("DD/MM/YYYY")}
                       </span>
                     </p>
                   </div>
                 </div>
               </div>
 
-              {fixture.ings.map((user) => (
+              {
                 <div
                   className="gantt-container-section-main-tasks-u"
-                  key={user.id}
+                  key={task.user.id}
                 >
-                  {fixture.id === selectedDropdownId && (
+                  {task.id === selectedDropdownId && (
                     <>
-                      {user.assignments.map((assignment, index) => {
+                      {task.user.tasks.map((userTask, index) => {
                         const { widthPercentage, taskMarginLeft } =
                           calculateWidthAndMargin(
-                            assignment.startAt,
-                            assignment.endAt,
+                            userTask.start,
+                            userTask.end,
                             timelineWeeks[0].start,
                             mode === "Mois" ? 250 : 750
                           );
 
-                        const leftPosition = taskMarginLeft;
                         const taskStyle = {
                           width: `${widthPercentage}px`,
-                          left: `calc(${leftPosition}px)`,
+                          left: `calc(${taskMarginLeft}px)`,
                         };
 
                         if (index > 0) {
@@ -269,54 +311,19 @@ const GanttViewProject = ({ mode }) => {
                         return (
                           <div
                             className="gantt-container-section-main-tasks-t"
-                            key={assignment.id}
+                            key={userTask.id}
                             style={taskStyle}
                           >
-                            <div className="gantt-container-section-main-tasks-t-content">
-                              {moment(assignment.endAt).diff(
-                                assignment.startAt,
-                                "days"
-                              ) <= 1 ? (
-                                <>
-                                  <p title={assignment.niceType}>
-                                    {returnTwoFirstsCharacters(
-                                      assignment.niceType
-                                    )}
-                                    ..
-                                  </p>
-                                </>
-                              ) : (
-                                <>
-                                  <p>
-                                    <span>
-                                      {assignment.niceType} <br />
-                                      Temps estimé :{" "}
-                                      {convertToHoursAndMinutes(
-                                        assignment.estimatedDuration
-                                      )}
-                                    </span>
-                                    {!assignment.completed &&
-                                      assignment.endAt <
-                                        moment().format("YYYY-MM-DD") && (
-                                        <img
-                                          src={ExclamationIcon}
-                                          alt="Validation Error"
-                                          className="validation-icon"
-                                          title="La date de rendu est dépassée sans que la tâche soit complétée"
-                                        />
-                                      )}
-                                  </p>
-                                </>
-                              )}
-                            </div>
+
                           </div>
                         );
                       })}
                     </>
                   )}
                 </div>
-              ))}
+              }
             </div>
+          ))}
           </div>
         ))}
       </div>
