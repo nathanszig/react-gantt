@@ -1,15 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import moment from 'moment';
+import React, { useState, useRef } from 'react';
 import arrowLeft from '../assets/img/icons/arrow-left.svg';
 import arrowRight from '../assets/img/icons/arrow-right.svg';
 import '../styles/gantt.scss';
 import GanttViewTeam from './GanttViewTeam'
 import GanttViewProject from './GanttViewProject'
+import {constants} from '../constants/ganttUtils';
 
+const Gantt = () => {
 
-const MbeGantt = () => {
-
-  // const { ArrowLeft, ArrowRight } = constants;
+  const { ArrowLeft, ArrowRight } = constants;
 
   const ganttContainerRef = useRef(null);
   const [selectedTeam, setSelectedTeam] = useState('');
@@ -96,5 +95,4 @@ const MbeGantt = () => {
     </div>
   );
 };
-
-export default MbeGantt;
+export default Gantt;

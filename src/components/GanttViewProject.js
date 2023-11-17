@@ -33,17 +33,13 @@ const GanttViewProject = ({ mode }) => {
   }, []);
 
   useEffect(() => {
-    console.log('users:', users);
-    console.log('fake data users:', fakeData.users);
     if (users.length > 0) {
       setTimelineWeeks(getWeekList());
     }
   }, [users]);
 
   useEffect(() => {
-    console.log('avant verif users')
     if(users.length > 0) {
-      console.log("dans le if", users)
       setProjects(getProjects())
     }
   }, [users])
@@ -90,23 +86,14 @@ const GanttViewProject = ({ mode }) => {
   }
 
   function getProjects() {
-    console.log('getProjects')
     const projectsMap = [];
     users.map((user) =>
         user.tasks.map((task) => {
           const project = task.project;
           const projectId = project.id;
           const taskId = task.id;
-          console.log('taskId')
-          console.log(taskId)
-          console.log('projectId')
-          console.log(projectId)
           const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
-          console.log('projectIndex')
-          console.log(projectIndex)
           task.user = user;
-          console.log('task')
-          console.log(task)
           if (projectIndex === -1) {
             projectsMap.push({
                 id: projectId,
@@ -123,8 +110,6 @@ const GanttViewProject = ({ mode }) => {
           }
         })
     );
-    console.log('projectsMap')
-    console.log(projectsMap)
     return projectsMap;
   }
 
@@ -266,7 +251,7 @@ const GanttViewProject = ({ mode }) => {
               )}
             </div>
           {project.tasks.map((task) => (
-            <div className="gantt-container-section-main-tasks project">
+            <div className="gantt-container-section-main-tasks project" key={task.id}>
               <div className="gantt-container-section-main-tasks-m">
                 <div
                   className="gantt-container-section-main-tasks-t"
