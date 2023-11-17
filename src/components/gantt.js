@@ -3,12 +3,28 @@ import moment from 'moment';
 import arrowLeft from '../img/icons/arrow-left.svg';
 import arrowRight from '../img/icons/arrow-right.svg';
 import '../styles/gantt.scss';
+import '../index.css';
 import GanttViewTeam from './GanttViewTeam'
 import GanttViewProject from './GanttViewProject'
 
 
-const MbeGantt = () => {
+const MbeGantt = ({customize}) => {
 
+  const defaultStyles = {
+    todayButton: {
+      background: '#FFF',
+      color: '#000',
+      border: '1px solid #000',
+      borderRadius: "5px",
+    },
+    weeksContainer: {
+      background: '#FFF',
+      color: '#000',
+      border: '1px solid #000',
+      borderRadius: "5px",
+    },
+
+  };
   // const { ArrowLeft, ArrowRight } = constants;
 
   const ganttContainerRef = useRef(null);
@@ -54,6 +70,21 @@ const MbeGantt = () => {
     }
   }
 
+  function mergeStyles(target, source) {
+    for (const key in source) {
+      if (typeof source[key] === 'object') {
+        // Si la valeur est un objet, fusionnez récursivement
+        target[key] = mergeStyles(target[key] || {}, source[key]);
+      } else {
+        // Sinon, remplacez la valeur
+        target[key] = source[key];
+      }
+    }
+    return target;
+  }
+
+  const styles = mergeStyles(defaultStyles, customize);
+
   return (
     <div className="gantt-container" ref={ganttContainerRef}>
       <div className="gantt-container-filters">
@@ -74,7 +105,7 @@ const MbeGantt = () => {
             <button className="gantt-container-filters-crt-block-btn-left" onClick={handleMoveLeft}>
               <img src={arrowLeft} alt="Move Left" />
             </button>
-            <p onClick={handleMoveToToday}>Aujourd'hui</p>
+            <p onClick={handleMoveToToday} style={styles.todayButton}>Aujourd'hui</p>
             <button className="gantt-container-filters-crt-block-btn-right" onClick={handleMoveRight}>
              <img src={arrowRight} alt="Move Right" />
             </button>
@@ -86,10 +117,12 @@ const MbeGantt = () => {
         showGanttTeamChart ? (
           <GanttViewTeam
             mode={selectedCalendar}
+            customize={styles}
           />
         ) : (
           <GanttViewProject
             mode={selectedCalendar}
+            customize={styles}
           />
         )
       }

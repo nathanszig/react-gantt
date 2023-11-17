@@ -82,3 +82,8 @@
   background-color: #FFA500;
 }
 
+.select-custom-secondary{
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 1px lightgray;
+}
