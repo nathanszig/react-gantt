@@ -4,7 +4,20 @@ import moment from "moment";
 import {calculateWidthAndMargin, constants, fakeData} from '../constants/ganttUtils';
 
 
-const GanttViewProject = ({ mode }) => {
+const GanttViewProject = ({ mode, customize }) => {
+
+  const defaultStyles = {
+    daysContainer:{
+      background: '#000',
+      color: '#fff',
+    },
+    weeksContainer:{
+      background: '#000',
+      color: '#fff',
+    },
+  };
+
+
   const { ExclamationIcon, ArrowLeft, ArrowRight } = constants;
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -112,6 +125,40 @@ const GanttViewProject = ({ mode }) => {
     );
     return projectsMap;
   }
+  function mergeStyles(target, source) {
+    for (const key in source) {
+      if (typeof source[key] === 'object') {
+        // Si la valeur est un objet, fusionnez récursivement
+        target[key] = mergeStyles(target[key] || {}, source[key]);
+      } else {
+        // Sinon, remplacez la valeur
+        target[key] = source[key];
+      }
+    }
+    return target;
+  }
+
+  const styles = mergeStyles(defaultStyles, customize);
+
+
+
+
+  const getTasks = async () => {
+    // let request = await GlobalService.get("/projects/context/gantt");
+    // if (request.status === 200) {
+    //   const fixtures = request.data["hydra:member"];
+    //   const timelineWeeks = getWeekList(fixtures);
+    //   setTasks(fixtures);
+    //   setTimelineWeeks(timelineWeeks);
+    // }
+    const fixtures = fakeData['hydra:member'];
+    const timelineWeeks = getWeekList(fixtures);
+    setTimelineWeeks(timelineWeeks);
+  };
+
+  useEffect(() => {
+    getTasks();
+  }, []);
 
   const calculateTaskStyle = (task) => {
     const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(
@@ -143,7 +190,7 @@ const GanttViewProject = ({ mode }) => {
     <section className="gantt-container-section">
       <div className="gantt-container-section-timeline">
         {mode === "Mois" ? (
-          <div className="gantt-container-section-timeline-header">
+          <div className="gantt-container-section-timeline-header" >
             {timelineWeeks.map((week, index) => {
               const startOfWeek = moment(week.start, "YYYY-MM-DD");
               const endOfWeek = moment(week.end, "YYYY-MM-DD");
@@ -160,6 +207,7 @@ const GanttViewProject = ({ mode }) => {
                     isCurrentWeek ? "today" : ""
                   }`}
                   key={index}
+                  style={styles.daysContainer}
                 >
                   <p>
                     {moment(week.start).format("DD MMMM")} -{" "}
@@ -187,6 +235,7 @@ const GanttViewProject = ({ mode }) => {
                     isCurrentWeek ? "today" : ""
                   }`}
                   key={index}
+                  style={styles.weeksContainer}
                 >
                   <p>
                     {moment(week.start).format("DD MMMM")} -{" "}

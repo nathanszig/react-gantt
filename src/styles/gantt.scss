@@ -1,13 +1,12 @@
 .gantt-container {
     padding: 35px;
-    background: #ffffff;
 
     &-filters {
         display: flex;
         margin-bottom: 30px;
         justify-content: space-between;
         align-items: center;
-        background-color: white;
+
 
         &-slc-group {
             display: flex;
@@ -27,13 +26,8 @@
                 }
 
                 p {
-                    border: solid 2px #4AA9C2;
-                    font-family: "Poligon Regular";
                     letter-spacing: 0.83px;
                     padding: 8px 16px;
-                    background-color: initial;
-                    color: #4AA9C2;
-                    border-radius: 8px;
                     font-weight: 700;
                     cursor: pointer;
                 }
@@ -73,10 +67,10 @@
                 // flex: 5 1;
                 justify-content: flex-end;
                 align-items: center;
-                // gap: 3px;
+                gap: 3px;
 
                 &-days {
-                    background: #0a0954;
+
                     // border-radius: 8px;
                     width: 250px;
                     position: relative;
@@ -86,7 +80,6 @@
                         display: block;
                         height: 100%;
                         width: 1.3px;
-                        background-color: #F7F7F7;
                         position: absolute;
                         right: 0;
                         top: 0;
@@ -95,8 +88,6 @@
 
                     p {
                         font-size: 14px;
-                        font-family: "Poligon Medium";
-                        color: #F7F7F7;
                         padding: 10px 20px;
                         // text-align: center;
                     }
@@ -107,8 +98,6 @@
                 }
 
                 &-week {
-                    background: #0a0954;
-                    // border-radius: 8px;
                     width: 750px;
                     text-align: center;
                     position: relative;
@@ -118,7 +107,6 @@
                         display: block;
                         height: 100%;
                         width: 1.3px;
-                        background-color: #F7F7F7;
                         position: absolute;
                         right: 0;
                         top: 0;
@@ -128,8 +116,6 @@
 
                     p {
                         font-size: 14px;
-                        font-family: "Poligon Medium";
-                        color: #F7F7F7;
                         padding: 10px 20px;
                         text-align: center;
                     }
@@ -184,7 +170,6 @@
 
                 p {
                     font-size: 12px;
-                    font-family: "Poligon Medium";
                     color: #F7F7F7;
                     padding: 3px;
                 }
@@ -204,7 +189,6 @@
                         p {
                             color: #F7F7F7;
                             font-size: 12px;
-                            font-family: "Poligon Medium";
                             line-height: 16px;
                         }
 
@@ -256,7 +240,6 @@
                         &-content {
                             p {
                                 color: #090754;
-                                font-family: 'Poligon Medium';
                                 font-size: 16px;
                             }
                         }
@@ -284,7 +267,6 @@
 
                         p {
                             color: #000;
-                            font-family: 'Poligon Regular';
                             font-size: 14px;
                             letter-spacing: 0.36px;
 
@@ -303,7 +285,6 @@
 
                         p {
                             color: #090754;
-                            font-family: "Poligon Medium";
                             font-size: 16px;
                         }
 
@@ -314,7 +295,6 @@
                             width: 100%;
 
                             p {
-                                font-family: "Poligon Medium";
                                 font-size: 12px;
                                 max-width: max-content;
                             }
@@ -346,7 +326,6 @@
             &-sidebar {
                 width: 270px;
                 height: 100%;
-                background-color: blue;
                 border-radius: 8px 0 0 8px;
             }
 
