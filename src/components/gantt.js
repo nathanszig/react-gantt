@@ -1,31 +1,29 @@
-import React, { useState, useRef, useEffect } from 'react';
-import moment from 'moment';
-import arrowLeft from '../img/icons/arrow-left.svg';
-import arrowRight from '../img/icons/arrow-right.svg';
+import React, { useState, useRef } from 'react';
+import arrowLeft from '../assets/img/icons/arrow-left.svg';
+import arrowRight from '../assets/img/icons/arrow-right.svg';
 import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewTeam from './GanttViewTeam'
 import GanttViewProject from './GanttViewProject'
+import {constants} from '../constants/ganttUtils';
 
-
-const MbeGantt = ({customize}) => {
-
+const Gantt = ({customize}) => {
   const defaultStyles = {
-    todayButton: {
-      background: '#FFF',
-      color: '#000',
-      border: '1px solid #000',
-      borderRadius: "5px",
-    },
-    weeksContainer: {
-      background: '#FFF',
-      color: '#000',
-      border: '1px solid #000',
-      borderRadius: "5px",
-    },
+        todayButton: {
+            background: '#FFF',
+            color: '#000',
+            border: '1px solid #000',
+            borderRadius: "5px",
+        },
+        weeksContainer: {
+            background: '#FFF',
+            color: '#000',
+            border: '1px solid #000',
+            borderRadius: "5px",
+        },
 
-  };
-  // const { ArrowLeft, ArrowRight } = constants;
+    };
+  const { ArrowLeft, ArrowRight } = constants;
 
   const ganttContainerRef = useRef(null);
   const [selectedTeam, setSelectedTeam] = useState('');
@@ -129,5 +127,4 @@ const MbeGantt = ({customize}) => {
     </div>
   );
 };
-
-export default MbeGantt;
+export default Gantt;
