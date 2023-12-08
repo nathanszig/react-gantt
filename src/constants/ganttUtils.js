@@ -12,28 +12,6 @@ export const getDurationInDays = (startAt, endAt, firstWeekStartDate) => {
   let differenceInTime = endDate.getTime() - startDate.getTime();
   let durationInDays = 
     Math.round(differenceInTime / (1000 * 3600 * 24));
-  // let durationInDays = 0;
-  // const totalDays = endDate.diff(startDate, 'days') + 1;
-  
-  // for (let i = 0; i < totalDays; i++) {
-  //   const currentDate = startDate.clone().add(i, 'days');
-    
-  //   if (i === 0 && (currentDate.day() !== 0 && currentDate.day() !== 6)) {
-  //     durationInDays--;
-  //   } 
-  
-  //   if (currentDate.format('YYYY-MM-DD') === firstWeekStartDate) {
-  //     durationInDays++;
-  //   }    
-
-  //   if (currentDate.day() !== 0 && currentDate.day() !== 6) {
-  //     durationInDays++;
-  //   }
-  // }
-
-  // if (durationInDays <= 0) {
-  //   durationInDays = 1;
-  // }
   return durationInDays;
 }
 
@@ -51,7 +29,6 @@ export const calculateTaskMarginLeft = (startDate, firstWeekStartDate, width) =>
       marginDays--;
     }
   }
-  console.log('marginDays', marginDays);
   const marginWithoutWeekends = (marginDays / 5) * width;
   return `${marginWithoutWeekends}`;
 }
