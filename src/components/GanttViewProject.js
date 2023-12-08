@@ -20,6 +20,7 @@ const GanttViewProject = ({ mode, customize }) => {
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [timelineWeeks, setTimelineWeeks] = useState([]);
+  const [previousTasks, setPreviousTasks] = useState([]);
 
   const [selectedDropdownId, setSelectedDropdownId] = useState(null);
   const toggleDropdown = (id) => {
@@ -102,7 +103,7 @@ const GanttViewProject = ({ mode, customize }) => {
                 users: [user]
             });
           } else {
-            const taskIndex = projectsMap.tasks.findIndex((t) => t.id === taskId);
+            const taskIndex = projectsMap[0].tasks.findIndex((t) => t.id === taskId);
             if (taskIndex === -1) {
               projectsMap[projectIndex].tasks.push(task);
               projectsMap[projectIndex].users.push(user);
@@ -129,8 +130,9 @@ const GanttViewProject = ({ mode, customize }) => {
       task.start,
       task.end,
       timelineWeeks[0].start,
-      mode === "Mois" ? 250 : 750
+      250
     );
+    previousTasks.push({widthPercentage, taskMarginLeft});
     return {
       width: `${widthPercentage}px`,
       left: `calc(${taskMarginLeft}px)`,
@@ -222,12 +224,21 @@ const GanttViewProject = ({ mode, customize }) => {
                 </div>
               )}
             </div>
-          {project.tasks.map((task) => (
+            <div className="gantt-task-container">
+
+            
+          {project.tasks.map((task, index) => {
+            let {width, left} = calculateTaskStyle(task)
+            let marginLeftVar = index != 0 ? previousTasks[index-1].widthPercentage : null ;
+            let regex = /(?<=calc\()\d+(\.\d+)?(?=px\))/
+            let finalMargin = (parseInt(left.match(regex)));
+            console.log('test' , left)
+            return (
             <div className="gantt-container-section-main-tasks project" key={task.id}>
               <div className="gantt-container-section-main-tasks-m">
                 <div
                   className="gantt-container-section-main-tasks-t"
-                  style={calculateTaskStyle(task)}
+                  style={{width: width, left: finalMargin}}
                 >
                   <div className="gantt-container-section-main-tasks-t-content">
                     <p>
@@ -253,7 +264,7 @@ const GanttViewProject = ({ mode, customize }) => {
                             userTask.start,
                             userTask.end,
                             timelineWeeks[0].start,
-                            mode === "Mois" ? 250 : 750
+                            250
                           );
 
                         const taskStyle = {
@@ -280,9 +291,11 @@ const GanttViewProject = ({ mode, customize }) => {
                 </div>
               }
             </div>
-          ))}
+          )})}
+          </div>
           </div>
         ))}
+        
       </div>
     </section>
   );
