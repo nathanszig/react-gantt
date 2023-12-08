@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import moment from "moment";
 
-import {calculateWidthAndMargin, constants, fakeData} from '../constants/ganttUtils';
-
+import {calculateWidthAndMargin, fakeData} from '../constants/ganttUtils';
+import {mergeStyles} from "./gantt";
 
 const GanttViewProject = ({ mode, customize }) => {
 
@@ -17,20 +17,9 @@ const GanttViewProject = ({ mode, customize }) => {
     },
   };
 
-
-  const { ExclamationIcon, ArrowLeft, ArrowRight } = constants;
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [timelineWeeks, setTimelineWeeks] = useState([]);
-  function returnTwoFirstsCharacters(string) {
-    return string.substring(0, 2);
-  }
-  function convertToHoursAndMinutes(number) {
-    const hours = Math.floor(number);
-    const decimalPart = number - hours;
-    const minutes = Math.round(decimalPart * 60);
-    return `${hours}h${minutes < 10 ? "0" : ""}${minutes}`;
-  }
 
   const [selectedDropdownId, setSelectedDropdownId] = useState(null);
   const toggleDropdown = (id) => {
@@ -49,17 +38,15 @@ const GanttViewProject = ({ mode, customize }) => {
     if (users.length > 0) {
       setTimelineWeeks(getWeekList());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
   useEffect(() => {
     if(users.length > 0) {
       setProjects(getProjects())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users])
-
-  useEffect(() => {
-    navigateToday();
-  }, [timelineWeeks]);
 
   const getUsers = () => {
     setUsers(fakeData.users);
@@ -100,8 +87,8 @@ const GanttViewProject = ({ mode, customize }) => {
 
   function getProjects() {
     const projectsMap = [];
-    users.map((user) =>
-        user.tasks.map((task) => {
+    users.forEach((user) =>
+        user.tasks.forEach((task) => {
           const project = task.project;
           const projectId = project.id;
           const taskId = task.id;
@@ -125,39 +112,16 @@ const GanttViewProject = ({ mode, customize }) => {
     );
     return projectsMap;
   }
-  function mergeStyles(target, source) {
-    for (const key in source) {
-      if (typeof source[key] === 'object') {
-        // Si la valeur est un objet, fusionnez récursivement
-        target[key] = mergeStyles(target[key] || {}, source[key]);
-      } else {
-        // Sinon, remplacez la valeur
-        target[key] = source[key];
-      }
-    }
-    return target;
-  }
 
   const styles = mergeStyles(defaultStyles, customize);
 
-
-
-
   const getTasks = async () => {
-    // let request = await GlobalService.get("/projects/context/gantt");
-    // if (request.status === 200) {
-    //   const fixtures = request.data["hydra:member"];
-    //   const timelineWeeks = getWeekList(fixtures);
-    //   setTasks(fixtures);
-    //   setTimelineWeeks(timelineWeeks);
-    // }
-    const fixtures = fakeData['hydra:member'];
-    const timelineWeeks = getWeekList(fixtures);
+    const timelineWeeks = getWeekList(fakeData);
     setTimelineWeeks(timelineWeeks);
   };
 
-  useEffect(() => {
-    getTasks();
+  useEffect( () => {
+    getTasks()
   }, []);
 
   const calculateTaskStyle = (task) => {
@@ -173,23 +137,9 @@ const GanttViewProject = ({ mode, customize }) => {
     };
   };
 
-  function navigateToday() {
-    const todayOnGantt = document.querySelector(
-      ".gantt-container-section .today"
-    );
-    if (todayOnGantt) {
-      todayOnGantt.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "start",
-      });
-    }
-  }
-
   return (
     <section className="gantt-container-section">
       <div className="gantt-container-section-timeline">
-        {mode === "Mois" ? (
           <div className="gantt-container-section-timeline-header" >
             {timelineWeeks.map((week, index) => {
               const startOfWeek = moment(week.start, "YYYY-MM-DD");
@@ -204,7 +154,9 @@ const GanttViewProject = ({ mode, customize }) => {
               return (
                 <div
                   className={`gantt-container-section-timeline-header-days ${
-                    isCurrentWeek ? "today" : ""
+                    isCurrentWeek ? "today" :
+                    index === 0 ? "start" : 
+                    index === timelineWeeks.length - 1 ? "end" : ""
                   }`}
                   key={index}
                   style={styles.daysContainer}
@@ -217,35 +169,6 @@ const GanttViewProject = ({ mode, customize }) => {
               );
             })}
           </div>
-        ) : (
-          <div className="gantt-container-section-timeline-header">
-            {timelineWeeks.map((week, index) => {
-              const startOfWeek = moment(week.start, "YYYY-MM-DD");
-              const endOfWeek = moment(week.end, "YYYY-MM-DD");
-              const today = moment().startOf("day");
-              const isCurrentWeek = today.isBetween(
-                startOfWeek,
-                endOfWeek,
-                null,
-                "[]"
-              );
-              return (
-                <div
-                  className={`gantt-container-section-timeline-header-week ${
-                    isCurrentWeek ? "today" : ""
-                  }`}
-                  key={index}
-                  style={styles.weeksContainer}
-                >
-                  <p>
-                    {moment(week.start).format("DD MMMM")} -{" "}
-                    {moment(week.end).format("DD MMMM")}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
 
       <div className="gantt-container-section-sidebar">

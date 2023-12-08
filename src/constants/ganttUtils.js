@@ -6,7 +6,6 @@ export const constants = {
   ArrowRight: '/images/pictos/arrowGanttRight.svg',
 };
 
-
 export const getDurationInDays = (startAt, endAt, firstWeekStartDate) => {
   const startDate = moment(startAt, 'YYYY-MM-DD');
   const endDate = moment(endAt, 'YYYY-MM-DD');
