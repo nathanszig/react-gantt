@@ -130,7 +130,7 @@ const GanttViewProject = ({ mode, customize }) => {
       task.start,
       task.end,
       timelineWeeks[0].start,
-      mode === "Mois" ? 250
+      250
     );
     previousTasks.push({widthPercentage, taskMarginLeft});
     return {
