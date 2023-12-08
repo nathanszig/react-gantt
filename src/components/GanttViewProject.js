@@ -94,24 +94,61 @@ const GanttViewProject = ({ mode, customize }) => {
           const projectId = project.id;
           const taskId = task.id;
           const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
-          task.user = user;
+          task.user = excludeAttribute(user, "tasks");
           if (projectIndex === -1) {
             projectsMap.push({
                 id: projectId,
                 name: project.name,
                 tasks: [task],
-                users: [user]
+                users: [excludeAttribute(user, "tasks")]
             });
           } else {
             const taskIndex = projectsMap[0].tasks.findIndex((t) => t.id === taskId);
             if (taskIndex === -1) {
-              projectsMap[projectIndex].tasks.push(task);
-              projectsMap[projectIndex].users.push(user);
+              projectsMap[projectIndex].tasks.push();
+              projectsMap[projectIndex].users.push(excludeAttribute(user, "tasks"));
             }
           }
         })
     );
-    return projectsMap;
+    return sortByChronologicalOrder(projectsMap);
+  }
+
+  function excludeAttribute(obj, attributeToExclude) {
+    const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
+    return rest;
+  }
+
+  function sortByChronologicalOrder(projects) {
+    function getProjectDateRange(project) {
+      const startDates = project.tasks.map(task => new Date(task.start).getTime());
+      const endDates = project.tasks.map(task => new Date(task.end).getTime());
+      const startDate = new Date(Math.min(...startDates));
+      const endDate = new Date(Math.max(...endDates));
+      return { startDate, endDate };
+    }
+
+    function compareProjects(a, b) {
+      const dateRangeA = getProjectDateRange(a);
+      const dateRangeB = getProjectDateRange(b);
+
+      if (dateRangeA.startDate < dateRangeB.startDate) {
+        return -1;
+      } else if (dateRangeA.startDate > dateRangeB.startDate) {
+        return 1;
+      } else {
+        // If start dates are the same, sort based on end date
+        if (dateRangeA.endDate < dateRangeB.endDate) {
+          return -1;
+        } else if (dateRangeA.endDate > dateRangeB.endDate) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    }
+
+    return [...projects].sort(compareProjects);
   }
 
   const styles = mergeStyles(defaultStyles, customize);

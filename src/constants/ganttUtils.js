@@ -53,7 +53,7 @@ export const fakeData = {
                         "id": 1
                     },
                     "name": "test",
-                    "start": "01/01/2024",
+                    "start": "12/01/2024",
                     "end": "01/05/2024",
                     "description": "la tache de nathan",
                     "taskImgUrl": "",
@@ -77,10 +77,22 @@ export const fakeData = {
                       "id": 2
                   },
                   "name": "test 3",
-                  "start": "10/01/2023",
-                  "end": "10/12/2023",
+                  "start": "12/01/2023",
+                  "end": "12/14/2023",
                   "description": "la tache de nathan 3",
                   "taskImgUrl": "",
+                },
+                {
+                    "id": "MXP-4",
+                    "project": {
+                        "name": "project3",
+                        "id": 3
+                    },
+                    "name": "test 3",
+                    "start": "12/01/2023",
+                    "end": "12/13/2023",
+                    "description": "la tache de nathan 3",
+                    "taskImgUrl": "",
                 }
             ]
         }
