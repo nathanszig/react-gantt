@@ -191,15 +191,11 @@ const GanttViewProject = ({ mode, customize }) => {
                 "[]"
               );
               return (
-                <div
-                  className={`gantt-container-section-timeline-header-days ${
-                    isCurrentWeek ? "today" :
-                    index === 0 ? "start" : 
-                    index === timelineWeeks.length - 1 ? "end" : ""
-                  }`}
+                <div className={
+                    `gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${index === 0 ? "start" : index === timelineWeeks.length - 1 ? "end" : ""}`
+                  }
                   key={index}
-                  style={styles.daysContainer}
-                >
+                  style={styles.daysContainer}>
                   <p>
                     {moment(week.start).format("DD MMMM")} -{" "}
                     {moment(week.end).format("DD MMMM")}

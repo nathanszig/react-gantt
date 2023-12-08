@@ -1,10 +1,9 @@
-import React, { useRef } from 'react';
-import arrowLeft from '../assets/img/icons/arrow-left.svg';
-import arrowRight from '../assets/img/icons/arrow-right.svg';
+import React, {useRef} from 'react';
 import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import {constants} from '../constants/ganttUtils';
+
 const todayOnGantt = document.querySelector(".gantt-container-section .today");
 
 export function mergeStyles(target, source) {
@@ -21,6 +20,7 @@ export function mergeStyles(target, source) {
 }
 
 export const handleMoveToToday = () => {
+    const todayOnGantt = document.querySelector(".gantt-container-section .today");
     if (todayOnGantt) {
         todayOnGantt.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
     }
@@ -41,7 +41,7 @@ export const handleMoveToEnd = () => {
 }
 
 const Gantt = ({customize}) => {
-  const defaultStyles = {
+    const defaultStyles = {
         todayButton: {
             background: '#FFF',
             color: '#000',
@@ -55,26 +55,27 @@ const Gantt = ({customize}) => {
             borderRadius: "5px",
         },
 
-  };
-  const { ArrowLeft, ArrowRight } = constants;
+    };
+    const {ArrowLeft, ArrowRight} = constants;
 
-  const ganttContainerRef = useRef(null);
+    const ganttContainerRef = useRef(null);
+    const todayOnGanttRef = useRef(null);
 
-  const handleMoveLeft = () => {
-    const ganttContainer = document.querySelector(".gantt-container-section");
-    if (ganttContainer) {
-        ganttContainer.scrollLeft -= 500;
-    }
-  };
+    const handleMoveLeft = () => {
+        const ganttContainer = document.querySelector(".gantt-container-section");
+        if (ganttContainer) {
+            ganttContainer.scrollLeft -= 500;
+        }
+    };
 
-  const handleMoveRight = () => {
-    const ganttContainer = document.querySelector(".gantt-container-section");
-    if (ganttContainer) {
-      ganttContainer.scrollLeft += 500;
-    }
-  };
+    const handleMoveRight = () => {
+        const ganttContainer = document.querySelector(".gantt-container-section");
+        if (ganttContainer) {
+            ganttContainer.scrollLeft += 500;
+        }
+    };
 
-  const styles = mergeStyles(defaultStyles, customize);
+    const styles = mergeStyles(defaultStyles, customize);
 
   return (
     <div className="gantt-container" ref={ganttContainerRef}>
@@ -85,9 +86,7 @@ const Gantt = ({customize}) => {
               <img src={ArrowLeft} alt="Move Left" />
             </button>
             <p onClick={handleMoveToStart} style={styles.todayButton}>Début</p>
-              {todayOnGantt ? (
-                <p onClick={handleMoveToToday} style={styles.todayButton}>Aujourd'hui</p>
-              ) : null}
+            <p onClick={handleMoveToToday} style={styles.todayButton}>Aujourd'hui</p>
             <p onClick={handleMoveToEnd} style={styles.todayButton}>Fin</p>
             <button className="gantt-container-filters-crt-block-btn-right" onClick={handleMoveRight}>
              <img src={ArrowRight} alt="Move Right" />
