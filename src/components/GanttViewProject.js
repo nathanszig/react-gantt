@@ -189,8 +189,7 @@ const GanttViewProject = ({ mode, customize }) => {
                 </div>
                 <div
                   className="gantt-container-section-sidebar-task-icon"
-                  onClick={() => toggleDropdown(project.id)}
-                >
+                  onClick={() => toggleDropdown(project.id)}>
                   <img
                     src={"/images/pictos/arrow-dropdown-gantt.svg"}
                     alt={"dropdown-arrow-gantt"}
@@ -208,8 +207,7 @@ const GanttViewProject = ({ mode, customize }) => {
                   {project.users.map((user) => (
                     <div
                       className="gantt-container-section-sidebar-dropdown-content-user"
-                      key={user.id}
-                    >
+                      key={user.id}>
                       <div className="gantt-container-section-sidebar-dropdown-content-user-p">
                         <p>{user.firstName}</p>
                         <p>{user.lastName}</p>
@@ -229,10 +227,9 @@ const GanttViewProject = ({ mode, customize }) => {
             
           {project.tasks.map((task, index) => {
             let {width, left} = calculateTaskStyle(task)
-            let marginLeftVar = index != 0 ? previousTasks[index-1].widthPercentage : null ;
+            let marginLeftVar = index !== 0 ? previousTasks[index-1].widthPercentage : null ;
             let regex = /(?<=calc\()\d+(\.\d+)?(?=px\))/
             let finalMargin = (parseInt(left.match(regex)));
-            console.log('test' , left)
             return (
             <div className="gantt-container-section-main-tasks project" key={task.id}>
               <div className="gantt-container-section-main-tasks-m">

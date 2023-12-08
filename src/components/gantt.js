@@ -5,6 +5,7 @@ import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import {constants} from '../constants/ganttUtils';
+const todayOnGantt = document.querySelector(".gantt-container-section .today");
 
 export function mergeStyles(target, source) {
     for (const key in source) {
@@ -20,8 +21,6 @@ export function mergeStyles(target, source) {
 }
 
 export const handleMoveToToday = () => {
-    const todayOnGantt = document.querySelector(".gantt-container-section .today");
-    console.log('handleMoveToToday')
     if (todayOnGantt) {
         todayOnGantt.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
     }
@@ -29,7 +28,6 @@ export const handleMoveToToday = () => {
 
 export const handleMoveToStart = () => {
     const startOnGantt = document.querySelector(".gantt-container-section .start");
-    console.log('handleMoveToStart')
     if (startOnGantt) {
         startOnGantt.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
@@ -37,7 +35,6 @@ export const handleMoveToStart = () => {
 
 export const handleMoveToEnd = () => {
     const endOnGantt = document.querySelector(".gantt-container-section .end");
-    console.log('handleMoveToEnd')
     if (endOnGantt) {
         endOnGantt.scrollIntoView({ behavior: "smooth", inline: "end", block: "nearest" });
     }
@@ -88,7 +85,9 @@ const Gantt = ({customize}) => {
               <img src={ArrowLeft} alt="Move Left" />
             </button>
             <p onClick={handleMoveToStart} style={styles.todayButton}>Début</p>
-            <p onClick={handleMoveToToday} style={styles.todayButton}>Aujourd'hui</p>
+              {todayOnGantt ? (
+                <p onClick={handleMoveToToday} style={styles.todayButton}>Aujourd'hui</p>
+              ) : null}
             <p onClick={handleMoveToEnd} style={styles.todayButton}>Fin</p>
             <button className="gantt-container-filters-crt-block-btn-right" onClick={handleMoveRight}>
              <img src={ArrowRight} alt="Move Right" />
