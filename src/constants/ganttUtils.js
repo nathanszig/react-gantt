@@ -7,38 +7,41 @@ export const constants = {
 };
 
 export const getDurationInDays = (startAt, endAt, firstWeekStartDate) => {
-  const startDate = moment(startAt, 'YYYY-MM-DD');
-  const endDate = moment(endAt, 'YYYY-MM-DD');
-  let durationInDays = 0;
-  const totalDays = endDate.diff(startDate, 'days') + 1;
+  const startDate = new Date(startAt);
+  const endDate = new Date(endAt);
+  let differenceInTime = endDate.getTime() - startDate.getTime();
+  let durationInDays = 
+    Math.round(differenceInTime / (1000 * 3600 * 24));
+  // let durationInDays = 0;
+  // const totalDays = endDate.diff(startDate, 'days') + 1;
   
-  for (let i = 0; i < totalDays; i++) {
-    const currentDate = startDate.clone().add(i, 'days');
+  // for (let i = 0; i < totalDays; i++) {
+  //   const currentDate = startDate.clone().add(i, 'days');
     
-    if (i === 0 && (currentDate.day() !== 0 && currentDate.day() !== 6)) {
-      durationInDays--;
-    } 
+  //   if (i === 0 && (currentDate.day() !== 0 && currentDate.day() !== 6)) {
+  //     durationInDays--;
+  //   } 
   
-    if (currentDate.format('YYYY-MM-DD') === firstWeekStartDate) {
-      durationInDays++;
-    }    
+  //   if (currentDate.format('YYYY-MM-DD') === firstWeekStartDate) {
+  //     durationInDays++;
+  //   }    
 
-    if (currentDate.day() !== 0 && currentDate.day() !== 6) {
-      durationInDays++;
-    }
-  }
+  //   if (currentDate.day() !== 0 && currentDate.day() !== 6) {
+  //     durationInDays++;
+  //   }
+  // }
 
-  if (durationInDays <= 0) {
-    durationInDays = 1;
-  }
+  // if (durationInDays <= 0) {
+  //   durationInDays = 1;
+  // }
   return durationInDays;
 }
 
 export const calculateTaskMarginLeft = (startDate, firstWeekStartDate, width) => {
-  const startDateMoment = moment(startDate, 'YYYY-MM-DD');
+  const startDateMoment = moment(startDate);
   const firstWeekStartDateMoment = moment(firstWeekStartDate).startOf('isoWeek').format('YYYY-MM-DD');
   let marginDays = 0;
-  const totalDays = startDateMoment.diff(firstWeekStartDateMoment, 'days') + 1;
+  const totalDays = getDurationInDays(firstWeekStartDate, startDate, firstWeekStartDate);
   for (let i = 0; i < totalDays; i++) {
     const currentDate = startDateMoment.clone().subtract(i, 'days');
     if (currentDate.day() !== 0 && currentDate.day() !== 6) {
@@ -48,13 +51,14 @@ export const calculateTaskMarginLeft = (startDate, firstWeekStartDate, width) =>
       marginDays--;
     }
   }
-  const marginWithoutWeekends = (marginDays * width) / 5;
+  console.log('marginDays', marginDays);
+  const marginWithoutWeekends = (marginDays / 5) * width;
   return `${marginWithoutWeekends}`;
 }
 
 export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, width) => {
   const durationInDays = getDurationInDays(startDate, endDate, firstWeekStartDate);
-  const widthPercentage = (durationInDays * width) / 5;
+  const widthPercentage = (durationInDays * width) / 4;
   const taskMarginLeft = calculateTaskMarginLeft(startDate, firstWeekStartDate, width);
   return { widthPercentage, taskMarginLeft };
 };
@@ -75,10 +79,22 @@ export const fakeData = {
                     },
                     "name": "test",
                     "start": "01/01/2024",
-                    "end": "04/01/2024",
+                    "end": "01/05/2024",
                     "description": "la tache de nathan",
                     "taskImgUrl": "",
-                }
+                },
+                {
+                  "id": "MXP-2",
+                  "project": {
+                      "name": "projectTest",
+                      "id": 1
+                  },
+                  "name": "test 2",
+                  "start": "01/022/2024",
+                  "end": "03/01/2024",
+                  "description": "la tache de nathan 2",
+                  "taskImgUrl": "",
+              }
             ]
         }
     ]
