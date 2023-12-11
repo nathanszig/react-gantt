@@ -45,7 +45,6 @@ export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, 
       marginDays++;
     }
   }
-  console.log('marginDays', marginDays);
   const widthPercentage = marginDays != 1 ? (marginDays+1) * 50 : width;
   const taskMarginLeft = calculateTaskMarginLeft(startDate, firstWeekStartDate, width);
   return { widthPercentage, taskMarginLeft };
