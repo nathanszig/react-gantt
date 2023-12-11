@@ -6,6 +6,8 @@ import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import {constants} from '../constants/ganttUtils';
 
+const todayOnGantt = document.querySelector(".gantt-container-section .today");
+
 export function mergeStyles(target, source) {
     for (const key in source) {
         if (typeof source[key] === 'object') {
@@ -21,7 +23,6 @@ export function mergeStyles(target, source) {
 
 export const handleMoveToToday = () => {
     const todayOnGantt = document.querySelector(".gantt-container-section .today");
-    console.log('handleMoveToToday')
     if (todayOnGantt) {
         todayOnGantt.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
     }
@@ -29,7 +30,6 @@ export const handleMoveToToday = () => {
 
 export const handleMoveToStart = () => {
     const startOnGantt = document.querySelector(".gantt-container-section .start");
-    console.log('handleMoveToStart')
     if (startOnGantt) {
         startOnGantt.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
@@ -37,14 +37,13 @@ export const handleMoveToStart = () => {
 
 export const handleMoveToEnd = () => {
     const endOnGantt = document.querySelector(".gantt-container-section .end");
-    console.log('handleMoveToEnd')
     if (endOnGantt) {
         endOnGantt.scrollIntoView({ behavior: "smooth", inline: "end", block: "nearest" });
     }
 }
 
 const Gantt = ({customize}) => {
-  const defaultStyles = {
+    const defaultStyles = {
         todayButton: {
             background: '#FFF',
             color: '#000',
@@ -58,26 +57,27 @@ const Gantt = ({customize}) => {
             borderRadius: "5px",
         },
 
-  };
-  const { ArrowLeft, ArrowRight } = constants;
+    };
+    const {ArrowLeft, ArrowRight} = constants;
 
-  const ganttContainerRef = useRef(null);
+    const ganttContainerRef = useRef(null);
+    const todayOnGanttRef = useRef(null);
 
-  const handleMoveLeft = () => {
-    const ganttContainer = document.querySelector(".gantt-container-section");
-    if (ganttContainer) {
-        ganttContainer.scrollLeft -= 500;
-    }
-  };
+    const handleMoveLeft = () => {
+        const ganttContainer = document.querySelector(".gantt-container-section");
+        if (ganttContainer) {
+            ganttContainer.scrollLeft -= 500;
+        }
+    };
 
-  const handleMoveRight = () => {
-    const ganttContainer = document.querySelector(".gantt-container-section");
-    if (ganttContainer) {
-      ganttContainer.scrollLeft += 500;
-    }
-  };
+    const handleMoveRight = () => {
+        const ganttContainer = document.querySelector(".gantt-container-section");
+        if (ganttContainer) {
+            ganttContainer.scrollLeft += 500;
+        }
+    };
 
-  const styles = mergeStyles(defaultStyles, customize);
+    const styles = mergeStyles(defaultStyles, customize);
 
   return (
     <div className="gantt-container" ref={ganttContainerRef}>

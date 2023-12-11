@@ -10,9 +10,7 @@ export const getDurationInDays = (startAt, endAt, firstWeekStartDate) => {
   const startDate = new Date(startAt);
   const endDate = new Date(endAt);
   let differenceInTime = endDate.getTime() - startDate.getTime();
-  let durationInDays = 
-    Math.round(differenceInTime / (1000 * 3600 * 24));
-  return durationInDays;
+  return Math.round(differenceInTime / (1000 * 3600 * 24));
 }
 
 export const calculateTaskMarginLeft = (startDate, firstWeekStartDate, width) => {
@@ -65,7 +63,7 @@ export const fakeData = {
                         "id": 1
                     },
                     "name": "test",
-                    "start": "01/01/2024",
+                    "start": "12/01/2024",
                     "end": "01/05/2024",
                     "description": "la tache de nathan",
                     "taskImgUrl": "",
@@ -81,7 +79,31 @@ export const fakeData = {
                   "end": "03/02/2024",
                   "description": "la tache de nathan 2",
                   "taskImgUrl": "",
-              }
+                },
+                {
+                  "id": "MXP-3",
+                  "project": {
+                      "name": "project2",
+                      "id": 2
+                  },
+                  "name": "test 3",
+                  "start": "12/01/2023",
+                  "end": "12/14/2023",
+                  "description": "la tache de nathan 3",
+                  "taskImgUrl": "",
+                },
+                {
+                    "id": "MXP-4",
+                    "project": {
+                        "name": "project3",
+                        "id": 3
+                    },
+                    "name": "test 3",
+                    "start": "12/01/2023",
+                    "end": "12/13/2023",
+                    "description": "la tache de nathan 3",
+                    "taskImgUrl": "",
+                }
             ]
         }
     ]
