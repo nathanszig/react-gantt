@@ -23,6 +23,17 @@
                 button {
                     background: none;
                     border: none;
+                    display: flex;
+
+                    img{
+                        width: 10%;
+                    }
+                }
+
+                button:nth-child(1) {
+ 
+                        justify-content: flex-end;
+     
                 }
 
                 p {
@@ -166,6 +177,12 @@
 
                 &-icon {
                     cursor: pointer;
+                    display: flex;
+                    justify-content: flex-end;
+                    img{
+                        width: 20%;
+                        rotate: 270deg;
+                    }
                 }
 
                 p {
@@ -182,9 +199,13 @@
                         border-top: 1px solid #F7F7F7;
                         display: flex;
                         align-items: center;
-                        justify-content: space-between;
+                        justify-content: center;
                         height: 110px;
                         max-height: 110px;
+                        &-p{
+                            display: flex;
+                            gap: 10px;
+                        }
 
                         p {
                             color: #F7F7F7;

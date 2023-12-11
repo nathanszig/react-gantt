@@ -4,6 +4,9 @@ import moment from "moment";
 import {calculateWidthAndMargin, fakeData} from '../constants/ganttUtils';
 import {mergeStyles} from "./gantt";
 
+import Icon from '../arrow-left.svg';
+
+
 const GanttViewProject = ({ mode, customize }) => {
 
   const defaultStyles = {
@@ -65,10 +68,14 @@ const GanttViewProject = ({ mode, customize }) => {
     const endDate = moment.max(
       users.map((user) =>
           user.tasks.map((task) =>
+              
               moment(task.end).startOf("isoWeek")
           )
       ).flat()
     );
+    
+    // Add two months after endDate to display the last week
+    endDate.add(2, "weeks");
 
     const weekList = [];
     let currentWeek = startDate.clone().startOf("isoWeek");
@@ -192,7 +199,7 @@ const GanttViewProject = ({ mode, customize }) => {
                   onClick={() => toggleDropdown(project.id)}
                 >
                   <img
-                    src={"/images/pictos/arrow-dropdown-gantt.svg"}
+                    src={Icon}
                     alt={"dropdown-arrow-gantt"}
                     style={{
                       transform:
@@ -214,25 +221,22 @@ const GanttViewProject = ({ mode, customize }) => {
                         <p>{user.firstName}</p>
                         <p>{user.lastName}</p>
                       </div>
-                      <img
-                        className="gantt-container-section-sidebar-dropdown-content-user-image"
-                        src={process.env.REACT_APP_PROD_URL + user.urlAvatar}
-                        alt={"user avatar"}
-                      />
                     </div>
                   ))}
                 </div>
               )}
             </div>
-            <div className="gantt-task-container">
+            <div className="gantt-task-container" style={
+              selectedDropdownId == null ? {flexDirection: 'row'} : {flexDirection: 'column', marginTop: '115px'}
+            }>
 
             
           {project.tasks.map((task, index) => {
             let {width, left} = calculateTaskStyle(task)
             let marginLeftVar = index != 0 ? previousTasks[index-1].widthPercentage : null ;
             let regex = /(?<=calc\()\d+(\.\d+)?(?=px\))/
-            let finalMargin = (parseInt(left.match(regex)));
-            console.log('test' , left)
+            let finalMargin = selectedDropdownId == null ? (parseInt(left.match(regex)) - marginLeftVar) : parseInt(left.match(regex));
+            
             return (
             <div className="gantt-container-section-main-tasks project" key={task.id}>
               <div className="gantt-container-section-main-tasks-m">

@@ -29,13 +29,24 @@ export const calculateTaskMarginLeft = (startDate, firstWeekStartDate, width) =>
       marginDays--;
     }
   }
-  const marginWithoutWeekends = (marginDays / 5) * width;
+  const marginWithoutWeekends = marginDays * 50;
   return `${marginWithoutWeekends}`;
 }
 
 export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, width) => {
+  const startDateMoment = moment(startDate);
+  const firstWeekStartDateMoment = moment(firstWeekStartDate).startOf('isoWeek').format('YYYY-MM-DD');
   const durationInDays = getDurationInDays(startDate, endDate, firstWeekStartDate);
-  const widthPercentage = (durationInDays * width) / 4;
+  // with moment.js calcul number of days between startDate and endDate without weekends
+  let marginDays = 0;
+  for (let i = 0; i < durationInDays; i++) {
+    const currentDate = startDateMoment.clone().add(i, 'days');
+    if (currentDate.day() !== 0 && currentDate.day() !== 6) {
+      marginDays++;
+    }
+  }
+  console.log('marginDays', marginDays);
+  const widthPercentage = marginDays != 1 ? (marginDays+1) * 50 : width;
   const taskMarginLeft = calculateTaskMarginLeft(startDate, firstWeekStartDate, width);
   return { widthPercentage, taskMarginLeft };
 };
@@ -67,8 +78,8 @@ export const fakeData = {
                       "id": 1
                   },
                   "name": "test 2",
-                  "start": "01/022/2024",
-                  "end": "03/01/2024",
+                  "start": "01/015/2024",
+                  "end": "03/02/2024",
                   "description": "la tache de nathan 2",
                   "taskImgUrl": "",
               }

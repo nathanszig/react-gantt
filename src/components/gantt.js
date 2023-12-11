@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import arrowLeft from '../assets/img/icons/arrow-left.svg';
-import arrowRight from '../assets/img/icons/arrow-right.svg';
+import arrowLeft from '../arrow-left.svg';
+import arrowRight from '../arrow-right.svg';
 import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
@@ -85,13 +85,13 @@ const Gantt = ({customize}) => {
         <div className="gantt-container-filters-crt">
           <div className="gantt-container-filters-crt-block">
             <button className="gantt-container-filters-crt-block-btn-left" onClick={handleMoveLeft}>
-              <img src={ArrowLeft} alt="Move Left" />
+              <img src={arrowLeft} alt="Move Left" />
             </button>
             <p onClick={handleMoveToStart} style={styles.todayButton}>Début</p>
             <p onClick={handleMoveToToday} style={styles.todayButton}>Aujourd'hui</p>
             <p onClick={handleMoveToEnd} style={styles.todayButton}>Fin</p>
             <button className="gantt-container-filters-crt-block-btn-right" onClick={handleMoveRight}>
-             <img src={ArrowRight} alt="Move Right" />
+             <img src={arrowRight} alt="Move Right" />
             </button>
           </div>
         </div>
