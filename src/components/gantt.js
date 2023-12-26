@@ -39,7 +39,7 @@ export const handleMoveToEnd = () => {
     }
 }
 
-const Gantt = ({customize}) => {
+const Gantt = ({customize, data}) => {
     const defaultStyles = {
         todayButton: {
             background: '#FFF',

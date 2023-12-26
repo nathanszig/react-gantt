@@ -67,25 +67,24 @@ const GanttViewProject = ({ mode, customize }) => {
 
     const endDate = moment.max(
       users.map((user) =>
-          user.tasks.map((task) =>
-              
-              moment(task.end).startOf("isoWeek")
-          )
+        user.tasks.map((task, i) =>
+           moment(task.end).startOf("isoWeek")
+        )
       ).flat()
     );
     
-    // Add two months after endDate to display the last week
-    endDate.add(2, "weeks");
+    // Add 1 week after endDate to display the last week
+    endDate.add(1, "weeks");
 
     const weekList = [];
     let currentWeek = startDate.clone().startOf("isoWeek");
 
     while (currentWeek.isBefore(endDate)) {
       if (currentWeek.startOf("isoWeek").isBefore(endDate)) {
-        const nextWeek = currentWeek.clone().add(4, "days");
+        const endWeek = currentWeek.clone().add(4, "days");
         weekList.push({
           start: currentWeek.format("YYYY-MM-DD"),
-          end: nextWeek.format("YYYY-MM-DD"),
+          end: endWeek.format("YYYY-MM-DD"),
         });
       }
       currentWeek.add(7, "days");
@@ -160,15 +159,6 @@ const GanttViewProject = ({ mode, customize }) => {
 
   const styles = mergeStyles(defaultStyles, customize);
 
-  const getTasks = async () => {
-    const timelineWeeks = getWeekList(fakeData);
-    setTimelineWeeks(timelineWeeks);
-  };
-
-  useEffect( () => {
-    getTasks()
-  }, []);
-
   const calculateTaskStyle = (task) => {
     const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(
       task.start,
@@ -197,6 +187,10 @@ const GanttViewProject = ({ mode, customize }) => {
                 null,
                 "[]"
               );
+              console.log('timelineWeeks');
+              console.log(timelineWeeks);
+              console.log('week '+ index);
+              console.log(week)
               return (
                 <div className={
                     `gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${index === 0 ? "start" : index === timelineWeeks.length - 1 ? "end" : ""}`
