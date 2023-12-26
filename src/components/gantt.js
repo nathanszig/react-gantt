@@ -4,9 +4,6 @@ import arrowRight from '../arrow-right.svg';
 import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
-import {constants} from '../constants/ganttUtils';
-
-const todayOnGantt = document.querySelector(".gantt-container-section .today");
 
 export function mergeStyles(target, source) {
     for (const key in source) {
@@ -58,11 +55,8 @@ const Gantt = ({customize}) => {
         },
 
     };
-    const {ArrowLeft, ArrowRight} = constants;
 
     const ganttContainerRef = useRef(null);
-    const todayOnGanttRef = useRef(null);
-
     const handleMoveLeft = () => {
         const ganttContainer = document.querySelector(".gantt-container-section");
         if (ganttContainer) {

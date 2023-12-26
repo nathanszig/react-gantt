@@ -33,7 +33,6 @@ export const calculateTaskMarginLeft = (startDate, firstWeekStartDate, width) =>
 
 export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, width) => {
   const startDateMoment = moment(startDate);
-  const firstWeekStartDateMoment = moment(firstWeekStartDate).startOf('isoWeek').format('YYYY-MM-DD');
   const durationInDays = getDurationInDays(startDate, endDate, firstWeekStartDate);
   // with moment.js calcul number of days between startDate and endDate without weekends
   let marginDays = 0;
@@ -43,7 +42,7 @@ export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, 
       marginDays++;
     }
   }
-  const widthPercentage = marginDays != 1 ? (marginDays+1) * 50 : width;
+  const widthPercentage = marginDays !== 1 ? (marginDays+1) * 50 : width;
   const taskMarginLeft = calculateTaskMarginLeft(startDate, firstWeekStartDate, width);
   return { widthPercentage, taskMarginLeft };
 };
