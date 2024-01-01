@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import moment from "moment";
 
-import {calculateWidthAndMargin, fakeData} from '../constants/ganttUtils';
+import {calculateWidthAndMargin} from '../constants/ganttUtils';
 import {mergeStyles} from "./gantt";
 
 import Icon from '../arrow-left.svg';
 
 
-const GanttViewProject = ({ mode, customize }) => {
+const GanttViewProject = ({ customize, data }) => {
 
   const defaultStyles = {
     daysContainer:{
@@ -36,6 +36,7 @@ const GanttViewProject = ({ mode, customize }) => {
 
   useEffect(() => {
     getUsers();
+    setPreviousTasks([]);
   }, []);
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const GanttViewProject = ({ mode, customize }) => {
   }, [users])
 
   const getUsers = () => {
-    setUsers(fakeData.users);
+    setUsers(data && data.users ? data.users : []);
   };
 
   function getWeekList() {

@@ -94,6 +94,7 @@ const Gantt = ({customize, data}) => {
       {
         <GanttViewProject
           customize={styles}
+          data={data}
         />
       }
     </div>
