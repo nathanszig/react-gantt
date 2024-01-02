@@ -80,6 +80,8 @@ const GanttViewProject = ({ mode, customize }) => {
     const weekList = [];
     let currentWeek = startDate.clone().startOf("isoWeek");
 
+    
+
     while (currentWeek.isBefore(endDate)) {
       if (currentWeek.startOf("isoWeek").isBefore(endDate)) {
         const nextWeek = currentWeek.clone().add(4, "days");
@@ -87,8 +89,10 @@ const GanttViewProject = ({ mode, customize }) => {
           start: currentWeek.format("YYYY-MM-DD"),
           end: nextWeek.format("YYYY-MM-DD"),
         });
+        console.log(weekList);
       }
       currentWeek.add(7, "days");
+      
     }
     return weekList;
   }
@@ -258,7 +262,7 @@ const GanttViewProject = ({ mode, customize }) => {
               )}
             </div>
             <div className="gantt-task-container" style={
-              selectedDropdownId == null ? {flexDirection: 'row'} : {flexDirection: 'column', marginTop: '115px'}
+              selectedDropdownId == project.id ? {flexDirection: 'column', marginTop: '115px'}  : {flexDirection: 'row'}
             }>
 
             
@@ -266,7 +270,7 @@ const GanttViewProject = ({ mode, customize }) => {
             let {width, left} = calculateTaskStyle(task)
             let marginLeftVar = index !== 0 ? previousTasks[index-1].widthPercentage : null ;
             let regex = /(?<=calc\()\d+(\.\d+)?(?=px\))/
-            let finalMargin = selectedDropdownId == null ? (parseInt(left.match(regex)) - marginLeftVar) : parseInt(left.match(regex));
+            let finalMargin = selectedDropdownId == project.id ? (parseInt(left.match(regex)) - marginLeftVar) : parseInt(left.match(regex));
             
             return (
             <div className="gantt-container-section-main-tasks project" key={task.id}>
