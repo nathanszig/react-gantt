@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import moment from "moment";
 
 import {calculateWidthAndMargin} from '../constants/ganttUtils';
@@ -34,53 +34,34 @@ const GanttViewProject = ({ customize, data }) => {
     }
   };
 
-  useEffect(() => {
-    getUsers();
-    setPreviousTasks([]);
-  }, []);
-
-  useEffect(() => {
-    if (users.length > 0) {
-      setTimelineWeeks(getWeekList());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users]);
-
-  useEffect(() => {
-    if(users.length > 0) {
-      setProjects(getProjects())
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users])
-
-  const getUsers = () => {
+  const getUsers = useCallback(() => {
     setUsers(data && data.users ? data.users : []);
-  };
+  }, [data]);
 
-  function getWeekList() {
+  const getWeekList = useCallback(() => {
     const startDate = moment.min(
-      users.map((user) =>
-        user.tasks.map((task) =>
-          moment(task.start).startOf("isoWeek")
-        )
-      ).flat()
+        users.map((user) =>
+            user.tasks.map((task) =>
+                moment(task.start).startOf("isoWeek")
+            )
+        ).flat()
     );
 
     const endDate = moment.max(
-      users.map((user) =>
-        user.tasks.map((task, i) =>
-           moment(task.end).startOf("isoWeek")
-        )
-      ).flat()
+        users.map((user) =>
+            user.tasks.map((task, i) =>
+                moment(task.end).startOf("isoWeek")
+            )
+        ).flat()
     );
-    
+
     // Add 1 week after endDate to display the last week
     endDate.add(1, "weeks");
 
     const weekList = [];
     let currentWeek = startDate.clone().startOf("isoWeek");
 
-    
+
 
     while (currentWeek.isBefore(endDate)) {
       if (currentWeek.startOf("isoWeek").isBefore(endDate)) {
@@ -92,12 +73,12 @@ const GanttViewProject = ({ customize, data }) => {
         console.log(weekList);
       }
       currentWeek.add(7, "days");
-      
+
     }
     return weekList;
-  }
+  }, [users]);
 
-  function getProjects() {
+  const getProjects = useCallback(() => {
     const projectsMap = [];
     users.forEach((user) =>
         user.tasks.forEach((task) => {
@@ -108,10 +89,10 @@ const GanttViewProject = ({ customize, data }) => {
           task.user = excludeAttribute(user, "tasks");
           if (projectIndex === -1) {
             projectsMap.push({
-                id: projectId,
-                name: project.name,
-                tasks: [task],
-                users: [excludeAttribute(user, "tasks")]
+              id: projectId,
+              name: project.name,
+              tasks: [task],
+              users: [excludeAttribute(user, "tasks")]
             });
           } else {
             const taskIndex = projectsMap[0].tasks.findIndex((t) => t.id === taskId);
@@ -123,7 +104,24 @@ const GanttViewProject = ({ customize, data }) => {
         })
     );
     return sortByChronologicalOrder(projectsMap);
-  }
+  }, [users]);
+
+  useEffect(() => {
+    getUsers();
+    setPreviousTasks([]);
+  }, [getUsers]);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      setTimelineWeeks(getWeekList());
+    }
+  }, [users, getWeekList]);
+
+  useEffect(() => {
+    if(users.length > 0) {
+      setProjects(getProjects())
+    }
+  }, [users, getProjects])
 
   function excludeAttribute(obj, attributeToExclude) {
     const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
@@ -257,7 +255,7 @@ const GanttViewProject = ({ customize, data }) => {
               )}
             </div>
             <div className="gantt-task-container" style={
-              selectedDropdownId == project.id ? {flexDirection: 'column', marginTop: '115px'}  : {flexDirection: 'row'}
+              selectedDropdownId === project.id ? {flexDirection: 'column', marginTop: '115px'}  : {flexDirection: 'row'}
             }>
 
             
@@ -265,7 +263,7 @@ const GanttViewProject = ({ customize, data }) => {
             let {width, left} = calculateTaskStyle(task)
             let marginLeftVar = index !== 0 ? previousTasks[index-1].widthPercentage : null ;
             let regex = /(?<=calc\()\d+(\.\d+)?(?=px\))/
-            let finalMargin = selectedDropdownId == project.id ? (parseInt(left.match(regex)) - marginLeftVar) : parseInt(left.match(regex));
+            let finalMargin = selectedDropdownId === project.id ? (parseInt(left.match(regex)) - marginLeftVar) : parseInt(left.match(regex));
             
             return (
             <div className="gantt-container-section-main-tasks project" key={task.id}>
