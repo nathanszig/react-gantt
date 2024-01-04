@@ -1,12 +1,37 @@
-node_modules/
-package-lock.json
-.babelrc
-.eslintrc
-.prettierrc
+# Fichiers et répertoires générés par le développement
+/node_modules/
+/package-lock.json
+/.babelrc
+/.eslintrc
+/.prettierrc
 
 # Dossiers de build
-build/
-dist/
+/build/
+/dist/
 
 # Fichiers de documentation source
-docs/
+/docs/
+
+# Fichiers spécifiques à l'IDE
+.idea/
+
+# Fichiers spécifiques à Docker
+/.dockerignore
+/Dockerfile
+
+# Fichiers de logs et de configuration local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Fichiers spécifiques aux tests
+/coverage/
+
+# Fichiers système
+.DS_Store
+
+# Fichiers de logs npm et yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

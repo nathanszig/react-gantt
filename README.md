@@ -17,8 +17,22 @@ Ensure you have Node.js installed.
 npm install free-react-gantt
 ```
 
-## Usage
+## Docker
 
+There aren't many dependencies on this project, but we've docked it for those who want to.
+
+Command to build the image
+```bash
+docker-compose build
+docker-compose up -d
+```
+
+Access the container:
+```bash
+docker-compose exec free-gantt-react /bin/bash
+```
+
+## Usage
 To use the Gantt React Component in your project, 
 import it and pass the required data as props and the optional customize props.
 
@@ -30,7 +44,7 @@ const YourApp = () => {
   return (
     <div>
       <h1>Your Application</h1>
-      <Gantt data={yourData} />
+      <Gantt data={yourData} customize={yourCustomizeJson} />
     </div>
   );
 }
