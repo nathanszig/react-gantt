@@ -20,7 +20,7 @@ npm install free-react-gantt
 ## Usage
 
 To use the Gantt React Component in your project, 
-import it and pass the required data as props.
+import it and pass the required data as props and the optional customize props.
 
 ```jsx
 import Gantt from 'free-react-gantt';
@@ -66,6 +66,33 @@ The component expects data in the following structure:
     ]
 }
 ```
+It also expected an optional props "customize" to allow the customization of 
+few specifics elements of the gantt.
+
+The component expects customize in the following structure:
+
+```json
+{
+    "todayButton": {
+        "background": {"type": "string"},
+        "color": {"type": "string"},
+        "border": {"type": "string"},
+        "border-radius": {"type": "string"}
+    },
+    "daysContainer": {
+        "background": {"type": "string"},
+        "color": {"type": "string"},
+        "border": {"type": "string"},
+        "border-radius": {"type": "string"}
+    },
+    "weeksContainer": {
+        "background": {"type": "string"},
+        "color": {"type": "string"},
+        "border": {"type": "string"},
+        "border-radius": {"type": "string"}
+    }
+}
+```
 
 ## Demo
 
@@ -77,9 +104,15 @@ additional information.
 The primary configuration option is the `data` prop, 
 where you pass the necessary projects, tasks and users information to the Gantt component.
 
-## Known Issues
+## Issues
+### Know Issues
 
 1. **Date Display Between Projects**: Currently, the dates between two projects are displayed. This will be addressed in a future release.
+
+### Report Issues
+
+- [All issues](https://github.com/nathanszig/react-gantt/issues/)
+- [New issues](https://github.com/nathanszig/react-gantt/issues/new)
 
 ## The Future
 
