@@ -145,7 +145,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Additional Details
 
-- **Node.js Version**: This project requires Node.js version 14 or higher but 18 is recommended.
+- **Node.js Version**: This project requires Node.js version 18 or higher.
 
 - **React and ReactDOM**: The component is built using React and ReactDOM versions specified in the `package.json`.
 
