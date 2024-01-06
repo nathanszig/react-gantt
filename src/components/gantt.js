@@ -47,7 +47,7 @@ const Gantt = ({customize, data}) => {
             border: '1px solid #000',
             borderRadius: "5px",
         },
-        weeksContainer: {
+        daysContainer: {
             background: '#FFF',
             color: '#000',
             border: '1px solid #000',

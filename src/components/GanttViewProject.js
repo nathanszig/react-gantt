@@ -10,13 +10,15 @@ import Icon from '../arrow-left.svg';
 const GanttViewProject = ({ customize, data }) => {
 
   const defaultStyles = {
-    daysContainer:{
-      background: '#000',
-      color: '#fff',
+    sidebarProjects: {
+      background: '#fff',
+      color: '#000',
+      border: '1px solid #000',
     },
-    weeksContainer:{
-      background: '#000',
-      color: '#fff',
+    taskContainer: {
+      background: '#fff',
+      color: '#000',
+      border: '1px solid #000',
     },
   };
 
@@ -217,7 +219,7 @@ const GanttViewProject = ({ customize, data }) => {
             key={project.id}
           >
 
-            <div className="gantt-container-section-sidebar-tasks project">
+            <div className="gantt-container-section-sidebar-tasks project" style={defaultStyles.sidebarProjects}>
               <div className="gantt-container-section-sidebar-task">
                 <div className="gantt-container-section-sidebar-task-client">
                   <p className="gantt-container-section-sidebar-task-client-name">
@@ -272,12 +274,18 @@ const GanttViewProject = ({ customize, data }) => {
                   className="gantt-container-section-main-tasks-t"
                   style={{width: width, left: finalMargin}}
                 >
-                  <div className="gantt-container-section-main-tasks-t-content">
+                  <div className="gantt-container-section-main-tasks-t-content" style={defaultStyles.taskContainer}>
                     <p>
                       <span>
                         {moment(task.start).format("DD/MM/YYYY")} -{" "}
                         {moment(task.end).format("DD/MM/YYYY")}
                       </span>
+                    </p>
+                    <p className="title">
+                      {task.name}
+                    </p>
+                    <p className="description">
+                      {task.description}
                     </p>
                   </div>
                 </div>

@@ -11,10 +11,14 @@
         "border": "1px solid #000000",
         "border-radius": "5px"
     },
-    "weeksContainer": {
-        "background": "#f0f0f0",
-        "color": "#000000",
-        "border": "1px solid #000000",
-        "border-radius": "5px"
+    "sidebarProjects": {
+        "background": "#fff",
+        "color": "#000",
+        "border": "1px solid #000"
+    },
+    "taskContainer": {
+        "background": "#fff",
+        "color": "#000",
+        "border": "1px solid #000"
     }
 }

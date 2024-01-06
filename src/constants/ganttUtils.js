@@ -99,7 +99,7 @@ export const fakeData = {
                     },
                     "name": "test 3",
                     "start": "12/01/2023",
-                    "end": "12/13/2023",
+                    "end": "12/02/2023",
                     "description": "la tache de nathan 3",
                     "taskImgUrl": "",
                 }

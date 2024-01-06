@@ -187,7 +187,6 @@
 
                 p {
                     font-size: 12px;
-                    color: #F7F7F7;
                     padding: 3px;
                 }
             }
@@ -196,7 +195,7 @@
                 &-content {
                     &-user {
                         padding: 4px 20px;
-                        border-top: 1px solid #F7F7F7;
+                        border-top: 1px solid ;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -208,7 +207,6 @@
                         }
 
                         p {
-                            color: #F7F7F7;
                             font-size: 12px;
                             line-height: 16px;
                         }
@@ -259,8 +257,9 @@
 
                     .gantt-container-section-main-tasks-t {
                         &-content {
+                            
                             p {
-                                color: #090754;
+                                
                                 font-size: 16px;
                             }
                         }
@@ -276,26 +275,37 @@
                     &-content {
                         display: flex;
                         align-items: center;
-                        gap: 32px;
+                        
                         border-radius: 8px;
                         background: var(--light-grey, #F7F7F7);
                         width: 100%;
                         padding: 0 18px;
-                        width: 100%;
                         height: 110px;
                         max-height: 110px;
                         border: solid rgb(236, 236, 236) 2px;
+                        display: flex;
+                        flex-direction: column;
+                        padding: 10px;
 
                         p {
-                            color: #000;
                             font-size: 14px;
                             letter-spacing: 0.36px;
-
+                            margin: 0;
                             display: flex;
                             align-items: center;
                             justify-content: space-between;
                             gap: 2px;
                             width: 100%;
+                            text-overflow: ellipsis;
+                        }
+                        .title{
+                            margin-top: 15px;
+                            font-weight: 700;
+                            font-size: 18px;
+                            margin-bottom: 5px;
+                        }
+                        .description{
+                            font-size: 12px;
                         }
                     }
 
