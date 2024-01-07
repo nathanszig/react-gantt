@@ -32,6 +32,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.7",
+    "@babel/preset-react": "^7.23.3",
     "sass": "^1.69.4"
   }
 }
