@@ -188,7 +188,7 @@ const GanttViewProject = ({ customize, data }) => {
               const today = moment().startOf("day");
               const isCurrentWeek = today.isBetween(
                 startOfWeek,
-                endOfWeek,
+                endOfWeek.add(2, 'days'),
                 null,
                 "[]"
               );
