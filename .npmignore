@@ -1,7 +1,6 @@
 # Fichiers et répertoires générés par le développement
 /node_modules/
 /package-lock.json
-/.babelrc
 /.eslintrc
 /.prettierrc
 

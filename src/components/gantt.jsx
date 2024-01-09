@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import arrowLeft from '../arrow-left.svg';
 import arrowRight from '../arrow-right.svg';
 import '../styles/gantt.scss';
@@ -56,7 +56,7 @@ const Gantt = ({customize, data}) => {
 
     };
 
-    const ganttContainerRef = useRef(null);
+    
     const handleMoveLeft = () => {
         const ganttContainer = document.querySelector(".gantt-container-section");
         if (ganttContainer) {
@@ -74,7 +74,7 @@ const Gantt = ({customize, data}) => {
     const styles = mergeStyles(defaultStyles, customize);
 
   return (
-    <div className="gantt-container" ref={ganttContainerRef}>
+    <div className="gantt-container" >
       <div className="gantt-container-filters">
         <div className="gantt-container-filters-crt">
           <div className="gantt-container-filters-crt-block">
