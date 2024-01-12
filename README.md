@@ -1,10 +1,10 @@
 # Gantt React Component
 
-## Overview
+# Free React Gantt
 
-This React component provides a Gantt chart visualization for project timelines. 
-It is designed to be easy to integrate into your React applications,
-allowing you to display and manage project timelines efficiently.
+This React component provides a Gantt chart visualization for project timelines.
+It is designed to be easy to integrate into your **React applications**,
+allowing you to display and manage project timelines efficiently
 
 ## Installation
 
@@ -33,12 +33,13 @@ docker-compose exec free-gantt-react /bin/bash
 ```
 
 ## Usage
-To use the Gantt React Component in your project, 
+To use the Gantt React Component in your project,
 import it and pass the required data as props and the optional customize props.
 
 ```jsx
-import Gantt from 'free-react-gantt';
 import React from 'react';
+import Gantt from "free-react-gantt";
+import 'free-react-gantt/dist/style.css'
 
 const YourApp = () => {
   return (
@@ -80,7 +81,7 @@ The component expects data in the following structure:
     ]
 }
 ```
-It also expected an optional props "customize" to allow the customization of 
+It also expected an optional props "customize" to allow the customization of
 few specifics elements of the gantt.
 
 The component expects customize in the following structure:
@@ -88,34 +89,30 @@ The component expects customize in the following structure:
 ```json
 {
     "todayButton": {
-        "background": {"type": "string"},
-        "color": {"type": "string"},
-        "border": {"type": "string"},
-        "border-radius": {"type": "string"}
+      "background": "#fff",
+      "color": "#000",
+      "border": "1px solid #000",
+      "border-radius": "5px"
+      /** other custom css **/
     },
     "daysContainer": {
-        "background": {"type": "string"},
-        "color": {"type": "string"},
-        "border": {"type": "string"},
-        "border-radius": {"type": "string"}
+      /** your custom css **/
     },
     "weeksContainer": {
-        "background": {"type": "string"},
-        "color": {"type": "string"},
-        "border": {"type": "string"},
-        "border-radius": {"type": "string"}
+      /** your custom css **/
+    },
+    "taskContainer": {
+      /** your custom css **/
+    },
+    "sidebarProjects": {
+      /** your custom css **/
     }
 }
 ```
 
-## Demo
-
-Check out our [online documentation site](https://site.test) for a live demo and 
-additional information.
-
 ## Configuration Options
 
-The primary configuration option is the `data` prop, 
+The primary configuration option is the `data` prop,
 where you pass the necessary projects, tasks and users information to the Gantt component.
 
 ## Issues
@@ -135,7 +132,7 @@ where you pass the necessary projects, tasks and users information to the Gantt 
 
 ## Contributions
 
-This Gantt React Component is maintained by Benjamin Burstein and Nathan Szigeti 
+This Gantt React Component is maintained by Benjamin Burstein and Nathan Szigeti
 for an open source project at IIM.
 We welcome contributions! Feel free to submit issues, feature requests, or pull requests.
 
@@ -155,5 +152,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 - **Style Preprocessing**: Styling is done using SASS version 1.69.4.
 
-Please ensure your environment meets these tool version requirements when using the Gantt React Component. 
+Please ensure your environment meets these tool version requirements when using the Gantt React Component.
 Feel free to reach out if you have any further questions or need more details!
