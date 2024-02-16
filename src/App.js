@@ -4,10 +4,9 @@ import Gantt from './components/gantt';
 
 import {fakeData} from "./constants/ganttUtils";
 function App() {
-
     return (
         <div className="App">
-            <Gantt data={fakeData}/>
+            <Gantt />
         </div>
     );
 }
