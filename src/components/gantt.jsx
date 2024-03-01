@@ -1,9 +1,10 @@
 import React from 'react';
-import arrowLeft from '../arrow-left.svg';
-import arrowRight from '../arrow-right.svg';
+import arrowLeft from '../assets/arrow-left.svg';
+import arrowRight from '../assets/arrow-right.svg';
 import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
+import GanttViewPerso from './GanttViewPerso'
 
 export function mergeStyles(target, source) {
     for (const key in source) {
@@ -93,7 +94,11 @@ const Gantt = ({customize, data}) => {
         {console.log(data)}
         {console.log(styles)}
       {
-        <GanttViewProject
+        // <GanttViewProject
+        //   customize={styles}
+        //   data={data}
+        // />
+        <GanttViewPerso
           customize={styles}
           data={data}
         />

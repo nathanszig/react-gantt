@@ -4,7 +4,7 @@ import moment from "moment";
 import {calculateWidthAndMargin} from '../constants/ganttUtils';
 import {mergeStyles} from "./gantt";
 
-import Icon from '../arrow-left.svg';
+import Icon from '../assets/arrow-left.svg';
 
 
 const GanttViewProject = ({ customize, data }) => {
