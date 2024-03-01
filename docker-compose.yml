@@ -1,14 +1,24 @@
 services:
   app:
     container_name: react-gantt
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     ports:
       - "5173:5173"
     volumes:
-      - .:/app
       - node_modules:/app/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: sync
+          path: ./public
+          target: /app/public
+        - action: sync
+          path: ./index.html
+          target: /app/index.html
+        - action: rebuild
+          path: package.json
 
 volumes:
   node_modules:
