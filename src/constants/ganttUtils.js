@@ -48,60 +48,110 @@ export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, 
 };
 
 export const fakeData = {
-    "users": [
+    "projects": [
         {
             "id": 1,
-            "firstName" : "Nathan",
-            "lastName": "szigeti",
-            "urlAvatar": "",
-            "tasks" : [
+            "name": "projectTest",
+            "users": [
                 {
-                    "id": "MXP-1",
-                    "project": {
-                        "name": "projectTest",
-                        "id": 1
-                    },
-                    "name": "test",
-                    "start": "12/01/2024",
-                    "end": "01/05/2025",
-                    "description": "la tache de nathan",
-                    "taskImgUrl": "",
+                    "id": 1,
+                    "firstName": "Nathan",
+                    "lastName": "szigeti",
+                    "urlAvatar": "",
+                    "tasks": [
+                        {
+                            "id": "MXP-1",
+                            "name": "test",
+                            "start": "12/01/2024",
+                            "end": "01/05/2025",
+                            "description": "la tache de nathan",
+                            "taskImgUrl": ""
+                        },
+                        {
+                            "id": "MXP-2",
+                            "name": "test 2",
+                            "start": "01/15/2024",
+                            "end": "03/02/2024",
+                            "description": "la tache de nathan 2",
+                            "taskImgUrl": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "project2",
+            "users": [
+                {
+                    "id": 1,
+                    "firstName": "Nathan",
+                    "lastName": "szigeti",
+                    "urlAvatar": "",
+                    "tasks": [
+                        {
+                            "id": "MXP-3",
+                            "name": "test 3",
+                            "start": "12/01/2023",
+                            "end": "12/14/2023",
+                            "description": "la tache de nathan 3",
+                            "taskImgUrl": ""
+                        }
+                    ]
                 },
                 {
-                  "id": "MXP-2",
-                  "project": {
-                      "name": "projectTest",
-                      "id": 1
-                  },
-                  "name": "test 2",
-                  "start": "01/15/2024",
-                  "end": "03/02/2024",
-                  "description": "la tache de nathan 2",
-                  "taskImgUrl": "",
+                    "id": 2,
+                    "firstName": "Benjamin",
+                    "lastName": "Burstein",
+                    "urlAvatar": "",
+                    "tasks": [
+                        {
+                            "id": "MXP-4",
+                            "name": "test 4",
+                            "start": "01/01/2024",
+                            "end": "01/15/2024",
+                            "description": "la tache de benjamin 1",
+                            "taskImgUrl": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "project3",
+            "users": [
+                {
+                    "id": 1,
+                    "firstName": "Nathan",
+                    "lastName": "szigeti",
+                    "urlAvatar": "",
+                    "tasks": [
+                        {
+                            "id": "MXP-5",
+                            "name": "test 5",
+                            "start": "02/01/2024",
+                            "end": "02/15/2024",
+                            "description": "la tache de nathan 4",
+                            "taskImgUrl": ""
+                        }
+                    ]
                 },
                 {
-                  "id": "MXP-3",
-                  "project": {
-                      "name": "project2",
-                      "id": 2
-                  },
-                  "name": "test 3",
-                  "start": "12/01/2023",
-                  "end": "12/14/2023",
-                  "description": "la tache de nathan 3",
-                  "taskImgUrl": "",
-                },
-                {
-                    "id": "MXP-4",
-                    "project": {
-                        "name": "project3",
-                        "id": 3
-                    },
-                    "name": "test 3",
-                    "start": "12/01/2023",
-                    "end": "12/02/2023",
-                    "description": "la tache de nathan 3",
-                    "taskImgUrl": "",
+                    "id": 2,
+                    "firstName": "Benjamin",
+                    "lastName": "Burstein",
+                    "urlAvatar": "",
+                    "tasks": [
+                        {
+                            "id": "MXP-6",
+                            "name": "test 6",
+                            "start": "03/01/2024",
+                            "end": "03/15/2024",
+                            "description": "la tache de benjamin 2",
+                            "taskImgUrl": ""
+                        }
+                    ]
                 }
             ]
         }
