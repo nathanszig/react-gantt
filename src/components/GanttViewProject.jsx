@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import moment from "moment";
 
-import {calculateWidthAndMargin} from '../constants/ganttUtils';
+import {calculateWidthAndMargin, weekHaveTask} from '../constants/ganttUtils';
 import {mergeStyles} from "./gantt";
 
 import Icon from '../arrow-left.svg';
@@ -26,8 +26,8 @@ const GanttViewProject = ({ customize, data }) => {
   const [projects, setProjects] = useState([]);
   const [timelineWeeks, setTimelineWeeks] = useState([]);
   const [previousTasks, setPreviousTasks] = useState([]);
-
   const [selectedDropdownId, setSelectedDropdownId] = useState(null);
+  const [weekWithoutTask, setWeekWithoutTask] = useState(0);
   const toggleDropdown = (id) => {
     if (selectedDropdownId === id) {
       setSelectedDropdownId(null);
@@ -63,8 +63,6 @@ const GanttViewProject = ({ customize, data }) => {
     const weekList = [];
     let currentWeek = startDate.clone().startOf("isoWeek");
 
-
-
     while (currentWeek.isBefore(endDate)) {
       if (currentWeek.startOf("isoWeek").isBefore(endDate)) {
         const endWeek = currentWeek.clone().add(4, "days");
@@ -72,7 +70,6 @@ const GanttViewProject = ({ customize, data }) => {
           start: currentWeek.format("YYYY-MM-DD"),
           end: endWeek.format("YYYY-MM-DD"),
         });
-        console.log(weekList);
       }
       currentWeek.add(7, "days");
 
@@ -192,22 +189,21 @@ const GanttViewProject = ({ customize, data }) => {
                 null,
                 "[]"
               );
-              console.log('timelineWeeks');
-              console.log(timelineWeeks);
-              console.log('week '+ index);
-              console.log(week)
-              return (
-                <div className={
-                    `gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${index === 0 ? "start" : index === timelineWeeks.length - 1 ? "end" : ""}`
-                  }
-                  key={index}
-                  style={styles.daysContainer}>
-                  <p>
-                    {moment(week.start).format("DD MMMM")} -{" "}
-                    {moment(week.end).format("DD MMMM")}
-                  </p>
-                </div>
-              );
+              // if the current week has any task or today is in the current week, then display the current week
+              const isWeekHaveTask = weekHaveTask(users, startOfWeek, endOfWeek) || isCurrentWeek;
+                return (
+                    <div className={
+                      `gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${index === 0 ? "start" : index === timelineWeeks.length - 1 ? "end" : ""}${isWeekHaveTask ? "" : "no-task"}
+                      `
+                      }
+                         key={index}
+                         style={styles.daysContainer}>
+                      <p>
+                        {moment(week.start).format("DD MMMM")} -{" "}
+                        {moment(week.end).format("DD MMMM")}
+                      </p>
+                    </div>
+                );
             })}
           </div>
       </div>

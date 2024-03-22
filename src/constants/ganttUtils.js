@@ -47,6 +47,18 @@ export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, 
   return { widthPercentage, taskMarginLeft };
 };
 
+export const weekHaveTask = (users, startOfWeek, endOfWeek) => {
+    users.some((user) =>
+        user.tasks.some((task) =>
+            moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+            moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+            moment(task.start).isBefore(startOfWeek) && (moment(task.end).isAfter(endOfWeek)) ||
+            moment(task.start).isBefore(startOfWeek) && moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+            moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") && moment(task.end).isAfter(endOfWeek)
+        )
+    );
+}
+
 export const fakeData = {
     "users": [
         {
