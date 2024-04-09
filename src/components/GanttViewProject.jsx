@@ -81,10 +81,14 @@ const GanttViewProject = ({ customize, data }) => {
     const projectsMap = [];
     users.forEach((user) =>
         user.tasks.forEach((task) => {
+          console.log('user', user.firstName)
+          console.log('project', task.project ? task.project.id : 'la tache a pas de projet')
+          console.log('task', task.id)
           const project = task.project;
           const projectId = project.id;
           const taskId = task.id;
           const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
+          console.log('indexProjet ', projectIndex)
           task.user = excludeAttribute(user, "tasks");
           if (projectIndex === -1) {
             projectsMap.push({
@@ -94,14 +98,23 @@ const GanttViewProject = ({ customize, data }) => {
               users: [excludeAttribute(user, "tasks")]
             });
           } else {
-            const taskIndex = projectsMap[0].tasks.findIndex((t) => t.id === taskId);
+            const taskIndex = projectsMap[projectIndex].tasks.findIndex((t) => t.id === taskId);
+            console.log('taskIndex ', taskIndex)
             if (taskIndex === -1) {
+              console.log('-----------------')
+              console.log(projectsMap)
+              console.log('push task into existing project')
+              console.log('user ', user.firstName)
+              console.log('task ', task.id)
+              console.log('projectIndex ', projectIndex)
+              console.log(projectsMap)
               projectsMap[projectIndex].tasks.push();
               projectsMap[projectIndex].users.push(excludeAttribute(user, "tasks"));
             }
           }
         })
     );
+    console.log('projects', projectsMap)
     return sortByChronologicalOrder(projectsMap);
   }, [users]);
 

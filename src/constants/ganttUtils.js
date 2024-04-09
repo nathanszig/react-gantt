@@ -63,59 +63,67 @@ export const fakeData = {
     "users": [
         {
             "id": 1,
+            "firstName" : "Benjamin",
+            "lastName": "Burstein",
+            "urlAvatar": "",
+            "tasks" : [
+                {
+                    "id": 1,
+                    "project": {
+                        "name": "project1",
+                        "id": 1
+                    },
+                    "name": "task3",
+                    "start": "12/25/2024",
+                    "end": "12/29/2024",
+                    "description": "la tache de benji",
+                    "taskImgUrl": "",
+                },
+                {
+                    "id": 1,
+                    "project": {
+                        "name": "project2",
+                        "id": 2
+                    },
+                    "name": "task3",
+                    "start": "12/21/2023",
+                    "end": "01/02/2024",
+                    "description": "la tache de benji",
+                    "taskImgUrl": "",
+                },
+            ]
+        },
+        {
+            "id": 2,
             "firstName" : "Nathan",
             "lastName": "szigeti",
             "urlAvatar": "",
             "tasks" : [
                 {
-                    "id": "MXP-1",
+                    "id": 2,
                     "project": {
-                        "name": "projectTest",
+                        "name": "project1",
                         "id": 1
                     },
-                    "name": "test",
-                    "start": "12/01/2024",
-                    "end": "01/05/2025",
-                    "description": "la tache de nathan",
+                    "name": "task1",
+                    "start": "07/21/2024",
+                    "end": "12/27/2024",
+                    "description": "la mission de nathan",
                     "taskImgUrl": "",
                 },
                 {
-                  "id": "MXP-2",
-                  "project": {
-                      "name": "projectTest",
-                      "id": 1
-                  },
-                  "name": "test 2",
-                  "start": "01/15/2024",
-                  "end": "03/02/2024",
-                  "description": "la tache de nathan 2",
-                  "taskImgUrl": "",
-                },
-                {
-                  "id": "MXP-3",
+                  "id": 2,
                   "project": {
                       "name": "project2",
                       "id": 2
                   },
-                  "name": "test 3",
-                  "start": "12/01/2023",
-                  "end": "12/14/2023",
-                  "description": "la tache de nathan 3",
+                  "name": "task2",
+                  "start": "12/29/2023",
+                  "end": "05/15/2024",
+                  "description": "la deuxième mission de nathan",
                   "taskImgUrl": "",
                 },
-                {
-                    "id": "MXP-4",
-                    "project": {
-                        "name": "project3",
-                        "id": 3
-                    },
-                    "name": "test 3",
-                    "start": "12/01/2023",
-                    "end": "12/02/2023",
-                    "description": "la tache de nathan 3",
-                    "taskImgUrl": "",
-                }
             ]
-        }
+        },
     ]
 }
