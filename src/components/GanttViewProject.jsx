@@ -44,35 +44,29 @@ const GanttViewProject = ({ customize, data }) => {
     const startDate = moment.min(
         users.map((user) =>
             user.tasks.map((task) =>
-                moment(task.start).startOf("isoWeek")
+                moment(task.start)
             )
         ).flat()
     );
 
     const endDate = moment.max(
-        users.map((user) =>
-            user.tasks.map((task, i) =>
-                moment(task.end).startOf("isoWeek")
-            )
-        ).flat()
+        users.flatMap((user) => {
+          return user.tasks.map((task) => {
+            console.log('task ', task);
+            return moment(task.end);
+          });
+        })
     );
-
-    // Add 1 week after endDate to display the last week
-    endDate.add(1, "weeks");
 
     const weekList = [];
     let currentWeek = startDate.clone().startOf("isoWeek");
-
     while (currentWeek.isBefore(endDate)) {
-      if (currentWeek.startOf("isoWeek").isBefore(endDate)) {
-        const endWeek = currentWeek.clone().add(4, "days");
-        weekList.push({
-          start: currentWeek.format("YYYY-MM-DD"),
-          end: endWeek.format("YYYY-MM-DD"),
-        });
-      }
+      const endWeek = currentWeek.clone().add(4, "days");
+      weekList.push({
+        start: currentWeek.format("YYYY-MM-DD"),
+        end: endWeek.format("YYYY-MM-DD"),
+      });
       currentWeek.add(7, "days");
-
     }
     return weekList;
   }, [users]);
