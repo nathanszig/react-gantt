@@ -73,7 +73,7 @@ export const fakeData = {
                         "name": "project1",
                         "id": 1
                     },
-                    "name": "task3",
+                    "name": "task1",
                     "start": "12/25/2024",
                     "end": "12/29/2024",
                     "description": "la tache de benji",
@@ -85,8 +85,8 @@ export const fakeData = {
                         "name": "project2",
                         "id": 2
                     },
-                    "name": "task3",
-                    "start": "12/21/2023",
+                    "name": "task2",
+                    "start": "12/29/2023",
                     "end": "01/02/2024",
                     "description": "la tache de benji",
                     "taskImgUrl": "",
@@ -105,23 +105,23 @@ export const fakeData = {
                         "name": "project1",
                         "id": 1
                     },
-                    "name": "task1",
+                    "name": "task3",
                     "start": "07/21/2024",
                     "end": "12/27/2024",
                     "description": "la mission de nathan",
                     "taskImgUrl": "",
                 },
                 {
-                  "id": 2,
-                  "project": {
-                      "name": "project2",
-                      "id": 2
-                  },
-                  "name": "task2",
-                  "start": "12/29/2023",
-                  "end": "05/15/2024",
-                  "description": "la deuxième mission de nathan",
-                  "taskImgUrl": "",
+                    "id": 2,
+                    "project": {
+                        "name": "project2",
+                        "id": 2
+                    },
+                    "name": "task4",
+                    "start": "12/21/2023",
+                    "end": "05/15/2024",
+                    "description": "la deuxième mission de nathan",
+                    "taskImgUrl": "",
                 },
             ]
         },
