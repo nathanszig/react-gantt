@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 
-import {calculateWidthAndMargin, constants} from '../constants/ganttUtils';
+import { calculateWidthAndMargin, constants } from '../constants/ganttUtils';
 
 import fakeData from '../constants/fakeData';
-
 
 const GanttViewTeam = ({ mode }) => {
 
@@ -51,7 +50,7 @@ const GanttViewTeam = ({ mode }) => {
   }
 
   function getWeekList() {
-    const startDate =  moment.min(tasks.map((task) => moment(task.start).startOf("isoWeek")).flat());
+    const startDate = moment.min(tasks.map((task) => moment(task.start).startOf("isoWeek")).flat());
     const endDate = moment.max(tasks.map((task) => moment(task.end).endOf('isoWeek')).flat());
 
     const weekList = [];
@@ -167,16 +166,16 @@ const GanttViewTeam = ({ mode }) => {
             <div className="gantt-container-section-main-tasks equipe">
               <div className="gantt-container-section-main-tasks-m equipe">
                 {user.tasks?.map((task, index) => {
-                    return (
-                      <div
-                        className="gantt-container-section-main-tasks-t"
-                        key={task.id}
-                        style={calculateTaskStyle(task, index)}
-                      >
-                        <div className="gantt-container-section-main-tasks-t-content equipe">
-                        </div>
+                  return (
+                    <div
+                      className="gantt-container-section-main-tasks-t"
+                      key={task.id}
+                      style={calculateTaskStyle(task, index)}
+                    >
+                      <div className="gantt-container-section-main-tasks-t-content equipe">
                       </div>
-                    );
+                    </div>
+                  );
                 })}
               </div>
             </div>

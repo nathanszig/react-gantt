@@ -34,28 +34,28 @@ const GanttTaskContainer = (props) => {
           props.selectedDropdownId === props.project.id
             ? parseInt(left.match(regex))
             : parseInt(left.match(regex));
-        
+
         // Vérifier si cette tâche se chevauche avec une autre tâche dans le même projet
         let stacked = false;
         let nbStacked = 1;
         let idStack = 1;
         for (let i = 0; i < props.project.tasks.length; i++) {
-            if (i !== index) {
-                let otherTask = props.project.tasks[i];
-                if (
-                    (moment(task.start).isBetween(otherTask.start, otherTask.end) ||
-                    moment(task.end).isBetween(otherTask.start, otherTask.end)) ||
-                    (moment(otherTask.start).isBetween(task.start, task.end) ||
-                    moment(otherTask.end).isBetween(task.start, task.end))
-                ) {
-                    stacked = true;
-                    nbStacked++;
-                    if (i < index) idStack++;
-                }
+          if (i !== index) {
+            let otherTask = props.project.tasks[i];
+            if (
+              (moment(task.start).isBetween(otherTask.start, otherTask.end) ||
+                moment(task.end).isBetween(otherTask.start, otherTask.end)) ||
+              (moment(otherTask.start).isBetween(task.start, task.end) ||
+                moment(otherTask.end).isBetween(task.start, task.end))
+            ) {
+              stacked = true;
+              nbStacked++;
+              if (i < index) idStack++;
             }
+          }
         }
-        let height =  props.selectedDropdownId === props.project.id ?  "110px" : `calc(132px / ${nbStacked})`
-        let top =  props.selectedDropdownId === props.project.id ? `calc(115px * ${index})` : `calc(135px / ${nbStacked} * ${idStack - 1} ${idStack > 1 ? '+ 5px': ''})`
+        let height = props.selectedDropdownId === props.project.id ? "110px" : `calc(132px / ${nbStacked})`
+        let top = props.selectedDropdownId === props.project.id ? `calc(115px * ${index})` : `calc(135px / ${nbStacked} * ${idStack - 1} ${idStack > 1 ? '+ 5px' : ''})`
         return (
           <div
             className="gantt-container-section-main-tasks project"
