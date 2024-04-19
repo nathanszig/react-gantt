@@ -47,113 +47,83 @@ export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, 
   return { widthPercentage, taskMarginLeft };
 };
 
+export const weekHaveTask = (users, startOfWeek, endOfWeek) => {
+    users.some((user) =>
+        user.tasks.some((task) =>
+            moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+            moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+            moment(task.start).isBefore(startOfWeek) && (moment(task.end).isAfter(endOfWeek)) ||
+            moment(task.start).isBefore(startOfWeek) && moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+            moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") && moment(task.end).isAfter(endOfWeek)
+        )
+    );
+}
+
 export const fakeData = {
-    "projects": [
+    "users": [
         {
             "id": 1,
-            "name": "projectTest",
-            "users": [
+            "firstName" : "Benjamin",
+            "lastName": "Burstein",
+            "urlAvatar": "",
+            "tasks" : [
                 {
                     "id": 1,
-                    "firstName": "Nathan",
-                    "lastName": "szigeti",
-                    "urlAvatar": "",
-                    "tasks": [
-                        {
-                            "id": "MXP-1",
-                            "name": "test",
-                            "start": "12/01/2024",
-                            "end": "01/05/2025",
-                            "description": "la tache de nathan",
-                            "taskImgUrl": ""
-                        },
-                        {
-                            "id": "MXP-2",
-                            "name": "test 2",
-                            "start": "01/15/2024",
-                            "end": "03/02/2024",
-                            "description": "la tache de nathan 2",
-                            "taskImgUrl": ""
-                        }
-                    ]
-                }
+                    "project": {
+                        "name": "project1",
+                        "id": 1
+                    },
+                    "name": "task1",
+                    "start": "12/25/2024",
+                    "end": "12/29/2024",
+                    "description": "la tache de benji",
+                    "taskImgUrl": "",
+                },
+                {
+                    "id": 1,
+                    "project": {
+                        "name": "project2",
+                        "id": 2
+                    },
+                    "name": "task2",
+                    "start": "12/29/2023",
+                    "end": "01/02/2024",
+                    "description": "la tache de benji",
+                    "taskImgUrl": "",
+                },
             ]
         },
         {
             "id": 2,
-            "name": "project2",
-            "users": [
+            "firstName" : "Nathan",
+            "lastName": "szigeti",
+            "urlAvatar": "",
+            "tasks" : [
                 {
-                    "id": 1,
-                    "firstName": "Nathan",
-                    "lastName": "szigeti",
-                    "urlAvatar": "",
-                    "tasks": [
-                        {
-                            "id": "MXP-3",
-                            "name": "test 3",
-                            "start": "12/01/2023",
-                            "end": "12/14/2023",
-                            "description": "la tache de nathan 3",
-                            "taskImgUrl": ""
-                        }
-                    ]
+                    "id": 2,
+                    "project": {
+                        "name": "project1",
+                        "id": 1
+                    },
+                    "name": "task3",
+                    "start": "07/21/2024",
+                    "end": "12/27/2024",
+                    "description": "la mission de nathan",
+                    "taskImgUrl": "",
                 },
                 {
                     "id": 2,
-                    "firstName": "Benjamin",
-                    "lastName": "Burstein",
-                    "urlAvatar": "",
-                    "tasks": [
-                        {
-                            "id": "MXP-4",
-                            "name": "test 4",
-                            "start": "01/01/2024",
-                            "end": "01/15/2024",
-                            "description": "la tache de benjamin 1",
-                            "taskImgUrl": ""
-                        }
-                    ]
-                }
+                    "project": {
+                        "name": "project2",
+                        "id": 2
+                    },
+                    "name": "task4",
+                    "start": "12/21/2023",
+                    "end": "05/15/2024",
+                    "description": "la deuxième mission de nathan",
+                    "taskImgUrl": "",
+                },
             ]
         },
-        {
-            "id": 3,
-            "name": "project3",
-            "users": [
-                {
-                    "id": 1,
-                    "firstName": "Nathan",
-                    "lastName": "szigeti",
-                    "urlAvatar": "",
-                    "tasks": [
-                        {
-                            "id": "MXP-5",
-                            "name": "test 5",
-                            "start": "02/01/2024",
-                            "end": "02/15/2024",
-                            "description": "la tache de nathan 4",
-                            "taskImgUrl": ""
-                        }
-                    ]
-                },
-                {
-                    "id": 2,
-                    "firstName": "Benjamin",
-                    "lastName": "Burstein",
-                    "urlAvatar": "",
-                    "tasks": [
-                        {
-                            "id": "MXP-6",
-                            "name": "test 6",
-                            "start": "03/01/2024",
-                            "end": "03/15/2024",
-                            "description": "la tache de benjamin 2",
-                            "taskImgUrl": ""
-                        }
-                    ]
-                }
-            ]
-        }
     ]
 }
