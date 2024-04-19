@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 
-import {calculateWidthAndMargin, constants, fakeData} from '../constants/ganttUtils';
+import {calculateWidthAndMargin, constants} from '../constants/ganttUtils';
+
+import fakeData from '../constants/fakeData';
 
 
 const GanttViewTeam = ({ mode }) => {

@@ -194,8 +194,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                height: 100px;
-                max-height: 100px;
+                height: 132px;
                 // padding-bottom: 10px;
 
                 &-icon {
@@ -263,6 +262,7 @@
                 &-m {
                     display: grid;
                     gap: 13px;
+                    position: relative;
 
                     &>section {
                         display: flex;
@@ -294,10 +294,32 @@
                 }
 
                 &-t {
+                    position:absolute;
                     display: flex;
                     gap: 15px;
-                    position: relative;
                     grid-area: 1 / 1 / 2 / 2;
+
+                    &.stacked{
+                        & .gantt-container-section-main-tasks-t-content{
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 20px;
+
+                            p{
+                                width: fit-content;
+                            }
+
+                            .title{
+                                margin: 0;
+                                padding: 0;
+                            }
+                        }
+                    }
+
+                    &:hover{
+                        z-index: 999;
+                    }
 
                     &-content {
                         display: flex;
@@ -307,7 +329,6 @@
                         background: var(--light-grey, #F7F7F7);
                         width: 100%;
                         padding: 0 18px;
-                        height: 110px;
                         max-height: 110px;
                         border: solid rgb(236, 236, 236) 2px;
                         display: flex;
