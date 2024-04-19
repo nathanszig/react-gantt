@@ -51,11 +51,10 @@
         height: 800px;
         width: 100%;
         position: relative;
-        overflow-y: auto;
 
         &-timeline {
             margin-left: 244px;
-            padding: 0px 0px 20px 0px;
+            padding: 0 0 20px 0;
             display: flex;
             align-items: center;
             margin-bottom: 24px;
@@ -64,6 +63,21 @@
             position: sticky;
             top: 0px;
             z-index: 999;
+
+            .week-container {
+                position: relative;
+            }
+
+            .new-year-message {
+                position: absolute;
+                top: -30px;
+                left: 0;
+                width: 100%;
+                text-align: left;
+                border-left: 2px solid black;
+                font-size: 20px;
+                padding: 5px 0 0 10px;
+            }
 
             &-empty {
                 flex: 1 1;

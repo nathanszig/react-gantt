@@ -101,7 +101,7 @@ export const fakeData = {
                     },
                     "name": "task3",
                     "start": "07/21/2024",
-                    "end": "12/27/2024",
+                    "end": "01/05/2025",
                     "description": "la mission de nathan",
                     "taskImgUrl": "",
                 },

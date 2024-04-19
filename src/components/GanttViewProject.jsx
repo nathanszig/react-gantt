@@ -176,41 +176,53 @@ const GanttViewProject = ({ customize, data }) => {
   return (
       <section className="gantt-container-section">
         <div className="gantt-container-section-timeline">
-          <div className="gantt-container-section-timeline-header">
-            {timelineWeeks.map((week, index) => {
-              const startOfWeek = moment(week.start, "YYYY-MM-DD");
-              const endOfWeek = moment(week.end, "YYYY-MM-DD");
-              const today = moment().startOf("day");
-              const isCurrentWeek = today.isBetween(
-                  startOfWeek,
-                  endOfWeek.add(2, 'days'),
-                  null,
-                  "[]"
-              );
-              const isWeekHaveTask = weekHaveTask(users, startOfWeek, endOfWeek) || isCurrentWeek;
-              return (
+          {timelineWeeks.map((week, index) => {
+            const startOfWeek = moment(week.start, "YYYY-MM-DD");
+            const endOfWeek = moment(week.end, "YYYY-MM-DD");
+            const today = moment().startOf("day");
+            const isCurrentWeek = today.isBetween(
+                startOfWeek,
+                endOfWeek.add(2, 'days'),
+                null,
+                "[]"
+            );
+            const isWeekHaveTask = weekHaveTask(users, startOfWeek, endOfWeek) || isCurrentWeek;
+
+            // Check if it's the first week of a new year or if the new year starts on a weekend
+            const isNewYearWeek =
+                (startOfWeek.isoWeekday() === 1 && startOfWeek.isoWeek() === 1) || // First week of a new year
+                ((startOfWeek.isoWeekday() === 7 || startOfWeek.isoWeekday() === 6) && startOfWeek.isoWeek() === 52) // New year starts on a weekend
+
+
+            return (
+                <div key={index} className="week-container">
+                  {isNewYearWeek && (
+                      <div className="new-year-message">
+                        <b>{endOfWeek.format("YYYY")}</b>
+                      </div>
+                  )}
                   <div
                       className={`gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${index === 0 ? "start" : index === timelineWeeks.length - 1 ? "end" : ""} ${isWeekHaveTask ? "" : "no-task"}`}
-                      key={index}
-                      style={styles.daysContainer}>
-                      {isCurrentWeek ? (
-                          <div className="todayDiv">
-                            <p className="todayText"><b>Aujourd'hui</b></p>
-                            <p className="weekDate">
-                              {moment(week.start).format("DD MMMM")} -{" "}
-                              {moment(week.end).format("DD MMMM")}
-                            </p>
-                          </div>
-                      ) : (
+                      style={styles.daysContainer}
+                  >
+                    {isCurrentWeek ? (
+                        <div className="todayDiv">
+                          <p className="todayText"><b>Aujourd'hui</b></p>
                           <p className="weekDate">
                             {moment(week.start).format("DD MMMM")} -{" "}
                             {moment(week.end).format("DD MMMM")}
                           </p>
-                      )}
+                        </div>
+                    ) : (
+                        <p className="weekDate">
+                          {moment(week.start).format("DD MMMM")} -{" "}
+                          {moment(week.end).format("DD MMMM")}
+                        </p>
+                    )}
                   </div>
-              );
-            })}
-          </div>
+                </div>
+            );
+          })}
         </div>
 
         <div className="gantt-container-section-sidebar">
@@ -238,37 +250,40 @@ const GanttViewProject = ({ customize, data }) => {
                       />
                     </div>
                   </div>
-                    {project.id === selectedDropdownId && (
-                        <div className="gantt-container-section-sidebar-dropdown-content">
-                            {project.users.map((user, index) => {
-                                return (
-                                    <div
-                                        className="gantt-container-section-sidebar-dropdown-content-user"
-                                        key={index}
-                                    >
-                                        <div className="gantt-container-section-sidebar-dropdown-content-user-div">
-                                            <div className="user-info">
-                                                <img
-                                                    src={user.urlAvatar}
-                                                    alt={`Avatar de ${user.firstName} ${user.lastName}`}
-                                                    className={"avatar-img"}
-                                                />
-                                                <div className="user-info-p">
-                                                    <p>{user.firstName} {user.lastName}</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                  {project.id === selectedDropdownId && (
+                      <div className="gantt-container-section-sidebar-dropdown-content">
+                        {project.users.map((user, index) => {
+                          return (
+                              <div
+                                  className="gantt-container-section-sidebar-dropdown-content-user"
+                                  key={index}
+                              >
+                                <div className="gantt-container-section-sidebar-dropdown-content-user-div">
+                                  <div className="user-info">
+                                    <img
+                                        src={user.urlAvatar}
+                                        alt={`Avatar de ${user.firstName} ${user.lastName}`}
+                                        className={"avatar-img"}
+                                    />
+                                    <div className="user-info-p">
+                                      <p>{user.firstName} {user.lastName}</p>
                                     </div>
-                                );
-                            })}
-                        </div>
-                    )}
+                                  </div>
+                                </div>
+                              </div>
+                          );
+                        })}
+                      </div>
+                  )}
                 </div>
-                  <div className="gantt-task-container" style={
-                      selectedDropdownId === project.id ? { flexDirection: 'column', marginTop: '115px' } : { flexDirection: 'row' }
-                  }>
+                <div className="gantt-task-container" style={
+                  selectedDropdownId === project.id ? {
+                    flexDirection: 'column',
+                    marginTop: '115px'
+                  } : {flexDirection: 'row'}
+                }>
                   {project.tasks.map((task, index) => {
-                    let { width, left } = calculateTaskStyle(task);
+                    let {width, left} = calculateTaskStyle(task);
                     let marginLeftVar = index !== 0 ? previousTasks[index - 1].widthPercentage : null;
                     let regex = /(?<=calc\()\d+(\.\d+)?(?=px\))/;
                     let finalMargin = selectedDropdownId === project.id ? (parseInt(left.match(regex)) - marginLeftVar) : parseInt(left.match(regex));
@@ -277,9 +292,10 @@ const GanttViewProject = ({ customize, data }) => {
                           <div className="gantt-container-section-main-tasks-m">
                             <div
                                 className="gantt-container-section-main-tasks-t"
-                                style={{ width: width, left: finalMargin }}
+                                style={{width: width, left: finalMargin}}
                             >
-                              <div className="gantt-container-section-main-tasks-t-content" style={defaultStyles.taskContainer}>
+                              <div className="gantt-container-section-main-tasks-t-content"
+                                   style={defaultStyles.taskContainer}>
                                 <p>
                           <span>
                             {moment(task.start, "MM/DD/YYYY").format("DD/MM/YYYY")} -{" "}
