@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import moment from "moment";
 
-import {calculateWidthAndMargin} from '../constants/ganttUtils';
+import {calculateWidthAndMargin, weekHaveTask} from '../constants/ganttUtils';
 import {mergeStyles} from "./gantt";
 
 import Icon from '../assets/picto/arrow-left.svg';
@@ -24,8 +24,8 @@ const GanttViewProject = ({ customize, data }) => {
   const [projects, setProjects] = useState([]);
   const [timelineWeeks, setTimelineWeeks] = useState([]);
   const [previousTasks, setPreviousTasks] = useState([]);
-
   const [selectedDropdownId, setSelectedDropdownId] = useState(null);
+  const [weekWithoutTask, setWeekWithoutTask] = useState(0);
   const toggleDropdown = (id) => {
     if (selectedDropdownId === id) {
       setSelectedDropdownId(null);
@@ -42,37 +42,28 @@ const GanttViewProject = ({ customize, data }) => {
     const startDate = moment.min(
         users.map((user) =>
             user.tasks.map((task) =>
-                moment(task.start).startOf("isoWeek")
+                moment(task.start)
             )
         ).flat()
     );
 
     const endDate = moment.max(
-        users.map((user) =>
-            user.tasks.map((task, i) =>
-                moment(task.end).startOf("isoWeek")
-            )
-        ).flat()
+        users.flatMap((user) => {
+          return user.tasks.map((task) => {
+            return moment(task.end);
+          });
+        })
     );
-
-    // Add 1 week after endDate to display the last week
-    endDate.add(1, "weeks");
 
     const weekList = [];
     let currentWeek = startDate.clone().startOf("isoWeek");
-
-
-
     while (currentWeek.isBefore(endDate)) {
-      if (currentWeek.startOf("isoWeek").isBefore(endDate)) {
-        const endWeek = currentWeek.clone().add(4, "days");
-        weekList.push({
-          start: currentWeek.format("YYYY-MM-DD"),
-          end: endWeek.format("YYYY-MM-DD"),
-        });
-      }
+      const endWeek = currentWeek.clone().add(4, "days");
+      weekList.push({
+        start: currentWeek.format("YYYY-MM-DD"),
+        end: endWeek.format("YYYY-MM-DD"),
+      });
       currentWeek.add(7, "days");
-
     }
     return weekList;
   }, [users]);
@@ -85,24 +76,26 @@ const GanttViewProject = ({ customize, data }) => {
           const projectId = project.id;
           const taskId = task.id;
           const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
-          task.user = excludeAttribute(user, "tasks");
           if (projectIndex === -1) {
             projectsMap.push({
               id: projectId,
               name: project.name,
               tasks: [task],
-              users: [excludeAttribute(user, "tasks")]
+              users: [user]
             });
           } else {
-            const taskIndex = projectsMap[0].tasks.findIndex((t) => t.id === taskId);
+            const taskIndex = projectsMap[projectIndex].tasks.findIndex((t) => t.id === taskId);
+            const userIndex = projectsMap[projectIndex].users.findIndex((u) => u.id === user.id);
             if (taskIndex === -1) {
-              projectsMap[projectIndex].tasks.push();
-              projectsMap[projectIndex].users.push(excludeAttribute(user, "tasks"));
+              projectsMap[projectIndex].tasks.push(task);
+              if (userIndex === -1) {
+                  projectsMap[projectIndex].users.push(user);
+              }
             }
           }
         })
     );
-    return sortByChronologicalOrder(projectsMap);
+    return sortProjectByChronologicalOrder(projectsMap);
   }, [users]);
 
   useEffect(() => {
@@ -127,7 +120,7 @@ const GanttViewProject = ({ customize, data }) => {
     return rest;
   }
 
-  function sortByChronologicalOrder(projects) {
+  function sortProjectByChronologicalOrder(projects) {
     function getProjectDateRange(project) {
       const startDates = project.tasks.map(task => new Date(task.start).getTime());
       const endDates = project.tasks.map(task => new Date(task.end).getTime());
@@ -156,7 +149,13 @@ const GanttViewProject = ({ customize, data }) => {
       }
     }
 
-    return [...projects].sort(compareProjects);
+    const sortedProjects = [...projects].sort(compareProjects);
+    // Sort tasks within each project
+    sortedProjects.forEach(project => {
+      project.tasks.sort((a, b) => new Date(a.start) - new Date(b.start));
+    });
+
+    return sortedProjects;
   }
 
   const styles = mergeStyles(defaultStyles, customize);
@@ -188,16 +187,26 @@ const GanttViewProject = ({ customize, data }) => {
                   null,
                   "[]"
               );
+              const isWeekHaveTask = weekHaveTask(users, startOfWeek, endOfWeek) || isCurrentWeek;
               return (
                   <div
-                      className={`gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${index === 0 ? "start" : index === timelineWeeks.length - 1 ? "end" : ""}`}
+                      className={`gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${index === 0 ? "start" : index === timelineWeeks.length - 1 ? "end" : ""} ${isWeekHaveTask ? "" : "no-task"}`}
                       key={index}
-                      style={styles.daysContainer}
-                  >
-                    <p>
-                      {moment(week.start).format("DD MMMM")} -{" "}
-                      {moment(week.end).format("DD MMMM")}
-                    </p>
+                      style={styles.daysContainer}>
+                      {isCurrentWeek ? (
+                          <div className="todayDiv">
+                            <p className="todayText"><b>Aujourd'hui</b></p>
+                            <p className="weekDate">
+                              {moment(week.start).format("DD MMMM")} -{" "}
+                              {moment(week.end).format("DD MMMM")}
+                            </p>
+                          </div>
+                      ) : (
+                          <p className="weekDate">
+                            {moment(week.start).format("DD MMMM")} -{" "}
+                            {moment(week.end).format("DD MMMM")}
+                          </p>
+                      )}
                   </div>
               );
             })}
@@ -206,10 +215,7 @@ const GanttViewProject = ({ customize, data }) => {
 
         <div className="gantt-container-section-sidebar">
           {projects.map((project) => (
-              <div
-                  className="gantt-container-section-sidebar-line"
-                  key={project.id}
-              >
+              <div className="gantt-container-section-sidebar-line" key={project.id}>
                 <div className="gantt-container-section-sidebar-tasks project" style={defaultStyles.sidebarProjects}>
                   <div className="gantt-container-section-sidebar-task">
                     <div className="gantt-container-section-sidebar-task-client">
@@ -219,8 +225,7 @@ const GanttViewProject = ({ customize, data }) => {
                     </div>
                     <div
                         className="gantt-container-section-sidebar-task-icon"
-                        onClick={() => toggleDropdown(project.id)}
-                    >
+                        onClick={() => toggleDropdown(project.id)}>
                       <img
                           src={Icon}
                           alt={"dropdown-arrow-gantt"}
@@ -233,41 +238,40 @@ const GanttViewProject = ({ customize, data }) => {
                       />
                     </div>
                   </div>
-                  {project.id === selectedDropdownId && (
-                      <div className="gantt-container-section-sidebar-dropdown-content">
-                        {project.users.map((user, index) => {
-                          return (
-                              <div
-                                  className="gantt-container-section-sidebar-dropdown-content-user"
-                                  key={index}
-                              >
-                                <div className="gantt-container-section-sidebar-dropdown-content-user-div">
-                                  <div className="user-info">
-                                    <img
-                                        src={user.urlAvatar}
-                                        alt={`Avatar de ${user.firstName} ${user.lastName}`}
-                                        className={"avatar-img"}
-                                    />
-                                    <div className="user-info-p">
-                                      <p>{user.firstName} {user.lastName}</p>
+                    {project.id === selectedDropdownId && (
+                        <div className="gantt-container-section-sidebar-dropdown-content">
+                            {project.users.map((user, index) => {
+                                return (
+                                    <div
+                                        className="gantt-container-section-sidebar-dropdown-content-user"
+                                        key={index}
+                                    >
+                                        <div className="gantt-container-section-sidebar-dropdown-content-user-div">
+                                            <div className="user-info">
+                                                <img
+                                                    src={user.urlAvatar}
+                                                    alt={`Avatar de ${user.firstName} ${user.lastName}`}
+                                                    className={"avatar-img"}
+                                                />
+                                                <div className="user-info-p">
+                                                    <p>{user.firstName} {user.lastName}</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                  </div>
-                                </div>
-                              </div>
-                          );
-                        })}
-                      </div>
-                  )}
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
-                <div className="gantt-task-container" style={
-                  selectedDropdownId === project.id ? { flexDirection: 'column', marginTop: '115px' } : { flexDirection: 'row' }
-                }>
+                  <div className="gantt-task-container" style={
+                      selectedDropdownId === project.id ? { flexDirection: 'column', marginTop: '115px' } : { flexDirection: 'row' }
+                  }>
                   {project.tasks.map((task, index) => {
-                    let { width, left } = calculateTaskStyle(task)
+                    let { width, left } = calculateTaskStyle(task);
                     let marginLeftVar = index !== 0 ? previousTasks[index - 1].widthPercentage : null;
-                    let regex = /(?<=calc\()\d+(\.\d+)?(?=px\))/
+                    let regex = /(?<=calc\()\d+(\.\d+)?(?=px\))/;
                     let finalMargin = selectedDropdownId === project.id ? (parseInt(left.match(regex)) - marginLeftVar) : parseInt(left.match(regex));
-
                     return (
                         <div className="gantt-container-section-main-tasks project" key={task.id}>
                           <div className="gantt-container-section-main-tasks-m">
@@ -278,8 +282,8 @@ const GanttViewProject = ({ customize, data }) => {
                               <div className="gantt-container-section-main-tasks-t-content" style={defaultStyles.taskContainer}>
                                 <p>
                           <span>
-                            {moment(task.start).format("DD/MM/YYYY")} -{" "}
-                            {moment(task.end).format("DD/MM/YYYY")}
+                            {moment(task.start, "MM/DD/YYYY").format("DD/MM/YYYY")} -{" "}
+                            {moment(task.end, "MM/DD/YYYY").format("DD/MM/YYYY")}
                           </span>
                                 </p>
                                 <p className="title">
@@ -291,46 +295,6 @@ const GanttViewProject = ({ customize, data }) => {
                               </div>
                             </div>
                           </div>
-
-                          {
-                            <div
-                                className="gantt-container-section-main-tasks-u"
-                                key={task.user.id}
-                            >
-                              {task.id === selectedDropdownId && (
-                                  <>
-                                    {task.user.tasks.map((userTask, index) => {
-                                      const { widthPercentage, taskMarginLeft } =
-                                          calculateWidthAndMargin(
-                                              userTask.start,
-                                              userTask.end,
-                                              timelineWeeks[0].start,
-                                              250
-                                          );
-
-                                      const taskStyle = {
-                                        width: `${widthPercentage}px`,
-                                        left: `calc(${taskMarginLeft}px)`,
-                                      };
-
-                                      if (index > 0) {
-                                        taskStyle.marginLeft = "5px";
-                                      }
-
-                                      return (
-                                          <div
-                                              className="gantt-container-section-main-tasks-t"
-                                              key={userTask.id}
-                                              style={taskStyle}
-                                          >
-
-                                          </div>
-                                      );
-                                    })}
-                                  </>
-                              )}
-                            </div>
-                          }
                         </div>
                     );
                   })}

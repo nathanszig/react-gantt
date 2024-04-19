@@ -41,59 +41,83 @@ export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, 
   return { widthPercentage, taskMarginLeft };
 };
 
+export const weekHaveTask = (users, startOfWeek, endOfWeek) => {
+    users.some((user) =>
+        user.tasks.some((task) =>
+            moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+            moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+            moment(task.start).isBefore(startOfWeek) && (moment(task.end).isAfter(endOfWeek)) ||
+            moment(task.start).isBefore(startOfWeek) && moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+            moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") && moment(task.end).isAfter(endOfWeek)
+        )
+    );
+}
+
 export const fakeData = {
     "users": [
         {
             "id": 1,
+            "firstName" : "Benjamin",
+            "lastName": "Burstein",
+            "urlAvatar": 'https://imgs.search.brave.com/t4L94ou3SfcKiE_0WyoTVv5QuhOCRaI5DDe29Lg75Oc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xNDA3Mi8xNDA3/MjY1Ni5wbmc',
+            "tasks" : [
+                {
+                    "id": 1,
+                    "project": {
+                        "name": "project1",
+                        "id": 1
+                    },
+                    "name": "task1",
+                    "start": "12/25/2024",
+                    "end": "12/29/2024",
+                    "description": "la tache de benji",
+                    "taskImgUrl": "",
+                },
+                {
+                    "id": 1,
+                    "project": {
+                        "name": "project2",
+                        "id": 2
+                    },
+                    "name": "task2",
+                    "start": "12/29/2023",
+                    "end": "01/02/2024",
+                    "description": "la tache de benji",
+                    "taskImgUrl": "",
+                },
+            ]
+        },
+        {
+            "id": 2,
             "firstName" : "Nathan",
             "lastName": "szigeti",
             "urlAvatar": 'https://imgs.search.brave.com/t4L94ou3SfcKiE_0WyoTVv5QuhOCRaI5DDe29Lg75Oc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xNDA3Mi8xNDA3/MjY1Ni5wbmc',
             "tasks" : [
                 {
-                    "id": "MXP-1",
+                    "id": 2,
                     "project": {
-                        "name": "projectTest",
+                        "name": "project1",
                         "id": 1
                     },
-                    "name": "test",
-                    "start": "12/01/2024",
-                    "end": "01/05/2025",
-                    "description": "la tache de nathan",
+                    "name": "task3",
+                    "start": "07/21/2024",
+                    "end": "12/27/2024",
+                    "description": "la mission de nathan",
+                    "taskImgUrl": "",
                 },
                 {
-                  "id": "MXP-2",
-                  "project": {
-                      "name": "projectTest",
-                      "id": 1
-                  },
-                  "name": "test 2",
-                  "start": "01/15/2024",
-                  "end": "03/02/2024",
-                  "description": "la tache de nathan 2",
-                },
-                {
-                  "id": "MXP-3",
-                  "project": {
-                      "name": "project2",
-                      "id": 2
-                  },
-                  "name": "test 3",
-                  "start": "12/01/2023",
-                  "end": "12/14/2023",
-                  "description": "la tache de nathan 3",
-                },
-                {
-                    "id": "MXP-4",
+                    "id": 2,
                     "project": {
-                        "name": "project3",
-                        "id": 3
+                        "name": "project2",
+                        "id": 2
                     },
-                    "name": "test 3",
-                    "start": "12/01/2023",
-                    "end": "12/02/2023",
-                    "description": "la tache de nathan 3",
-                }
+                    "name": "task4",
+                    "start": "12/21/2023",
+                    "end": "05/15/2024",
+                    "description": "la deuxième mission de nathan",
+                    "taskImgUrl": "",
+                },
             ]
-        }
+        },
     ]
 }
