@@ -1,6 +1,6 @@
 import React from 'react';
-import arrowLeft from '../assets/arrow-left.svg';
-import arrowRight from '../assets/arrow-right.svg';
+import arrowLeft from '../assets/pictos/arrow-left.svg';
+import arrowRight from '../assets/pictos/arrow-right.svg';
 import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'

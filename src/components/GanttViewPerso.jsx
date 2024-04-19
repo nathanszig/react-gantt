@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
-import moment from "moment";
+import GanttTimelineHeader from "./ganttTimelineHeader";
+import GanttSidebar from "./ganttSidebar";
+import GanttTaskContainer from "./GanttTaskContainer";
+// import moment from "moment";
 
-import { calculateWidthAndMargin } from '../constants/ganttUtils';
+// import { calculateWidthAndMargin } from '../constants/ganttUtils';
+
+import { getProjects } from '../assets/utils/ganttUtils';
 import { mergeStyles } from "./gantt";
 import AllProjectsLine from "./AllProjectsLine";
 
-import Icon from '../assets/arrow-left.svg';
-
+import Icon from '../assets/pictos/arrow-left.svg';
 
 const GanttViewPerso = ({ customize, data }) => {
-
   const defaultStyles = {
     sidebarProjects: {
       background: '#fff',
@@ -25,10 +28,25 @@ const GanttViewPerso = ({ customize, data }) => {
 
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [timelineWeeks, setTimelineWeeks] = useState([]);
   const [previousTasks, setPreviousTasks] = useState([]);
-
   const [selectedDropdownId, setSelectedDropdownId] = useState(null);
+  // const [timelineWeeks, setTimelineWeeks] = useState([]);
+
+  const getUsers = useCallback(() => {
+    setUsers(data && data.users ? data.users : []);
+  }, [data]);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      setProjects(getProjects(users))
+    }
+  }, [users]);
+
+  useEffect(() => {
+    getUsers();
+    setPreviousTasks([]);
+  }, [getUsers]);
+
   const toggleDropdown = (id) => {
     if (selectedDropdownId === id) {
       setSelectedDropdownId(null);
@@ -37,192 +55,33 @@ const GanttViewPerso = ({ customize, data }) => {
     }
   };
 
-  const getUsers = useCallback(() => {
-    setUsers(data && data.users ? data.users : []);
-  }, [data]);
+  // function excludeAttribute(obj, attributeToExclude) {
+  //   const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
+  //   return rest;
+  // }
 
-  const getWeekList = useCallback(() => {
-    const startDate = moment.min(
-      users.map((user) =>
-        user.tasks.map((task) =>
-          moment(task.start).startOf("isoWeek")
-        )
-      ).flat()
-    );
-
-    const endDate = moment.max(
-      users.map((user) =>
-        user.tasks.map((task, i) =>
-          moment(task.end).startOf("isoWeek")
-        )
-      ).flat()
-    );
-
-    // Add 1 week after endDate to display the last week
-    endDate.add(1, "weeks");
-
-    const weekList = [];
-    let currentWeek = startDate.clone().startOf("isoWeek");
-
-
-
-    while (currentWeek.isBefore(endDate)) {
-      if (currentWeek.startOf("isoWeek").isBefore(endDate)) {
-        const endWeek = currentWeek.clone().add(4, "days");
-        weekList.push({
-          start: currentWeek.format("YYYY-MM-DD"),
-          end: endWeek.format("YYYY-MM-DD"),
-        });
-        console.log(weekList);
-      }
-      currentWeek.add(7, "days");
-
-    }
-    return weekList;
-  }, [users]);
-
-  const getProjects = useCallback(() => {
-    const projectsMap = [];
-    users.forEach((user) =>
-      user.tasks.forEach((task) => {
-        const project = task.project;
-        const projectId = project.id;
-        const taskId = task.id;
-        const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
-        task.user = excludeAttribute(user, "tasks");
-        if (projectIndex === -1) {
-          projectsMap.push({
-            id: projectId,
-            name: project.name,
-            tasks: [task],
-            users: [excludeAttribute(user, "tasks")]
-          });
-        } else {
-          const taskIndex = projectsMap[0].tasks.findIndex((t) => t.id === taskId);
-          if (taskIndex === -1) {
-            projectsMap[projectIndex].tasks.push();
-            projectsMap[projectIndex].users.push(excludeAttribute(user, "tasks"));
-          }
-        }
-      })
-    );
-    return sortByChronologicalOrder(projectsMap);
-  }, [users]);
-
-  useEffect(() => {
-    getUsers();
-    setPreviousTasks([]);
-  }, [getUsers]);
-
-  useEffect(() => {
-    if (users.length > 0) {
-      setTimelineWeeks(getWeekList());
-    }
-  }, [users, getWeekList]);
-
-  useEffect(() => {
-    if (users.length > 0) {
-      setProjects(getProjects())
-    }
-  }, [users, getProjects])
-
-  function excludeAttribute(obj, attributeToExclude) {
-    const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
-    return rest;
-  }
-
-  function sortByChronologicalOrder(projects) {
-    function getProjectDateRange(project) {
-      const startDates = project.tasks.map(task => new Date(task.start).getTime());
-      const endDates = project.tasks.map(task => new Date(task.end).getTime());
-      const startDate = new Date(Math.min(...startDates));
-      const endDate = new Date(Math.max(...endDates));
-      return { startDate, endDate };
-    }
-
-    function compareProjects(a, b) {
-      const dateRangeA = getProjectDateRange(a);
-      const dateRangeB = getProjectDateRange(b);
-
-      if (dateRangeA.startDate < dateRangeB.startDate) {
-        return -1;
-      } else if (dateRangeA.startDate > dateRangeB.startDate) {
-        return 1;
-      } else {
-        // If start dates are the same, sort based on end date
-        if (dateRangeA.endDate < dateRangeB.endDate) {
-          return -1;
-        } else if (dateRangeA.endDate > dateRangeB.endDate) {
-          return 1;
-        } else {
-          return 0;
-        }
-      }
-    }
-
-    return [...projects].sort(compareProjects);
-  }
 
   const styles = mergeStyles(defaultStyles, customize);
-
-  const calculateTaskStyle = (task) => {
-    const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(
-      task.start,
-      task.end,
-      timelineWeeks[0].start,
-      250
-    );
-    previousTasks.push({ widthPercentage, taskMarginLeft });
-    return {
-      width: `${widthPercentage}px`,
-      left: `calc(${taskMarginLeft}px)`,
-    };
-  };
 
   return (
     <section className="gantt-container-section">
       <div className="gantt-container-section-timeline">
-        <div className="gantt-container-section-timeline-header" >
-          {timelineWeeks.map((week, index) => {
-            const startOfWeek = moment(week.start, "YYYY-MM-DD");
-            const endOfWeek = moment(week.end, "YYYY-MM-DD");
-            const today = moment().startOf("day");
-            const isCurrentWeek = today.isBetween(
-              startOfWeek,
-              endOfWeek.add(2, 'days'),
-              null,
-              "[]"
-            );
-            console.log('timelineWeeks');
-            console.log(timelineWeeks);
-            console.log('week ' + index);
-            console.log(week)
-            return (
-              <div className={
-                `gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${index === 0 ? "start" : index === timelineWeeks.length - 1 ? "end" : ""}`
-              }
-                key={index}
-                style={styles.daysContainer}>
-                <p>
-                  {moment(week.start).format("DD MMMM")} -{" "}
-                  {moment(week.end).format("DD MMMM")}
-                </p>
-              </div>
-            );
-          })}
-        </div>
+        <GanttTimelineHeader users={users} styleData={styles} />
       </div>
 
       <div className="gantt-container-section-sidebar">
-        <AllProjectsLine toggled="true" />
+        {/* <AllProjectsLine toggled="true" /> */}
 
         {projects.map((project) => (
           <div
             className="gantt-container-section-sidebar-line"
             key={project.id}
           >
+            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId} toggleDropdown={toggleDropdown} view="project" />
 
-            <div className="gantt-container-section-sidebar-tasks project" style={defaultStyles.sidebarProjects}>
+            <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project} styleData={styles} previousTasks={previousTasks} />
+
+            {/* <div className="gantt-container-section-sidebar-tasks project" style={defaultStyles.sidebarProjects}>
               <div className="gantt-container-section-sidebar-task">
                 <div className="gantt-container-section-sidebar-task-client">
                   <p className="gantt-container-section-sidebar-task-client-name">
@@ -336,7 +195,7 @@ const GanttViewPerso = ({ customize, data }) => {
                   </div>
                 )
               })}
-            </div>
+            </div> */}
           </div>
         ))}
 

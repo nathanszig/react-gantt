@@ -1,4 +1,4 @@
-import Icon from '../assets/arrow-left.svg';
+import Icon from '../assets/pictos/arrow-left.svg';
 
 const AllProjectsLine = (toggled) => {
 
