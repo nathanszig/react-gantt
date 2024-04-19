@@ -1,11 +1,5 @@
 import moment from 'moment';
 
-export const constants = {
-  ExclamationIcon: '/images/pictos/warning.svg',
-  ArrowLeft: '/images/pictos/arrowGanttLeft.svg',
-  ArrowRight: '/images/pictos/arrowGanttRight.svg',
-};
-
 export const getDurationInDays = (startAt, endAt, firstWeekStartDate) => {
   const startDate = new Date(startAt);
   const endDate = new Date(endAt);
@@ -65,7 +59,7 @@ export const fakeData = {
             "id": 1,
             "firstName" : "Benjamin",
             "lastName": "Burstein",
-            "urlAvatar": "",
+            "urlAvatar": 'https://imgs.search.brave.com/t4L94ou3SfcKiE_0WyoTVv5QuhOCRaI5DDe29Lg75Oc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xNDA3Mi8xNDA3/MjY1Ni5wbmc',
             "tasks" : [
                 {
                     "id": 1,
@@ -97,7 +91,7 @@ export const fakeData = {
             "id": 2,
             "firstName" : "Nathan",
             "lastName": "szigeti",
-            "urlAvatar": "",
+            "urlAvatar": 'https://imgs.search.brave.com/t4L94ou3SfcKiE_0WyoTVv5QuhOCRaI5DDe29Lg75Oc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xNDA3Mi8xNDA3/MjY1Ni5wbmc',
             "tasks" : [
                 {
                     "id": 2,

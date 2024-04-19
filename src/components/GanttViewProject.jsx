@@ -4,11 +4,9 @@ import moment from "moment";
 import {calculateWidthAndMargin, weekHaveTask} from '../constants/ganttUtils';
 import {mergeStyles} from "./gantt";
 
-import Icon from '../arrow-left.svg';
-
+import Icon from '../assets/picto/arrow-left.svg';
 
 const GanttViewProject = ({ customize, data }) => {
-
   const defaultStyles = {
     sidebarProjects: {
       background: '#fff',
@@ -175,7 +173,6 @@ const GanttViewProject = ({ customize, data }) => {
       left: `calc(${taskMarginLeft}px)`,
     };
   };
-
   return (
       <section className="gantt-container-section">
         <div className="gantt-container-section-timeline">
@@ -241,22 +238,35 @@ const GanttViewProject = ({ customize, data }) => {
                       />
                     </div>
                   </div>
-                  {project.id === selectedDropdownId && (
-                      <div className="gantt-container-section-sidebar-dropdown-content">
-                        {project.users.map((user) => (
-                            <div className="gantt-container-section-sidebar-dropdown-content-user" key={user.id}>
-                              <div className="gantt-container-section-sidebar-dropdown-content-user-p">
-                                <p>{user.firstName}</p>
-                                <p>{user.lastName}</p>
-                              </div>
-                            </div>
-                        ))}
-                      </div>
-                  )}
+                    {project.id === selectedDropdownId && (
+                        <div className="gantt-container-section-sidebar-dropdown-content">
+                            {project.users.map((user, index) => {
+                                return (
+                                    <div
+                                        className="gantt-container-section-sidebar-dropdown-content-user"
+                                        key={index}
+                                    >
+                                        <div className="gantt-container-section-sidebar-dropdown-content-user-div">
+                                            <div className="user-info">
+                                                <img
+                                                    src={user.urlAvatar}
+                                                    alt={`Avatar de ${user.firstName} ${user.lastName}`}
+                                                    className={"avatar-img"}
+                                                />
+                                                <div className="user-info-p">
+                                                    <p>{user.firstName} {user.lastName}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
-                <div className="gantt-task-container" style={
-                  selectedDropdownId === project.id ? { flexDirection: 'column', marginTop: '115px' } : { flexDirection: 'row' }
-                }>
+                  <div className="gantt-task-container" style={
+                      selectedDropdownId === project.id ? { flexDirection: 'column', marginTop: '115px' } : { flexDirection: 'row' }
+                  }>
                   {project.tasks.map((task, index) => {
                     let { width, left } = calculateTaskStyle(task);
                     let marginLeftVar = index !== 0 ? previousTasks[index - 1].widthPercentage : null;

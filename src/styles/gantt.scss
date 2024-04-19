@@ -202,7 +202,7 @@
 
             &-dropdown {
                 &-content {
-                    &-user {
+                    &-user-div {
                         padding: 4px 20px;
                         border-top: 1px solid ;
                         display: flex;
@@ -210,23 +210,27 @@
                         justify-content: center;
                         height: 110px;
                         max-height: 110px;
-                        &-p{
+                        .user-info{
                             display: flex;
-                            gap: 10px;
+                            flex-direction: column;
+                            align-items: center;
+                            &-p {
+                               display: flex;
+                                flex-flow: row;
+                                gap: 10px;
+                            }
                         }
-
                         p {
                             font-size: 12px;
                             line-height: 16px;
                         }
 
-                        &-image {
-                            width: 48px;
-                            height: 48px;
+                        .avatar-img {
+                            width: 60px;
+                            height: 60px;
                             border-radius: 90px;
-                            border: 2px solid #FFFFFF;
+                            margin-top: 20px;
                         }
-
                     }
                 }
             }
