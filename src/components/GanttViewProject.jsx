@@ -52,7 +52,6 @@ const GanttViewProject = ({ customize, data }) => {
     const endDate = moment.max(
         users.flatMap((user) => {
           return user.tasks.map((task) => {
-            console.log('task ', task);
             return moment(task.end);
           });
         })
