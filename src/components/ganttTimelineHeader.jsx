@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from "moment";
-import {weekHaveTask, getWeekList} from '../assets/utils/ganttUtils';
+import { weekHaveTask, getWeekList } from '../assets/utils/ganttUtils';
 
 const GanttTimelineHeader = (props) => {
-    
-    const timelineWeeks = getWeekList(props.users);
+
+  const timelineWeeks = getWeekList(props.users);
 
     return (
         <div className="gantt-container-section-timeline-header">
