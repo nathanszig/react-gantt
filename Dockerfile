@@ -1,5 +1,5 @@
 # Utilisez l'image officielle de Node.js
-FROM node:18
+FROM node:20
 
 # Définissez le répertoire de travail à /app
 WORKDIR /app
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Commande de démarrage de l'application
-CMD ["npm", "start"]
+ENTRYPOINT ["npm", "run", "dev"]

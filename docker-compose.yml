@@ -1,12 +1,24 @@
-version: '3'
-
 services:
-  free-gantt-react:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  app:
+    container_name: react-gantt
+    build: .
     ports:
-      - "3000:3000"
+      - "5173:5173"
     volumes:
-      - .:/app
-    command: sh -c "npm install && npm start"
+      - node_modules:/app/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: sync
+          path: ./public
+          target: /app/public
+        - action: sync
+          path: ./index.html
+          target: /app/index.html
+        - action: rebuild
+          path: package.json
+
+volumes:
+  node_modules:

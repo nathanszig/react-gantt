@@ -25,15 +25,15 @@
                     border: none;
                     display: flex;
 
-                    img{
+                    img {
                         width: 10%;
                     }
                 }
 
                 button:nth-child(1) {
- 
-                        justify-content: flex-end;
-     
+
+                    justify-content: flex-end;
+
                 }
 
                 p {
@@ -96,20 +96,11 @@
                         top: 0;
                         z-index: 99999;
                     }
-                    div {
-                        display: flex;
-                        flex-flow: column;
-                        p {
-                            margin: auto;
-                            text-align: center;
-                            font-size: 14px;
-                            padding: 15px 20px;
-                        }
-                    }
+
                     p {
                         font-size: 14px;
                         padding: 10px 20px;
-                        text-align: center;
+                        // text-align: center;
                     }
 
                     &.today {
@@ -188,7 +179,8 @@
                     cursor: pointer;
                     display: flex;
                     justify-content: flex-end;
-                    img{
+
+                    img {
                         width: 20%;
                         rotate: 270deg;
                     }
@@ -202,35 +194,32 @@
 
             &-dropdown {
                 &-content {
-                    &-user-div {
+                    &-user {
                         padding: 4px 20px;
-                        border-top: 1px solid ;
+                        border-top: 1px solid;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         height: 110px;
                         max-height: 110px;
-                        .user-info{
+
+                        &-p {
                             display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            &-p {
-                               display: flex;
-                                flex-flow: row;
-                                gap: 10px;
-                            }
+                            gap: 10px;
                         }
+
                         p {
                             font-size: 12px;
                             line-height: 16px;
                         }
 
-                        .avatar-img {
-                            width: 60px;
-                            height: 60px;
+                        &-image {
+                            width: 48px;
+                            height: 48px;
                             border-radius: 90px;
-                            margin-top: 20px;
+                            border: 2px solid #FFFFFF;
                         }
+
                     }
                 }
             }
@@ -270,9 +259,9 @@
 
                     .gantt-container-section-main-tasks-t {
                         &-content {
-                            
+
                             p {
-                                
+
                                 font-size: 16px;
                             }
                         }
@@ -288,7 +277,7 @@
                     &-content {
                         display: flex;
                         align-items: center;
-                        
+
                         border-radius: 8px;
                         background: var(--light-grey, #F7F7F7);
                         width: 100%;
@@ -311,13 +300,15 @@
                             width: 100%;
                             text-overflow: ellipsis;
                         }
-                        .title{
+
+                        .title {
                             margin-top: 15px;
                             font-weight: 700;
                             font-size: 18px;
                             margin-bottom: 5px;
                         }
-                        .description{
+
+                        .description {
                             font-size: 12px;
                         }
                     }
@@ -364,7 +355,7 @@
             }
         }
 
-        .gantt-task-container{
+        .gantt-task-container {
             display: flex;
             flex-direction: column;
         }

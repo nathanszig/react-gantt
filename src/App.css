@@ -32,6 +32,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -43,7 +44,8 @@
   float: left;
 }
 
-.task-table th, .task-table td {
+.task-table th,
+.task-table td {
   border: 1px solid black;
   padding: 10px;
   text-align: left;
@@ -82,7 +84,7 @@
   background-color: #FFA500;
 }
 
-.select-custom-secondary{
+.select-custom-secondary {
   padding: 5px;
   border-radius: 5px;
   border: solid 1px lightgray;
