@@ -68,20 +68,6 @@
                 position: relative;
             }
 
-            .new-year-message {
-                position: absolute;
-                top: -30px;
-                left: 0;
-                width: 100%;
-                text-align: left;
-                font-size: 20px;
-                padding: 5px 0 0 5px;
-                border-left: 1px black solid;
-                height: 90px;
-                margin-left: -2px;
-                
-            }
-
             &-empty {
                 flex: 1 1;
                 height: 100%;
@@ -92,10 +78,23 @@
 
             &-header {
                 display: flex;
-                // flex: 5 1;
                 justify-content: flex-end;
-                align-items: center;
                 gap: 3px;
+                flex-flow: row;
+                &-weeks {
+                  &-year {
+                    b {
+                      overflow-x: auto;
+                      overflow-y: auto;
+                      position: sticky;
+
+                    }
+                  }
+                  &-content {
+                    display: flex;
+                  }
+
+                }
 
                 &-days {
 
