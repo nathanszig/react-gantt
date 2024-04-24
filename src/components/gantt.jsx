@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import arrowLeft from '../assets/pictos/arrow-left.svg';
 import arrowRight from '../assets/pictos/arrow-right.svg';
 import '../styles/gantt.scss';
@@ -7,6 +7,7 @@ import GanttViewProject from './GanttViewProject'
 import GanttViewPerso from './GanttViewPerso'
 
 export function mergeStyles(target, source) {
+
   for (const key in source) {
     if (typeof source[key] === 'object') {
       // Si la valeur est un objet, fusionnez récursivement
@@ -41,6 +42,8 @@ export const handleMoveToEnd = () => {
 }
 
 const Gantt = ({ customize, data }) => {
+  const [testData, setTestData] = useState(data);
+  const [view, setView] = useState("project");
   const defaultStyles = {
     todayButton: {
       background: '#FFF',
@@ -57,7 +60,6 @@ const Gantt = ({ customize, data }) => {
 
   };
 
-
   const handleMoveLeft = () => {
     const ganttContainer = document.querySelector(".gantt-container-section");
     if (ganttContainer) {
@@ -71,6 +73,17 @@ const Gantt = ({ customize, data }) => {
       ganttContainer.scrollLeft += 500;
     }
   };
+
+
+  const selectUser = (userId) => {
+    console.log(userId)
+    // Sort to only get the data of the selected user
+    const selectedUser = data.users.filter(user => user.id === userId);
+    let newdata = { users: [selectedUser[0]] }
+    setTestData(newdata);  
+    console.log(selectedUser);
+    setView("user");
+  }
 
   const styles = mergeStyles(defaultStyles, customize);
 
@@ -92,9 +105,17 @@ const Gantt = ({ customize, data }) => {
         </div>
       </div>
       {
+        view == "project" ?
         <GanttViewProject
           customize={styles}
-          data={data}
+          data={testData}
+          selectUser={selectUser}
+        />
+        : 
+        <GanttViewPerso
+          customize={styles}
+          data={testData}
+          selectUser={selectUser}
         />
       }
     </div>

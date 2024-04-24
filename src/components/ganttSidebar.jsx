@@ -48,7 +48,7 @@ const GanttSidebar = (props) => {
                       className={"avatar-img"}
                     />
                     <div className="user-info-p">
-                      <p>{user.firstName} {user.lastName}</p>
+                      <p onClick={()=>props.selectUser(user.id)}>{user.firstName} {user.lastName}</p>
                     </div>
                   </div>
                 </div>
