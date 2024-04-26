@@ -19,10 +19,10 @@ export const fakeData = {
                     "taskImgUrl": "",
                 },
                 {
-                    "id": 1,
+                    "id": 3,
                     "project": {
-                        "name": "project2",
-                        "id": 2
+                        "name": "project1",
+                        "id": 1
                     },
                     "name": "task2",
                     "start": "12/19/2023",

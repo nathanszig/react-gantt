@@ -1,5 +1,9 @@
 import moment from 'moment';
 
+export const PROJECT = "project";
+export const PERSO = "perso";
+export const USERS = "users";
+
 export const getDurationInDays = (startAt, endAt, firstWeekStartDate) => {
   const startDate = new Date(startAt);
   const endDate = new Date(endAt);
@@ -133,6 +137,7 @@ export const getWeekList = (users) => {
           const projectId = project.id;
           const taskId = task.id;
           const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
+          task.user = excludeAttribute(user, 'tasks');
           if (projectIndex === -1) {
             projectsMap.push({
               id: projectId,
@@ -153,4 +158,9 @@ export const getWeekList = (users) => {
         })
     );
     return sortProjectByChronologicalOrder(projectsMap);
+  }
+
+  export const excludeAttribute = (obj, attributeToExclude) => {
+     const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
+     return rest;
   }

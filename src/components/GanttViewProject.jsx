@@ -50,11 +50,6 @@ const GanttViewProject = ({ customize, data, selectUser }) => {
     }
   };
 
-  // function excludeAttribute(obj, attributeToExclude) {
-  //   const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
-  //   return rest;
-  // }
-
   const styles = mergeStyles(defaultStyles, customize);
 
   return (
