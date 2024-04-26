@@ -76,12 +76,14 @@ const GanttViewProject = ({ customize, data, selectUser }) => {
       <div className="gantt-container-section-timeline">
         <GanttTimelineHeader users={users} styleData={styles}/>
       </div>
-      <p>{user.firstName} {user.lastName}</p>
-      <img
-        src={user.urlAvatar}
-        alt={`Avatar de ${user.firstName} ${user.lastName}`}
-        className={"avatar-img"}
-      />
+      <div className={"gantt-perso-info"}>
+        <img
+          src={user.urlAvatar}
+          alt={`Avatar de ${user.firstName} ${user.lastName}`}
+          className={"avatar-img"}
+        />
+        <p className={"gantt-perso-info-name"}>{user.firstName} {user.lastName}</p>
+      </div>
       <div className="gantt-container-section-sidebar">
         {projects.map((project) => (
           <div className="gantt-container-section-sidebar-line" key={project.id}>

@@ -55,6 +55,25 @@
         width: 100%;
         position: relative;
         overflow-x: scroll;
+
+      & .gantt-perso-info{
+          display: flex;
+        justify-content: center;
+        gap: 10px;
+        position: absolute;
+        flex-direction: column;
+        left: 0px;
+        top: 10px;
+
+        .avatar-img{
+          width: 100px;
+        }
+        &-name{
+          font-size: 16px;
+          font-weight: 700;
+
+        }
+      }
         &-timeline {
             margin-left: 244px;
             padding: 0 0 20px 0;
