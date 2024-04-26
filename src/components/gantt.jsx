@@ -5,7 +5,7 @@ import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import GanttViewPerso from './GanttViewPerso'
-import {PERSO} from "../assets/utils/ganttUtils";
+import {PERSO, PROJECT} from "../assets/utils/ganttUtils";
 
 export function mergeStyles(target, source) {
 
@@ -58,7 +58,6 @@ const Gantt = ({ customize, data }) => {
       border: '1px solid #000',
       borderRadius: "5px",
     },
-
   };
 
   const handleMoveLeft = () => {
@@ -70,7 +69,9 @@ const Gantt = ({ customize, data }) => {
 
   const handleMoveRight = () => {
     const ganttContainer = document.querySelector(".gantt-container-section");
+    console.log(ganttContainer);
     if (ganttContainer) {
+      console.log('there')
       ganttContainer.scrollLeft += 500;
     }
   };
@@ -105,7 +106,7 @@ const Gantt = ({ customize, data }) => {
         </div>
       </div>
       {
-        view === "project" ?
+        view === PROJECT ?
           <GanttViewProject
             customize={styles}
             data={testData}

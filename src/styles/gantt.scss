@@ -1,12 +1,15 @@
 .gantt-container {
     padding: 35px;
+    position: relative;
+    overflow-x: scroll;
 
     &-filters {
         display: flex;
         margin-bottom: 30px;
         justify-content: space-between;
         align-items: center;
-
+        position: sticky;
+        left: 0;
 
         &-slc-group {
             display: flex;
@@ -51,7 +54,7 @@
         height: 800px;
         width: 100%;
         position: relative;
-
+        overflow-x: scroll;
         &-timeline {
             margin-left: 244px;
             padding: 0 0 20px 0;
