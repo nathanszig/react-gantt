@@ -74,15 +74,16 @@ const Gantt = ({ customize, data }) => {
     }
   };
 
-
   const selectUser = (userId) => {
-    console.log(userId)
-    // Sort to only get the data of the selected user
-    const selectedUser = data.users.filter(user => user.id === userId);
-    let newdata = { users: [selectedUser[0]] }
-    setTestData(newdata);  
-    console.log(selectedUser);
-    setView("user");
+    if (view !== "user") {
+      console.log(userId)
+      // Sort to only get the data of the selected user
+      const selectedUser = data.users.filter(user => user.id === userId);
+      let newdata = { users: [selectedUser[0]] }
+      setTestData(newdata);
+      console.log(selectedUser);
+      setView("user");
+    }
   }
 
   const styles = mergeStyles(defaultStyles, customize);
