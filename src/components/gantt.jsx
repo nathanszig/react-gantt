@@ -5,6 +5,7 @@ import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import GanttViewPerso from './GanttViewPerso'
+import {PERSO} from "../assets/utils/ganttUtils";
 
 export function mergeStyles(target, source) {
 
@@ -75,14 +76,12 @@ const Gantt = ({ customize, data }) => {
   };
 
   const selectUser = (userId) => {
-    if (view !== "user") {
-      console.log(userId)
+    if (view !== PERSO) {
       // Sort to only get the data of the selected user
       const selectedUser = data.users.filter(user => user.id === userId);
-      let newdata = { users: [selectedUser[0]] }
+      const newdata = { users: [selectedUser[0]] }
       setTestData(newdata);
-      console.log(selectedUser);
-      setView("user");
+      setView(PERSO);
     }
   }
 
