@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import arrowLeft from '../assets/pictos/arrow-left.svg';
 import arrowRight from '../assets/pictos/arrow-right.svg';
 import '../styles/gantt.scss';
@@ -106,18 +106,18 @@ const Gantt = ({ customize, data }) => {
         </div>
       </div>
       {
-        view == "project" ?
-        <GanttViewProject
-          customize={styles}
-          data={testData}
-          selectUser={selectUser}
-        />
-        : 
-        <GanttViewPerso
-          customize={styles}
-          data={testData}
-          selectUser={selectUser}
-        />
+        view === "project" ?
+          <GanttViewProject
+            customize={styles}
+            data={testData}
+            selectUser={selectUser}
+          />
+          :
+          <GanttViewPerso
+            customize={styles}
+            data={testData}
+            selectUser={selectUser}
+          />
       }
     </div>
   );

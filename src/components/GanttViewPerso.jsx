@@ -28,10 +28,9 @@ const GanttViewProject = ({ customize, data, selectUser }) => {
   const [selectedDropdownId, setSelectedDropdownId] = useState(null);
 
   function createAllProject(){
-    const randomId = Math.floor(Math.random() * 99999);
-    data.users[0].tasks.forEach(task => {
+    data.users[0].tasks.forEach((task, index) => {
       const newTask = {
-        id: task.id,
+        id: index+1,
         name: task.name,
         start: task.start,
         end: task.end,
@@ -39,15 +38,12 @@ const GanttViewProject = ({ customize, data, selectUser }) => {
         taskImgUrl: task.taskImgUrl,
         project : {
           name : "All Projects",
-          id : randomId
+          id : 'allProjects'
         }
       }
       data.users[0].tasks.push(newTask);
     });
-
   }
-
-  
 
   const getUsers = useCallback(() => {
     setUsers(data && data.users ? data.users : []);
@@ -72,8 +68,6 @@ const GanttViewProject = ({ customize, data, selectUser }) => {
       setSelectedDropdownId(id);
     }
   };
-
-  
 
   // function excludeAttribute(obj, attributeToExclude) {
   //   const { [attributeToExclude]: excludedAttribute, ...rest } = obj;

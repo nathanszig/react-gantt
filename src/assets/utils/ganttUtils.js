@@ -93,6 +93,10 @@ export const getWeekList = (users) => {
     }
 
     function compareProjects(a, b) {
+      // if id of the project is allProjects, it should be at the start
+      if (a.id === 'allProjects') return -1;
+      if (b.id === 'allProjects') return 1;
+
       const dateRangeA = getProjectDateRange(a);
       const dateRangeB = getProjectDateRange(b);
 
