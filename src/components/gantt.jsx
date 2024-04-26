@@ -80,7 +80,7 @@ const Gantt = ({ customize, data }) => {
     // Sort to only get the data of the selected user
     const selectedUser = data.users.filter(user => user.id === userId);
     let newdata = { users: [selectedUser[0]] }
-    setTestData(newdata);  
+    setTestData(newdata);
     console.log(selectedUser);
     setView("user");
   }
@@ -105,13 +105,13 @@ const Gantt = ({ customize, data }) => {
         </div>
       </div>
       {
-        view == "project" ?
+        view === "project" ?
         <GanttViewProject
           customize={styles}
           data={testData}
           selectUser={selectUser}
         />
-        : 
+        :
         <GanttViewPerso
           customize={styles}
           data={testData}
