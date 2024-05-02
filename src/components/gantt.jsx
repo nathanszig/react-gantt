@@ -5,7 +5,7 @@ import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import GanttViewPerso from './GanttViewPerso'
-import {PERSO, PROJECT} from "../assets/utils/ganttUtils";
+import {PERSO, PROJECT, USERS} from "../assets/utils/ganttUtils";
 
 export function mergeStyles(target, source) {
 
@@ -24,7 +24,7 @@ export function mergeStyles(target, source) {
 export const handleMoveToToday = () => {
   const todayOnGantt = document.querySelector(".gantt-container-section .today");
   if (todayOnGantt) {
-    todayOnGantt.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    todayOnGantt.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }
 }
 
@@ -91,16 +91,22 @@ const Gantt = ({ customize, data }) => {
   return (
     <div className="gantt-container" >
       <div className="gantt-container-filters">
+        <div className="view-state-button">
+          <button className={view === PROJECT ? "active" : ""} onClick={() => setView(PROJECT)}>Projects
+          </button>
+          <button className={view === USERS ? "active" : ""} onClick={() => setView(USERS)}>Users
+          </button>
+        </div>
         <div className="gantt-container-filters-crt">
           <div className="gantt-container-filters-crt-block">
             <button className="gantt-container-filters-crt-block-btn-left" onClick={handleMoveLeft}>
-              <img src={arrowLeft} alt="Move Left" />
+              <img src={arrowLeft} alt="Move Left"/>
             </button>
             <p onClick={handleMoveToStart} style={styles.todayButton}>Début</p>
             <p onClick={handleMoveToToday} style={styles.todayButton}>Aujourd'hui</p>
             <p onClick={handleMoveToEnd} style={styles.todayButton}>Fin</p>
             <button className="gantt-container-filters-crt-block-btn-right" onClick={handleMoveRight}>
-              <img src={arrowRight} alt="Move Right" />
+              <img src={arrowRight} alt="Move Right"/>
             </button>
           </div>
         </div>

@@ -6,10 +6,30 @@
     &-filters {
         display: flex;
         margin-bottom: 30px;
-        justify-content: space-between;
         align-items: center;
         position: sticky;
         left: 0;
+
+        .view-state-button {
+            display: flex;
+
+            button {
+              padding: 10px 20px;
+              border: none;
+              background-color: #ccc;
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+
+              &:not(:last-child) {
+                border-right: 1px solid #999;
+              }
+
+              &.active {
+                background-color: #007bff;
+                color: #fff;
+              }
+            }
+        }
 
         &-slc-group {
             display: flex;
@@ -57,16 +77,16 @@
         overflow-x: scroll;
 
       & .gantt-perso-info{
-          display: flex;
+        display: flex;
         justify-content: center;
-        gap: 10px;
         position: absolute;
         flex-direction: column;
-        left: 0px;
+        left: 40px;
         top: 10px;
 
         .avatar-img{
           width: 100px;
+          margin: auto;
         }
         &-name{
           font-size: 16px;
