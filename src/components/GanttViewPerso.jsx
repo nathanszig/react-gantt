@@ -8,7 +8,7 @@ import { mergeStyles } from "./gantt";
 
 import GanttTaskContainer from "./GanttTaskContainer";
 
-const GanttViewProject = ({ customize, data, selectUser }) => {
+const GanttViewPerso = ({ customize, data, selectUser }) => {
   const defaultStyles = {
     sidebarProjects: {
       background: '#fff',
@@ -97,4 +97,4 @@ const GanttViewProject = ({ customize, data, selectUser }) => {
   );
 };
 
-export default GanttViewProject;
+export default GanttViewPerso;

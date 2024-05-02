@@ -5,7 +5,7 @@ import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import GanttViewPerso from './GanttViewPerso'
-import {PERSO, PROJECT, USERS} from "../assets/utils/ganttUtils";
+import {removeProjectAllProjects, PERSO, PROJECT, USERS} from "../assets/utils/ganttUtils";
 
 export function mergeStyles(target, source) {
 
@@ -69,20 +69,20 @@ const Gantt = ({ customize, data }) => {
 
   const handleMoveRight = () => {
     const ganttContainer = document.querySelector(".gantt-container-section");
-    console.log(ganttContainer);
     if (ganttContainer) {
-      console.log('there')
       ganttContainer.scrollLeft += 500;
     }
   };
 
-  const selectUser = (userId) => {
-    if (view !== PERSO) {
+  const selectUser = (userId, newView = null) => {
+    if (view !== PERSO && userId !== null) {
       // Sort to only get the data of the selected user
       const selectedUser = data.users.filter(user => user.id === userId);
-      const newdata = { users: [selectedUser[0]] }
-      setTestData(newdata);
+      setTestData({ users: [selectedUser[0]] });
       setView(PERSO);
+    } else if (newView !== null && view !== newView && newView !== PERSO && userId === null) {
+      setTestData(removeProjectAllProjects(data))
+      setView(newView);
     }
   }
 
@@ -92,9 +92,17 @@ const Gantt = ({ customize, data }) => {
     <div className="gantt-container" >
       <div className="gantt-container-filters">
         <div className="view-state-button">
-          <button className={view === PROJECT ? "active" : ""} onClick={() => setView(PROJECT)}>Projects
+          <button
+            className={view === PROJECT ? "active" : ""}
+            onClick={() => selectUser(null, PROJECT)}
+          >
+            Projects
           </button>
-          <button className={view === USERS ? "active" : ""} onClick={() => setView(USERS)}>Users
+          <button
+            className={view === USERS ? "active" : ""}
+            onClick={() => selectUser(null, USERS)}
+          >
+            Users
           </button>
         </div>
         <div className="gantt-container-filters-crt">
@@ -119,11 +127,12 @@ const Gantt = ({ customize, data }) => {
             selectUser={selectUser}
           />
           :
+          view === PERSO ?
           <GanttViewPerso
             customize={styles}
             data={testData}
             selectUser={selectUser}
-          />
+          /> : <></>
       }
     </div>
   );

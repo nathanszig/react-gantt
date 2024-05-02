@@ -164,3 +164,12 @@ export const getWeekList = (users) => {
      const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
      return rest;
   }
+
+  export const removeProjectAllProjects = (data) => {
+    const users = data.users.map(user => {
+      user.tasks = user.tasks.filter(task => task.project.id !== 'allProjects');
+      return user;
+    });
+    return { users };
+  }
+
