@@ -1,21 +1,32 @@
 import moment from 'moment';
+import {getDurationInDays, getDurationInWeeks, numberOfWeeksInMonth, weekIndexInTheMonth} from './dateUtils';
 
 export const PROJECT = "project";
 export const PERSO = "perso";
 export const USERS = "users";
 
-export const getDurationInDays = (startAt, endAt, firstWeekStartDate) => {
-  const startDate = new Date(startAt);
-  const endDate = new Date(endAt);
-  let differenceInTime = endDate.getTime() - startDate.getTime();
-  return Math.round(differenceInTime / (1000 * 3600 * 24));
-}
+export const calculateWeekWidthAndMargin = (startDate, endDate, firstWeekStartDate, width) => {
 
-export const calculateTaskMarginLeft = (startDate, firstWeekStartDate, width) => {
+  const startDateMoment = moment(startDate);
+  const durationInDays = getDurationInDays(startDate, endDate);
+  // with moment.js calcul number of days between startDate and endDate without weekends
+  let marginDays = 0;
+  for (let i = 0; i < durationInDays; i++) {
+    const currentDate = startDateMoment.clone().add(i, 'days');
+    if (currentDate.day() !== 0 && currentDate.day() !== 6) {
+      marginDays++;
+    }
+  }
+  const widthPercentage = marginDays !== 1 ? (marginDays+1) * 50 : width;
+  const taskMarginLeft = calculateWeekTaskMarginLeft(startDate, firstWeekStartDate, width);
+  return { widthPercentage, taskMarginLeft };
+};
+
+export const calculateWeekTaskMarginLeft = (startDate, firstWeekStartDate) => {
   const startDateMoment = moment(startDate);
   const firstWeekStartDateMoment = moment(firstWeekStartDate).startOf('isoWeek').format('YYYY-MM-DD');
   let marginDays = 0;
-  const totalDays = getDurationInDays(firstWeekStartDate, startDate, firstWeekStartDate);
+  const totalDays = getDurationInDays(firstWeekStartDate, startDate);
   for (let i = 0; i < totalDays; i++) {
     const currentDate = startDateMoment.clone().subtract(i, 'days');
     if (currentDate.day() !== 0 && currentDate.day() !== 6) {
@@ -29,21 +40,49 @@ export const calculateTaskMarginLeft = (startDate, firstWeekStartDate, width) =>
   return `${marginWithoutWeekends}`;
 }
 
-export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, width) => {
+export const calculateMonthWidthAndMargin = (startDate, endDate, firstWeekStartDate, width) => {
   const startDateMoment = moment(startDate);
-  const durationInDays = getDurationInDays(startDate, endDate, firstWeekStartDate);
-  // with moment.js calcul number of days between startDate and endDate without weekends
-  let marginDays = 0;
-  for (let i = 0; i < durationInDays; i++) {
-    const currentDate = startDateMoment.clone().add(i, 'days');
-    if (currentDate.day() !== 0 && currentDate.day() !== 6) {
-      marginDays++;
+  const firstWeekStartDateMoment = moment(firstWeekStartDate);
+  const totalWeeks = getDurationInWeeks(startDate, endDate);
+  let totalWidth = 0;
+
+  const months = [];
+  for (let i = 0; i < totalWeeks; i++) {
+    const currentDate = startDateMoment.clone().add(i, 'weeks');
+    const currentMonth = currentDate.format('YYYY-MM');
+    if (!months.includes(currentMonth)) {
+      months.push(currentMonth);
     }
   }
-  const widthPercentage = marginDays !== 1 ? (marginDays+1) * 50 : width;
-  const taskMarginLeft = calculateTaskMarginLeft(startDate, firstWeekStartDate, width);
+
+  for (let m = 0; m < months.length; m++) {
+    const numberOfWeeks = numberOfWeeksInMonth(months[m]);
+    const weekWidth = width / numberOfWeeks;
+
+    for (let i = 0; i < totalWeeks; i++) {
+      const currentDate = startDateMoment.clone().add(i, 'weeks');
+      const currentMonth = currentDate.format('YYYY-MM');
+      if (currentMonth === months[m]) {
+        totalWidth += weekWidth;
+      }
+    }
+    const indexFirstWeek = weekIndexInTheMonth(startDate);
+    totalWidth += indexFirstWeek*weekWidth;
+  }
+
+  const widthPercentage = totalWeeks !== 1 ? totalWidth : width;
+  const taskMarginLeft = calculateMonthTaskMarginLeft(startDate, firstWeekStartDate, width);
   return { widthPercentage, taskMarginLeft };
 };
+
+export const calculateMonthTaskMarginLeft = (startDate, firstWeekStartDate, width) => {
+  const numberOfWeeks = numberOfWeeksInMonth(startDate);
+  const marginPerWeek = width / numberOfWeeks;
+  const indexFirstWeek = weekIndexInTheMonth(startDate);
+  const numberOfMonth =moment(startDate).startOf('month').diff(moment(firstWeekStartDate).startOf('month'), 'months', true);
+  const monthWidth = numberOfMonth * (width + 3);
+  return moment(firstWeekStartDate).format('YYYY-MM') !== moment(startDate).format('YYYY-MM') ? monthWidth + indexFirstWeek * marginPerWeek :  indexFirstWeek * marginPerWeek;
+}
 
 export const weekHaveTask = (users, startOfWeek, endOfWeek) => {
     users.some((user) =>
@@ -53,6 +92,18 @@ export const weekHaveTask = (users, startOfWeek, endOfWeek) => {
             moment(task.start).isBefore(startOfWeek) && (moment(task.end).isAfter(endOfWeek)) ||
             moment(task.start).isBefore(startOfWeek) && moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
             moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") && moment(task.end).isAfter(endOfWeek)
+        )
+    );
+}
+
+export const monthHaveTask = (users, startOfMonth, endOfMonth) => {
+    users.some((user) =>
+        user.tasks.some((task) =>
+            moment(task.start).isBetween(startOfMonth, endOfMonth, null, "[]") ||
+            moment(task.end).isBetween(startOfMonth, endOfMonth, null, "[]") ||
+            moment(task.start).isBefore(startOfMonth) && (moment(task.end).isAfter(endOfMonth)) ||
+            moment(task.start).isBefore(startOfMonth) && moment(task.end).isBetween(startOfMonth, endOfMonth, null, "[]") ||
+            moment(task.start).isBetween(startOfMonth, endOfMonth, null, "[]") && moment(task.end).isAfter(endOfMonth)
         )
     );
 }

@@ -1,16 +1,41 @@
 import moment from "moment";
-import { calculateWidthAndMargin, getWeekList } from "../assets/utils/ganttUtils";
+import {calculateMonthWidthAndMargin, calculateWeekWidthAndMargin, getWeekList} from "../assets/utils/ganttUtils";
+import {useEffect, useState} from "react";
 
 const GanttTaskContainer = (props) => {
+
+  const [monthDivWidth, setMonthDivWidth] = useState(null);
+  const [weekDivWidth, setWeekDivWidth] = useState(null);
   const timelineWeeks = getWeekList(props.users);
+  const modeMonth = props.modeMonth;
+
+  useEffect(() => {
+    if (modeMonth) {
+      const monthDiv = document.getElementsByName('month')[1];
+      if (monthDiv) {
+        setMonthDivWidth(monthDiv.offsetWidth);
+      }
+    } else {
+      const weekDiv = document.getElementsByName('week')[1];
+      if (weekDiv) {
+        setWeekDivWidth(weekDiv.offsetWidth);
+      }
+    }
+  }, [modeMonth]);
 
   const calculateTaskStyle = (task) => {
-    const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(
-      task.start,
-      task.end,
-      timelineWeeks[0].start,
-      250
-    );
+    const { widthPercentage, taskMarginLeft } =
+      modeMonth ? calculateMonthWidthAndMargin(
+          task.start,
+          task.end,
+          timelineWeeks[0].start,
+        monthDivWidth
+      ) : calculateWeekWidthAndMargin(
+        task.start,
+        task.end,
+        timelineWeeks[0].start,
+        weekDivWidth
+      );
     props.previousTasks.push({ widthPercentage, taskMarginLeft });
     return {
       width: `${widthPercentage}px`,
