@@ -1,5 +1,9 @@
 import moment from 'moment';
 
+export const PROJECT = "project";
+export const PERSO = "perso";
+export const USERS = "users";
+
 export const getDurationInDays = (startAt, endAt, firstWeekStartDate) => {
   const startDate = new Date(startAt);
   const endDate = new Date(endAt);
@@ -93,6 +97,10 @@ export const getWeekList = (users) => {
     }
 
     function compareProjects(a, b) {
+      // if id of the project is allProjects, it should be at the start
+      if (a.id === 'allProjects') return -1;
+      if (b.id === 'allProjects') return 1;
+
       const dateRangeA = getProjectDateRange(a);
       const dateRangeB = getProjectDateRange(b);
 
@@ -129,6 +137,7 @@ export const getWeekList = (users) => {
           const projectId = project.id;
           const taskId = task.id;
           const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
+          task.user = excludeAttribute(user, 'tasks');
           if (projectIndex === -1) {
             projectsMap.push({
               id: projectId,
@@ -150,3 +159,17 @@ export const getWeekList = (users) => {
     );
     return sortProjectByChronologicalOrder(projectsMap);
   }
+
+  export const excludeAttribute = (obj, attributeToExclude) => {
+     const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
+     return rest;
+  }
+
+  export const removeProjectAllProjects = (data) => {
+    const users = data.users.map(user => {
+      user.tasks = user.tasks.filter(task => task.project.id !== 'allProjects');
+      return user;
+    });
+    return { users };
+  }
+

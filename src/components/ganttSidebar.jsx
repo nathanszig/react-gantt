@@ -1,13 +1,13 @@
 import Icon from '../assets/pictos/arrow-left.svg';
+import {PERSO, PROJECT, USERS} from '../assets/utils/ganttUtils';
 
 const GanttSidebar = (props) => {
 
   let cardTitle = ""
 
-  if (props.view === "project") {
+  if (props.view !== USERS) {
     cardTitle = props.data.name
   }
-
   return (
     <div className="gantt-container-section-sidebar-tasks project" style={props.styleData.sidebarProjects}>
       <div className="gantt-container-section-sidebar-task">
@@ -34,8 +34,9 @@ const GanttSidebar = (props) => {
       {props.data.id === props.selectedDropdownId && (
         <div className="gantt-container-section-sidebar-dropdown-content">
 
-          {props.view === "project" ? props.data.users.map((user, index) => {
-            return (
+          {props.view === PROJECT ? props.data.tasks.map((task, index) => {
+            const user = task.user;
+              return (
               <div
                 className="gantt-container-section-sidebar-dropdown-content-user"
                 key={index}
@@ -48,13 +49,34 @@ const GanttSidebar = (props) => {
                       className={"avatar-img"}
                     />
                     <div className="user-info-p">
-                      <p>{user.firstName} {user.lastName}</p>
+                      <p onClick={()=>props.selectUser(user.id)}>{user.firstName} {user.lastName}</p>
                     </div>
                   </div>
                 </div>
               </div>
             );
-          }) : null}
+          }) : props.view === PERSO ? props.data.tasks.map((task, index) => {
+              const user = task.user;
+              return (
+                <div
+                  className="gantt-container-section-sidebar-dropdown-content-user"
+                  key={index}
+                >
+                  <div className="gantt-container-section-sidebar-dropdown-content-user-div">
+                    <div className="user-info">
+                      <img
+                        src={user.urlAvatar}
+                        alt={`Avatar de ${user.firstName} ${user.lastName}`}
+                        className={"avatar-img"}
+                      />
+                      <div className="user-info-p">
+                        <p onClick={()=>props.selectUser(user.id)}>{task.name}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }) : null}
         </div>
       )}
     </div>

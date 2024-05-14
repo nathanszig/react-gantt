@@ -1,12 +1,35 @@
 .gantt-container {
     padding: 35px;
+    position: relative;
+    overflow-x: scroll;
 
     &-filters {
         display: flex;
         margin-bottom: 30px;
-        justify-content: space-between;
         align-items: center;
+        position: sticky;
+        left: 0;
 
+        .view-state-button {
+            display: flex;
+
+            button {
+              padding: 10px 20px;
+              border: none;
+              background-color: #ccc;
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+
+              &:not(:last-child) {
+                border-right: 1px solid #999;
+              }
+
+              &.active {
+                background-color: #007bff;
+                color: #fff;
+              }
+            }
+        }
 
         &-slc-group {
             display: flex;
@@ -51,11 +74,29 @@
         height: 800px;
         width: 100%;
         position: relative;
-        overflow-y: auto;
+        overflow-x: scroll;
 
+      & .gantt-perso-info{
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        flex-direction: column;
+        left: 40px;
+        top: 10px;
+
+        .avatar-img{
+          width: 100px;
+          margin: auto;
+        }
+        &-name{
+          font-size: 16px;
+          font-weight: 700;
+
+        }
+      }
         &-timeline {
             margin-left: 244px;
-            padding: 0px 0px 20px 0px;
+            padding: 0 0 20px 0;
             display: flex;
             align-items: center;
             margin-bottom: 24px;
@@ -64,6 +105,10 @@
             position: sticky;
             top: 0px;
             z-index: 999;
+
+            .week-container {
+                position: relative;
+            }
 
             &-empty {
                 flex: 1 1;
@@ -75,10 +120,29 @@
 
             &-header {
                 display: flex;
-                // flex: 5 1;
                 justify-content: flex-end;
-                align-items: center;
                 gap: 3px;
+                flex-flow: row;
+                padding-top: 5px;
+                &-weeks {
+
+                  &-year {
+                    position: relative;
+                    b {
+                      overflow-x: auto;
+                      overflow-y: auto;
+                      position: sticky;
+                      left: 10px;
+                      font-size: 20px;
+
+                    }
+                  }
+                  &-content {
+                    display: flex;
+                    gap: 3px;
+                  }
+
+                }
 
                 &-days {
 
@@ -96,11 +160,20 @@
                         top: 0;
                         z-index: 99999;
                     }
-
+                    div {
+                        display: flex;
+                        flex-flow: column;
+                        p {
+                            margin: auto;
+                            text-align: center;
+                            font-size: 14px;
+                            padding: 15px 20px;
+                        }
+                    }
                     p {
                         font-size: 14px;
                         padding: 10px 20px;
-                        // text-align: center;
+                        text-align: center;
                     }
 
                     &.today {
@@ -193,7 +266,7 @@
 
             &-dropdown {
                 &-content {
-                    &-user {
+                    &-user-div {
                         padding: 4px 20px;
                         border-top: 1px solid;
                         display: flex;
@@ -201,10 +274,16 @@
                         justify-content: center;
                         height: 110px;
                         max-height: 110px;
-
-                        &-p {
+                        .user-info{
                             display: flex;
-                            gap: 10px;
+                            flex-direction: column;
+                            align-items: center;
+                            &-p {
+                               display: flex;
+                                flex-flow: row;
+                                gap: 10px;
+                                cursor: pointer;
+                            }
                         }
 
                         p {
@@ -212,11 +291,11 @@
                             line-height: 16px;
                         }
 
-                        &-image {
-                            width: 48px;
-                            height: 48px;
+                        .avatar-img {
+                            width: 60px;
+                            height: 60px;
                             border-radius: 90px;
-                            border: 2px solid #FFFFFF;
+                            margin-top: 20px;
                         }
 
                     }

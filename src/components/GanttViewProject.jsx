@@ -8,7 +8,7 @@ import { mergeStyles } from "./gantt";
 
 import GanttTaskContainer from "./GanttTaskContainer";
 
-const GanttViewProject = ({ customize, data }) => {
+const GanttViewProject = ({ customize, data, selectUser }) => {
   const defaultStyles = {
     sidebarProjects: {
       background: '#fff',
@@ -50,11 +50,6 @@ const GanttViewProject = ({ customize, data }) => {
     }
   };
 
-  // function excludeAttribute(obj, attributeToExclude) {
-  //   const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
-  //   return rest;
-  // }
-
   const styles = mergeStyles(defaultStyles, customize);
 
   return (
@@ -66,7 +61,7 @@ const GanttViewProject = ({ customize, data }) => {
       <div className="gantt-container-section-sidebar">
         {projects.map((project) => (
           <div className="gantt-container-section-sidebar-line" key={project.id}>
-            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId} toggleDropdown={toggleDropdown} view="project" />
+            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId} toggleDropdown={toggleDropdown} view="project" selectUser={selectUser}/>
             <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project} styleData={styles} previousTasks={previousTasks} />
           </div>
         ))}

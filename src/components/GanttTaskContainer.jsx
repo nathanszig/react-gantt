@@ -38,7 +38,7 @@ const GanttTaskContainer = (props) => {
         // Vérifier si cette tâche se chevauche avec une autre tâche dans le même projet
         let stacked = false;
         let nbStacked = 1;
-        let idStack = 1;
+        let idstack = 1;
         for (let i = 0; i < props.project.tasks.length; i++) {
           if (i !== index) {
             let otherTask = props.project.tasks[i];
@@ -50,12 +50,12 @@ const GanttTaskContainer = (props) => {
             ) {
               stacked = true;
               nbStacked++;
-              if (i < index) idStack++;
+              if (i < index) idstack++;
             }
           }
         }
         let height = props.selectedDropdownId === props.project.id ? "110px" : `calc(132px / ${nbStacked})`
-        let top = props.selectedDropdownId === props.project.id ? `calc(115px * ${index})` : `calc(135px / ${nbStacked} * ${idStack - 1} ${idStack > 1 ? '+ 5px' : ''})`
+        let top = props.selectedDropdownId === props.project.id ? `calc(115px * ${index})` : `calc(135px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`
         return (
           <div
             className="gantt-container-section-main-tasks project"
@@ -65,8 +65,6 @@ const GanttTaskContainer = (props) => {
               <div
                 className={` gantt-container-section-main-tasks-t ${stacked ? 'stacked' : ''}`}
                 style={{ width: width, left: finalMargin, height: height, top: top }}
-                data-line={1}
-                {...(stacked && { "data-nbStacked": nbStacked, idStack: idStack })}
               >
                 <div
                   className="gantt-container-section-main-tasks-t-content"
