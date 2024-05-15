@@ -5,6 +5,12 @@ export const PROJECT = "project";
 export const PERSO = "perso";
 export const USERS = "users";
 
+moment.updateLocale('fr', {
+  week: {
+    dow: 1
+  }
+});
+
 export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, width, modeMonth) => {
   return modeMonth
     ? calculateMonthWidthAndMargin(startDate, endDate, firstWeekStartDate, width)
@@ -30,7 +36,7 @@ export const calculateWeekTaskWidth = (startDate, endDate, width) => {
   let marginDays = 0;
   for (let i = 0; i < durationInDays; i++) {
     const currentDate = startDateMoment.clone().add(i, 'days');
-    if (currentDate.day() !== 0 && currentDate.day() !== 6) {
+    if (currentDate.day() !== 5 && currentDate.day() !== 6) {
       marginDays++;
     }
   }
@@ -44,7 +50,7 @@ export const calculateWeekTaskMarginLeft = (startDate, firstWeekStartDate) => {
   const totalDays = getDurationInDays(firstWeekStartDate, startDate);
   for (let i = 0; i < totalDays; i++) {
     const currentDate = startDateMoment.clone().subtract(i, 'days');
-    if (currentDate.day() !== 0 && currentDate.day() !== 6) {
+    if (currentDate.day() !== 5 && currentDate.day() !== 6) {
       marginDays++;
     }
     if (currentDate.format('YYYY-MM-DD') === firstWeekStartDateMoment) {
@@ -58,48 +64,59 @@ export const calculateWeekTaskMarginLeft = (startDate, firstWeekStartDate) => {
 export const calculateMonthTaskWidth = (startDate, endDate, width) => {
   const startDateMoment = moment(startDate);
   const totalWeeks = getDurationInWeeks(startDate, endDate);
-
+  const allWeeks = [];
   // calcul du nombre de mois dans la tâche
   const months = [];
+
   for (let i = 0; i < totalWeeks; i++) {
     const currentDate = startDateMoment.clone().add(i, 'weeks');
-    const currentMonth = currentDate.format('YYYY-MM');
-    if (!months.includes(currentMonth)) {
-      months.push(currentMonth);
+    allWeeks.push(currentDate.clone().startOf('week').format('YYYY-MM-DD'));
+    let currentMonth = currentDate.format('YYYY-MM');
+    if (currentDate <= moment(endDate)) {
+      if (!months.includes(currentMonth)) {
+        months.push(currentMonth);
+      }
+    } else {
+      currentMonth = moment(endDate).format('YYYY-MM');
+      if (!months.includes(currentMonth)) {
+        months.push(currentMonth);
+      }
     }
+
   }
+  // trier les mois par ordre croissant
+  months.sort((a, b) => moment(a).isBefore(b) ? -1 : 1);
 
   // pour chaque mois on calcul le nombre de semaine pour définir la taille d'une semaine
   // puis on multiplie cette taille par le nombre de semaine de cette tâche dans le mois
   let totalWidth = 0;
+
   for (let m = 0; m < months.length; m++) {
+    let weeksInMonth = 0;
+    let widthPerWeek = 0;
     const month = months[m];
     const monthWeeks = numberOfWeeksInMonth(moment(month));
-    const widthPerWeek = width / monthWeeks;
-    const weeksInMonth = [];
-    for (let w = 0; w < totalWeeks; w++) {
-      const week = startDateMoment.clone().add(w, 'weeks');
-      if (week.format('YYYY-MM') === month) {
-        weeksInMonth.push(week);
+
+
+    // Pour chaque semaine, vérifions si elle est dans le mois en cours
+    for (let i = 0; i < allWeeks.length; i++) {
+      if (moment(allWeeks[i]).format('YYYY-MM') === month) {
+        weeksInMonth++;
       }
     }
-    /*if (startDate === '12/25/2024') {
-      // console log de months et months.length + widthPerWeek + width + monthWeeks + totalWidth avec leur label respectif
-      console.log('totalWeek', totalWeeks);
-      console.log('months', months);
-      console.log('months.length', months.length);
-      console.log('widthPerWeek', widthPerWeek);
-      console.log('width', width);
-      console.log('monthWeeks', monthWeeks);
-      console.log('totalWidth', totalWidth);
-    }*/
-    totalWidth += weeksInMonth.length * widthPerWeek;
+    if (weeksInMonth >  monthWeeks) {
+       widthPerWeek = width / weeksInMonth;
+    } else {
+       widthPerWeek = width / monthWeeks;
+    }
+    totalWidth += weeksInMonth * widthPerWeek;
   }
 
 
   // on ajoute 3px de marge entre chaque mois
-  return totalWidth + (months.length-1) * 3;
+  return totalWidth + ((months.length-1) * 3);
 }
+
 
 export const calculateMonthTaskMarginLeft = (startDate, firstWeekStartDate, width) => {
   const timelineHeaderGap = window.getComputedStyle(document.querySelector('.gantt-container-section-timeline-header')).getPropertyValue('gap');

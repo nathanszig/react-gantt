@@ -10,15 +10,11 @@ export const getDurationInDays = (startAt, endAt) => {
 
 // fonction qui le nombre de semaine à partir de deux dates (semaine de début et fin compris et entre les deux dates)
 export const getDurationInWeeks = (startAt, endAt) => {
-  const startDate = moment(startAt);
-  const endDate = moment(endAt);
-  // Add 1 day to the end date to include it in the calculation
-  endDate.add(1, 'day');
   // Calculate the difference in weeks
-  const diffInWeeks = endDate.diff(startDate, 'weeks');
-
-  // Return the difference in weeks plus 2 to account for the starting and ending week
-  return diffInWeeks + 2;
+  // Return the difference in weeks plus 1 to account for the ending week
+  const startDate = moment(startAt).startOf("weeks");
+  const endDate = moment(endAt).endOf("weeks");
+  return endDate.diff(startDate, 'weeks') + 1;
 }
 
 // fonction qui retourne quel l'index de la semaine données dans son mois a partir d'une date moment
