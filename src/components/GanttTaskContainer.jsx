@@ -1,41 +1,38 @@
 import moment from "moment";
-import {calculateMonthWidthAndMargin, calculateWeekWidthAndMargin, getWeekList} from "../assets/utils/ganttUtils";
+import {
+  calculateWidthAndMargin,
+  getWeekList
+} from "../assets/utils/ganttUtils";
 import {useEffect, useState} from "react";
 
 const GanttTaskContainer = (props) => {
 
-  const [monthDivWidth, setMonthDivWidth] = useState(null);
-  const [weekDivWidth, setWeekDivWidth] = useState(null);
+  const [timelineWidth, setTimelineWidth] = useState(null);
   const timelineWeeks = getWeekList(props.users);
   const modeMonth = props.modeMonth;
 
+
   useEffect(() => {
-    if (modeMonth) {
-      const monthDiv = document.getElementsByName('month')[1];
-      if (monthDiv) {
-        setMonthDivWidth(monthDiv.offsetWidth);
+    const updateWidths = () => {
+      if (modeMonth) {
+        const monthDiv = document.getElementsByName('month')[1];
+        if (monthDiv) {
+          setTimelineWidth(monthDiv.offsetWidth);
+        }
+      } else {
+        const weekDiv = document.getElementsByName('week')[1];
+        if (weekDiv) {
+          setTimelineWidth(weekDiv.offsetWidth);
+        }
       }
-    } else {
-      const weekDiv = document.getElementsByName('week')[1];
-      if (weekDiv) {
-        setWeekDivWidth(weekDiv.offsetWidth);
-      }
-    }
+    };
+    updateWidths();
+    window.addEventListener('resize', updateWidths); // Update widths on resize
+    return () => window.removeEventListener('resize', updateWidths); // Clean up the event listener
   }, [modeMonth]);
 
   const calculateTaskStyle = (task) => {
-    const { widthPercentage, taskMarginLeft } =
-      modeMonth ? calculateMonthWidthAndMargin(
-          task.start,
-          task.end,
-          timelineWeeks[0].start,
-        monthDivWidth
-      ) : calculateWeekWidthAndMargin(
-        task.start,
-        task.end,
-        timelineWeeks[0].start,
-        weekDivWidth
-      );
+    const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(task.start,task.end,timelineWeeks[0].start, timelineWidth,modeMonth)
     props.previousTasks.push({ widthPercentage, taskMarginLeft });
     return {
       width: `${widthPercentage}px`,
