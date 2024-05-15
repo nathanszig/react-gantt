@@ -40,7 +40,7 @@ const GanttTimelineHeader = (props) => {
             <div className="gantt-container-section-timeline-header-weeks-content">
               {
                 modeMonth ?
-                  monthsByYear[year].map(month => {
+                  monthsByYear[year].map((month, index) => {
                     const monthStart = moment().year(year).month(month).startOf('month');
                     const monthEnd = moment().year(year).month(month).endOf('month');
                     const today = moment().startOf("day");
@@ -51,11 +51,14 @@ const GanttTimelineHeader = (props) => {
                       "[]"
                     );
                     const isMonthHaveTask = monthHaveTask(props.users, monthStart, monthEnd) || isCurrentMonth;
+                    const isStart = index === 0 && Object.keys(monthsByYear).indexOf(year) === 0;
+                    // si index = length - 1 et year est a la fin de weeksByYear alors c'est la dernière semaine du gantt
+                    const isEnd = index === monthsByYear[year].length - 1 && Object.keys(monthsByYear).indexOf(year) === Object.keys(monthsByYear).length - 1;
                     monthIndex++;
                     return (
                       <div className="month-container" key={monthIndex}>
                         <div
-                          className={`gantt-container-section-timeline-header-month ${isCurrentMonth ? "today" : ""} ${isMonthHaveTask ? "" : "no-task"}`}
+                          className={`gantt-container-section-timeline-header-month ${isCurrentMonth ? "today" : ""} ${isStart ? 'start' : isEnd ? 'end' : ''} ${isMonthHaveTask ? "" : "no-task"}`}
                           id={`month-${monthIndex}`}
                           name='month'
                           style={props.styleData.daysContainer}
@@ -86,14 +89,18 @@ const GanttTimelineHeader = (props) => {
                       null,
                       "[]"
                     );
+
                     const isWeekHaveTask = weekHaveTask(props.users, startOfWeek, endOfWeek) || isCurrentWeek;
-                    const isStart = index === 0;
-                    const isEnd = index === weeksByYear[year].length - 1;
+                    // si index = 0 et index de year dans weeksByYear est 0 alors c'est la première semaine du gantt
+                    const isStart = index === 0 && Object.keys(weeksByYear).indexOf(year) === 0;
+                    // si index = length - 1 et year est a la fin de weeksByYear alors c'est la dernière semaine du gantt
+                    const isEnd = index === weeksByYear[year].length - 1 && Object.keys(weeksByYear).indexOf(year) === Object.keys(weeksByYear).length - 1;
                     weekIndex++;
+
                     return (
                       <div className="week-container" key={weekIndex}>
                         <div
-                          className={`gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${isStart ? "start" : ""} ${isEnd ? "end" : ""} ${isWeekHaveTask ? "" : "no-task"}`}
+                          className={`gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""} ${isStart ? "start" : isEnd ? "end" : ""} ${isWeekHaveTask ? "" : "no-task"}`}
                           id={`week-${weekIndex}`}
                           name='week'
                           style={props.styleData.daysContainer}
