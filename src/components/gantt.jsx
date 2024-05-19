@@ -45,6 +45,8 @@ export const handleMoveToEnd = () => {
 const Gantt = ({ customize, data }) => {
   const [testData, setTestData] = useState(data);
   const [view, setView] = useState("project");
+  const [modeMonth, setModeMonth] = useState(false);
+
   const defaultStyles = {
     todayButton: {
       background: '#FFF',
@@ -73,6 +75,10 @@ const Gantt = ({ customize, data }) => {
       ganttContainer.scrollLeft += 500;
     }
   };
+
+  const changeMode = (mode) => {
+    setModeMonth(mode);
+  }
 
   const selectUser = (userId, newView = null) => {
     if (view !== PERSO && userId !== null) {
@@ -105,6 +111,20 @@ const Gantt = ({ customize, data }) => {
             Users
           </button>
         </div>
+        <div className="mode-state-button">
+          <button
+            className={modeMonth ? "active" : ""}
+            onClick={() => changeMode(true)}
+          >
+            Mois
+          </button>
+          <button
+            className={!modeMonth ? "active" : ""}
+            onClick={() => changeMode(false)}
+          >
+            Semaine
+          </button>
+        </div>
         <div className="gantt-container-filters-crt">
           <div className="gantt-container-filters-crt-block">
             <button className="gantt-container-filters-crt-block-btn-left" onClick={handleMoveLeft}>
@@ -125,14 +145,16 @@ const Gantt = ({ customize, data }) => {
             customize={styles}
             data={testData}
             selectUser={selectUser}
+            modeMonth={modeMonth}
           />
           :
           view === PERSO ?
-          <GanttViewPerso
-            customize={styles}
-            data={testData}
-            selectUser={selectUser}
-          /> : <></>
+            <GanttViewPerso
+              customize={styles}
+              data={testData}
+              selectUser={selectUser}
+              modeMonth={modeMonth}
+            /> : <></>
       }
     </div>
   );

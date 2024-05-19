@@ -1,7 +1,7 @@
 .gantt-container {
     padding: 35px;
     position: relative;
-    overflow-x: scroll;
+    overflow: hidden;
 
     &-filters {
         display: flex;
@@ -9,6 +9,15 @@
         align-items: center;
         position: sticky;
         left: 0;
+        // space-between;
+        z-index: 999;
+        background-color: #fff;
+        padding: 10px 20px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        top: 0;
+        max-width: 98%;
+        gap: 20px;
 
         .view-state-button {
             display: flex;
@@ -28,6 +37,27 @@
                 background-color: #007bff;
                 color: #fff;
               }
+            }
+        }
+
+        .mode-state-button {
+            display: flex;
+
+            button {
+                padding: 10px 20px;
+                border: none;
+                background-color: #ccc;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:not(:last-child) {
+                    border-right: 1px solid #999;
+                }
+
+                &.active {
+                    background-color: #007bff;
+                    color: #fff;
+                }
             }
         }
 
@@ -74,7 +104,7 @@
         height: 800px;
         width: 100%;
         position: relative;
-        overflow-x: scroll;
+        overflow-x: auto;
 
       & .gantt-perso-info{
         display: flex;
@@ -144,42 +174,50 @@
 
                 }
 
-                &-days {
+              &-days {
+                width: 250px;
+              }
 
-                    // border-radius: 8px;
-                    width: 250px;
-                    position: relative;
+              &-month {
+                width: 1000px;
+              }
 
-                    &::after {
-                        content: "";
-                        display: block;
-                        height: 100%;
-                        width: 1.3px;
-                        position: absolute;
-                        right: 0;
-                        top: 0;
-                        z-index: 99999;
-                    }
-                    div {
-                        display: flex;
-                        flex-flow: column;
-                        p {
-                            margin: auto;
-                            text-align: center;
-                            font-size: 14px;
-                            padding: 15px 20px;
-                        }
-                    }
-                    p {
-                        font-size: 14px;
-                        padding: 10px 20px;
-                        text-align: center;
-                    }
+              &-month,&-days {
+                position: relative;
 
-                    &.today {
-                        background-color: green;
-                    }
+                &::after {
+                  content: "";
+                  display: block;
+                  height: 100%;
+                  width: 1.3px;
+                  position: absolute;
+                  right: 0;
+                  top: 0;
+                  z-index: 99999;
                 }
+
+                div {
+                  display: flex;
+                  flex-flow: column;
+
+                  p {
+                    margin: auto;
+                    text-align: center;
+                    font-size: 14px;
+                    padding: 15px 20px;
+                  }
+                }
+
+                p {
+                  font-size: 14px;
+                  padding: 10px 20px;
+                  text-align: center;
+                }
+
+                &.today {
+                  background-color: green;
+                }
+              }
 
                 &-week {
                     width: 750px;
