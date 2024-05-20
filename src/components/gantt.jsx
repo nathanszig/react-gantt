@@ -5,7 +5,8 @@ import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import GanttViewPerso from './GanttViewPerso'
-import {removeProjectAllProjects, PERSO, PROJECT, USERS} from "../assets/utils/ganttUtils";
+import {removeProjectAllProjects, PERSO, PROJECT, TEAM} from "../assets/utils/ganttUtils";
+import GanttViewTeams from "./GanttViewTeams";
 
 export function mergeStyles(target, source) {
 
@@ -87,7 +88,7 @@ const Gantt = ({ customize, data }) => {
       setTestData({ users: [selectedUser[0]] });
       setView(PERSO);
     } else if (newView !== null && view !== newView && newView !== PERSO && userId === null) {
-      setTestData(removeProjectAllProjects(data))
+      newView === PROJECT ? setTestData(removeProjectAllProjects(data)) : setTestData(data.users);
       setView(newView);
     }
   }
@@ -105,8 +106,8 @@ const Gantt = ({ customize, data }) => {
             Projects
           </button>
           <button
-            className={view === USERS ? "active" : ""}
-            onClick={() => selectUser(null, USERS)}
+            className={view === TEAM ? "active" : ""}
+            onClick={() => selectUser(null, TEAM)}
           >
             Users
           </button>
@@ -154,7 +155,12 @@ const Gantt = ({ customize, data }) => {
               data={testData}
               selectUser={selectUser}
               modeMonth={modeMonth}
-            /> : <></>
+            /> : <GanttViewTeams
+              customize={styles}
+              data={testData}
+              selectUser={selectUser}
+              modeMonth={modeMonth}
+            />
       }
     </div>
   );

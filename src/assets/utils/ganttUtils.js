@@ -3,7 +3,7 @@ import {getDurationInDays, getDurationInWeeks, numberOfWeeksInMonth, weekIndexIn
 
 export const PROJECT = "project";
 export const PERSO = "perso";
-export const USERS = "users";
+export const TEAM = "team";
 
 moment.updateLocale('fr', {
   week: {
@@ -269,4 +269,23 @@ export const getWeekList = (users) => {
     });
     return { users };
   }
+
+  export const createAllProject = (user) => {
+  user.tasks.forEach((task, index) => {
+    const newTask = {
+      id: index+1,
+      name: task.project.name + ' - ' + task.name,
+      start: task.start,
+      end: task.end,
+      description : task.description,
+      taskImgUrl: task.taskImgUrl,
+      project : {
+        name : "All Projects",
+        id : 'allProjects'
+      }
+    }
+    user.tasks.push(newTask);
+  });
+  return user;
+}
 

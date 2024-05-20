@@ -1,13 +1,12 @@
 import Icon from '../assets/pictos/arrow-left.svg';
-import {PERSO, PROJECT, USERS} from '../assets/utils/ganttUtils';
+import {PERSO, PROJECT, TEAM} from '../assets/utils/ganttUtils';
 
 const GanttSidebar = (props) => {
-
-  let cardTitle = ""
-
-  if (props.view !== USERS) {
-    cardTitle = props.data.name
-  }
+  // Déterminer le titre en fonction de la vue
+  let cardTitle = props.view === TEAM ? `${props.data.firstName} ${props.data.lastName}` : props.data.name;
+  console.log('props.view', props.view);
+  console.log('props.data', props.data);
+  console.log('cardTitle', cardTitle);
   return (
     <div className="gantt-container-section-sidebar-tasks project" style={props.styleData.sidebarProjects}>
       <div className="gantt-container-section-sidebar-task">
@@ -33,10 +32,9 @@ const GanttSidebar = (props) => {
       </div>
       {props.data.id === props.selectedDropdownId && (
         <div className="gantt-container-section-sidebar-dropdown-content">
-
-          {props.view === PROJECT ? props.data.tasks.map((task, index) => {
+          {props.view !== TEAM ? props.data.tasks.map((task, index) => {
             const user = task.user;
-              return (
+            return (
               <div
                 className="gantt-container-section-sidebar-dropdown-content-user"
                 key={index}
@@ -55,28 +53,31 @@ const GanttSidebar = (props) => {
                 </div>
               </div>
             );
-          }) : props.view === PERSO ? props.data.tasks.map((task, index) => {
-              const user = task.user;
-              return (
-                <div
-                  className="gantt-container-section-sidebar-dropdown-content-user"
-                  key={index}
-                >
-                  <div className="gantt-container-section-sidebar-dropdown-content-user-div">
-                    <div className="user-info">
-                      <img
-                        src={user.urlAvatar}
-                        alt={`Avatar de ${user.firstName} ${user.lastName}`}
-                        className={"avatar-img"}
-                      />
-                      <div className="user-info-p">
-                        <p onClick={()=>props.selectUser(user.id)}>{task.name}</p>
-                      </div>
+          }) : props.data.tasks.map((task, index) => {
+            const project = task.project;
+            return (
+              <div
+                className="gantt-container-section-sidebar-dropdown-content-user"
+                key={index}
+              >
+                <div className="gantt-container-section-sidebar-dropdown-content-user-div">
+                  <div className="user-info">
+                    <img
+                      src={project.urlAvatar}
+                      alt={`Avatar de ${project.name}`}
+                      className={"avatar-img"}
+                    />
+                    <div className="user-info-p">
+                      <p>{project.name}</p>
                     </div>
                   </div>
+                  <div className="task-info">
+                    <p>{task.name}</p>
+                  </div>
                 </div>
-              );
-            }) : null}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
