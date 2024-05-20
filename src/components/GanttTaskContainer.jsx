@@ -3,14 +3,14 @@ import {
   calculateWidthAndMargin,
   getWeekList
 } from "../assets/utils/ganttUtils";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 const GanttTaskContainer = (props) => {
 
   const [timelineWidth, setTimelineWidth] = useState(null);
   const timelineWeeks = getWeekList(props.users);
   const modeMonth = props.modeMonth;
-
+  const stackedRef = useRef(null);
 
   useEffect(() => {
     const updateWidths = () => {
@@ -78,6 +78,21 @@ const GanttTaskContainer = (props) => {
         }
         let height = props.selectedDropdownId === props.project.id ? "110px" : `calc(132px / ${nbStacked})`
         let top = props.selectedDropdownId === props.project.id ? `calc(115px * ${index})` : `calc(135px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`
+
+        /* - Pour le mode semaine on ajoute la classe truncated si la width du container est plus petite que la width de la tâche
+           - Cette classe permet au hover de la tâche de s'afficher en entier
+           - La taille minimum étant de 1 semaine ce problème n'arrive pas en mode mois
+           - Si on passe en mode mois on enlève la classe truncated  si elle est présente
+         */
+        useEffect(() => {
+            if (stackedRef && stackedRef.current) {
+              if (stackedRef.current.offsetWidth > parseInt(width.match(/\d+/)) && !modeMonth) {
+                stackedRef.current.classList.add('truncated');
+              }
+            }
+            modeMonth && stackedRef.current.classList.contains('truncated') ? stackedRef.current.classList.remove('truncated') : null;
+        }, [stackedRef, modeMonth]);
+
         return (
           <div
             className="gantt-container-section-main-tasks project"
@@ -89,6 +104,7 @@ const GanttTaskContainer = (props) => {
                 style={{ width: width, left: finalMargin, height: height, top: top }}
               >
                 <div
+                  ref={stackedRef}
                   className="gantt-container-section-main-tasks-t-content"
                   style={props.styleData.taskContainer}
                 >

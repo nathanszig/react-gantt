@@ -397,6 +397,14 @@
                             flex-direction: row;
                             align-items: center;
                             gap: 20px;
+                            justify-content: space-around;
+                            overflow: hidden;
+                            transition: width 0.5s ease;
+                            min-width: 100%;
+
+                            &.truncated:hover{
+                              min-width: fit-content;
+                            }
 
                             p{
                                 width: fit-content;
@@ -420,10 +428,8 @@
                         border-radius: 8px;
                         background: var(--light-grey, #F7F7F7);
                         width: 100%;
-                        padding: 0 18px;
                         max-height: 110px;
                         border: solid rgb(236, 236, 236) 2px;
-                        display: flex;
                         flex-direction: column;
                         padding: 10px;
 
