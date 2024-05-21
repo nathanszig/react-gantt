@@ -300,6 +300,10 @@
                     font-size: 12px;
                     padding: 3px;
                 }
+
+              &-client-name-team {
+                cursor: pointer;
+              }
             }
 
             &-dropdown {
@@ -317,10 +321,10 @@
                             flex-direction: column;
                             align-items: center;
                             &-p {
-                               display: flex;
-                                flex-flow: row;
-                                gap: 10px;
-                                cursor: pointer;
+                              display: flex;
+                              flex-flow: row;
+                              gap: 10px;
+                              cursor: pointer;
                             }
                         }
 
