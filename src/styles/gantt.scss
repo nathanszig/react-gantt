@@ -291,7 +291,7 @@
                     justify-content: flex-end;
 
                     img {
-                        width: 20%;
+                        width: 27%;
                         rotate: 270deg;
                     }
                 }
@@ -304,7 +304,7 @@
 
             &-dropdown {
                 &-content {
-                    &-user-div {
+                    &-user-div,&-project-div {
                         padding: 4px 20px;
                         border-top: 1px solid;
                         display: flex;
@@ -312,7 +312,7 @@
                         justify-content: center;
                         height: 110px;
                         max-height: 110px;
-                        .user-info{
+                        .user-info,.project-info{
                             display: flex;
                             flex-direction: column;
                             align-items: center;

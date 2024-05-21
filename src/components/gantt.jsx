@@ -132,7 +132,7 @@ const Gantt = ({ customize, data }) => {
               <img src={arrowLeft} alt="Move Left"/>
             </button>
             <p onClick={handleMoveToStart} style={styles.todayButton}>Début</p>
-            <p onClick={handleMoveToToday} style={styles.todayButton}>Aujourd'hui</p>
+            <p onClick={handleMoveToToday} style={styles.todayButton}>Today</p>
             <p onClick={handleMoveToEnd} style={styles.todayButton}>Fin</p>
             <button className="gantt-container-filters-crt-block-btn-right" onClick={handleMoveRight}>
               <img src={arrowRight} alt="Move Right"/>

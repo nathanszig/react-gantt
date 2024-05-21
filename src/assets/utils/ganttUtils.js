@@ -278,7 +278,7 @@ export const excludeAttribute = (obj, attributeToExclude) => {
 export const createAllProject = (user) => {
 user.tasks.forEach((task, index) => {
   const newTask = {
-    id: index+1,
+    id: user.tasks.length + index,
     name: task.project.name + ' - ' + task.name,
     start: task.start,
     end: task.end,

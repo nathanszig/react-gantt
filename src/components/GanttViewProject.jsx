@@ -3,7 +3,7 @@ import GanttTimelineHeader from "./ganttTimelineHeader";
 import GanttSidebar from "./ganttSidebar";
 import GanttTaskContainer from "./GanttTaskContainer";
 
-import { getProjects } from '../assets/utils/ganttUtils';
+import {getProjects, PROJECT, TEAM} from '../assets/utils/ganttUtils';
 import { mergeStyles } from "./gantt";
 
 const GanttViewProject = ({ customize, data, selectUser, modeMonth}) => {
@@ -59,9 +59,10 @@ const GanttViewProject = ({ customize, data, selectUser, modeMonth}) => {
       <div className="gantt-container-section-sidebar">
         {projects.map((project) => (
           <div className="gantt-container-section-sidebar-line" key={project.id}>
-            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId} toggleDropdown={toggleDropdown} view="project" selectUser={selectUser}/>
+            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId}
+                          toggleDropdown={toggleDropdown} view={PROJECT} selectUser={selectUser}/>
             <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project}
-                                styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth}/>
+                          styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth} view={PROJECT}/>
           </div>
         ))}
       </div>
