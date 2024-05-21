@@ -11,24 +11,28 @@ moment.updateLocale('fr', {
   }
 });
 
+// Redirect to the corresponding function to calculate the width and margin of a task
 export const calculateWidthAndMargin = (startDate, endDate, firstWeekStartDate, width, modeMonth) => {
   return modeMonth
     ? calculateMonthWidthAndMargin(startDate, endDate, firstWeekStartDate, width)
     : calculateWeekWidthAndMargin(startDate, endDate, firstWeekStartDate, width);
 }
 
+// Call function to calculate width and margin of a task for a week
 export const calculateWeekWidthAndMargin = (startDate, endDate, firstWeekStartDate, width) => {
   const widthPercentage = calculateWeekTaskWidth(startDate, endDate, width);
   const taskMarginLeft = calculateWeekTaskMarginLeft(startDate, firstWeekStartDate, width);
   return { widthPercentage, taskMarginLeft };
 };
 
+// Call function to calculate width and margin of a task for a month
 export const calculateMonthWidthAndMargin = (startDate, endDate, firstWeekStartDate, width) => {
   const widthPercentage = calculateMonthTaskWidth(startDate, endDate, width);
   const taskMarginLeft = calculateMonthTaskMarginLeft(startDate, firstWeekStartDate, width);
   return { widthPercentage, taskMarginLeft };
 };
 
+// Calculate the width of a task for a week
 export const calculateWeekTaskWidth = (startDate, endDate, width) => {
   const startDateMoment = moment(startDate);
   const durationInDays = getDurationInDays(startDate, endDate);
@@ -43,6 +47,7 @@ export const calculateWeekTaskWidth = (startDate, endDate, width) => {
   return marginDays !== 1 ? (marginDays+1) * 50 : width;
 }
 
+// Calculate the margin of a task for a week
 export const calculateWeekTaskMarginLeft = (startDate, firstWeekStartDate) => {
   const startDateMoment = moment(startDate);
   const firstWeekStartDateMoment = moment(firstWeekStartDate).startOf('isoWeek').format('YYYY-MM-DD');
@@ -61,6 +66,7 @@ export const calculateWeekTaskMarginLeft = (startDate, firstWeekStartDate) => {
   return `${marginWithoutWeekends}`;
 }
 
+// Calculate the width of a task for a month
 export const calculateMonthTaskWidth = (startDate, endDate, width) => {
   const startDateMoment = moment(startDate);
   const totalWeeks = getDurationInWeeks(startDate, endDate);
@@ -117,7 +123,7 @@ export const calculateMonthTaskWidth = (startDate, endDate, width) => {
   return totalWidth + ((months.length-1) * 3);
 }
 
-
+// Calculate the margin of a task for a month
 export const calculateMonthTaskMarginLeft = (startDate, firstWeekStartDate, width) => {
   const timelineHeaderGap = window.getComputedStyle(document.querySelector('.gantt-container-section-timeline-header')).getPropertyValue('gap');
   const indexTaskFirstWeek = weekIndexInMonth(startDate);
@@ -130,6 +136,7 @@ export const calculateMonthTaskMarginLeft = (startDate, firstWeekStartDate, widt
   return monthWidth + ((indexTaskFirstWeek-1) * marginPerWeek);
 }
 
+// Check if a week has tasks
 export const weekHaveTask = (users, startOfWeek, endOfWeek) => {
     users.some((user) =>
         user.tasks.some((task) =>
@@ -142,6 +149,7 @@ export const weekHaveTask = (users, startOfWeek, endOfWeek) => {
     );
 }
 
+// Check if a month has tasks
 export const monthHaveTask = (users, startOfMonth, endOfMonth) => {
     users.some((user) =>
         user.tasks.some((task) =>
@@ -154,6 +162,7 @@ export const monthHaveTask = (users, startOfMonth, endOfMonth) => {
     );
 }
 
+// Get the list of weeks between the start and end date of the tasks
 export const getWeekList = (users) => {
     const startDate = moment.min(
         users.map((user) =>
@@ -184,7 +193,8 @@ export const getWeekList = (users) => {
     return weekList;
   };
 
-  export const sortProjectByChronologicalOrder = (projects) => {
+// Sort projects by chronological order
+export const sortProjectByChronologicalOrder = (projects) => {
     function getProjectDateRange(project) {
       const startDates = project.tasks.map(task => new Date(task.start).getTime());
       const endDates = project.tasks.map(task => new Date(task.end).getTime());
@@ -226,66 +236,104 @@ export const getWeekList = (users) => {
     return sortedProjects;
   }
 
-  export const getProjects = (users) => {
-    const projectsMap = [];
-    users.forEach((user) =>
-        user.tasks.forEach((task) => {
-          const project = task.project;
-          const projectId = project.id;
-          const taskId = task.id;
-          const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
-          task.user = excludeAttribute(user, 'tasks');
-          if (projectIndex === -1) {
-            projectsMap.push({
-              id: projectId,
-              name: project.name,
-              tasks: [task],
-              users: [user]
-            });
-          } else {
-            const taskIndex = projectsMap[projectIndex].tasks.findIndex((t) => t.id === taskId);
-            const userIndex = projectsMap[projectIndex].users.findIndex((u) => u.id === user.id);
-            if (taskIndex === -1) {
-              projectsMap[projectIndex].tasks.push(task);
-              if (userIndex === -1) {
-                  projectsMap[projectIndex].users.push(user);
-              }
+// Get all the projects of the users
+export const getProjects = (users) => {
+  const projectsMap = [];
+  users.forEach((user) =>
+      user.tasks.forEach((task) => {
+        const project = task.project;
+        const projectId = project.id;
+        const taskId = task.id;
+        const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
+        task.user = excludeAttribute(user, 'tasks');
+        if (projectIndex === -1) {
+          projectsMap.push({
+            id: projectId,
+            name: project.name,
+            tasks: [task],
+            users: [user]
+          });
+        } else {
+          const taskIndex = projectsMap[projectIndex].tasks.findIndex((t) => t.id === taskId);
+          const userIndex = projectsMap[projectIndex].users.findIndex((u) => u.id === user.id);
+          if (taskIndex === -1) {
+            projectsMap[projectIndex].tasks.push(task);
+            if (userIndex === -1) {
+                projectsMap[projectIndex].users.push(user);
             }
           }
-        })
-    );
-    return sortProjectByChronologicalOrder(projectsMap);
-  }
-
-  export const excludeAttribute = (obj, attributeToExclude) => {
-     const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
-     return rest;
-  }
-
-  export const removeProjectAllProjects = (data) => {
-    const users = data.users.map(user => {
-      user.tasks = user.tasks.filter(task => task.project.id !== 'allProjects');
-      return user;
-    });
-    return { users };
-  }
-
-  export const createAllProject = (user) => {
-  user.tasks.forEach((task, index) => {
-    const newTask = {
-      id: index+1,
-      name: task.project.name + ' - ' + task.name,
-      start: task.start,
-      end: task.end,
-      description : task.description,
-      taskImgUrl: task.taskImgUrl,
-      project : {
-        name : "All Projects",
-        id : 'allProjects'
-      }
-    }
-    user.tasks.push(newTask);
-  });
-  return user;
+        }
+      })
+  );
+  return sortProjectByChronologicalOrder(projectsMap);
 }
 
+// Exclude an attribute from an object
+export const excludeAttribute = (obj, attributeToExclude) => {
+   const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
+   return rest;
+}
+
+// Create a project called "All Projects" that contains all the tasks of the user
+export const createAllProject = (user) => {
+user.tasks.forEach((task, index) => {
+  const newTask = {
+    id: index+1,
+    name: task.project.name + ' - ' + task.name,
+    start: task.start,
+    end: task.end,
+    description : task.description,
+    taskImgUrl: task.taskImgUrl,
+    project : {
+      name : "All Projects",
+      id : 'allProjects'
+    }
+  }
+  user.tasks.push(newTask);
+});
+return user;
+}
+
+// Remove the project "All Projects" from the user's tasks
+export const removeProjectAllProjects = (data) => {
+  const users = data.users.map(user => {
+    user.tasks = user.tasks.filter(task => task.project.id !== 'allProjects');
+    return user;
+  });
+  return { users };
+}
+
+// Transform the users data to an other format where tasks are grouped by project
+export const transformUsersData = (users) => {
+  return users.map(user => {
+    // Create a projects map to aggregate tasks under the same project
+    const projectsMap = {};
+    user.tasks.forEach(task => {
+      const projectId = task.project.id;
+      const projectName = task.project.name;
+      if (!projectsMap[projectId]) {
+        projectsMap[projectId] = {
+          id: projectId,
+          name: projectName,
+          tasks: []
+        };
+      }
+      projectsMap[projectId].tasks.push({
+        id: task.id,
+        name: task.name,
+        start: task.start,
+        end: task.end,
+        description: task.description,
+        taskImgUrl: task.taskImgUrl
+      });
+    });
+
+    return {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      urlAvatar: user.urlAvatar,
+      projects: Object.values(projectsMap)
+    };
+  });
+};

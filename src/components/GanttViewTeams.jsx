@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import moment from 'moment';
+
 import GanttTimelineHeader from "./ganttTimelineHeader";
 import GanttSidebar from "./ganttSidebar";
 import GanttTaskContainer from "./GanttTaskContainer";
 
-import {calculateWidthAndMargin, createAllProject, getProjects, TEAM} from '../assets/utils/ganttUtils';
+import {createAllProject,transformUsersData,TEAM} from '../assets/utils/ganttUtils';
 import { mergeStyles } from "./gantt";
 
 const GanttViewTeam = ({ customize, data, selectUser, modeMonth }) => {
@@ -25,14 +25,15 @@ const GanttViewTeam = ({ customize, data, selectUser, modeMonth }) => {
   const [previousTasks, setPreviousTasks] = useState([]);
   const [selectedDropdownId, setSelectedDropdownId] = useState(null);
 
-  useEffect(() => {
-    if (users.length > 0) {
-      console.log('setusers')
-      setUsers(users.map(user => createAllProject(user)));
-    }
-    setPreviousTasks([]);
-  }, [users])
+  const getUsers = useCallback(() => {
+    setUsers(null);
+    setUsers(data.map(userData => createAllProject(userData)));
+  }, [data]);
 
+  useEffect(() => {
+    getUsers();
+    setPreviousTasks([]);
+  }, [getUsers]);
 
   const toggleDropdown = (id) => {
     if (selectedDropdownId === id) {
@@ -43,6 +44,7 @@ const GanttViewTeam = ({ customize, data, selectUser, modeMonth }) => {
   };
 
   const styles = mergeStyles(defaultStyles, customize);
+
   return (
     <section className="gantt-container-section">
       <div className="gantt-container-section-timeline">
@@ -50,9 +52,12 @@ const GanttViewTeam = ({ customize, data, selectUser, modeMonth }) => {
       </div>
 
       <div className="gantt-container-section-sidebar">
-        <div className="gantt-container-section-sidebar-line">
-          <GanttSidebar styleData={styles} data={users} selectedDropdownId={selectedDropdownId} toggleDropdown={toggleDropdown} view={TEAM} selectUser={selectUser}/>
-        </div>
+        {transformUsersData(users).map((user) => (
+          <div className="gantt-container-section-sidebar-line" key={user.id}>
+            <GanttSidebar styleData={styles} data={user} selectedDropdownId={selectedDropdownId}
+                          toggleDropdown={toggleDropdown} view={TEAM} selectUser={selectUser}/>
+          </div>
+        ))}
       </div>
     </section>
   );

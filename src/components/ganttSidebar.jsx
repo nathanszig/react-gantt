@@ -1,12 +1,11 @@
 import Icon from '../assets/pictos/arrow-left.svg';
-import {PERSO, PROJECT, TEAM} from '../assets/utils/ganttUtils';
+import {TEAM} from '../assets/utils/ganttUtils';
 
 const GanttSidebar = (props) => {
+  0
   // Déterminer le titre en fonction de la vue
   let cardTitle = props.view === TEAM ? `${props.data.firstName} ${props.data.lastName}` : props.data.name;
-  console.log('props.view', props.view);
-  console.log('props.data', props.data);
-  console.log('cardTitle', cardTitle);
+
   return (
     <div className="gantt-container-section-sidebar-tasks project" style={props.styleData.sidebarProjects}>
       <div className="gantt-container-section-sidebar-task">
@@ -54,7 +53,11 @@ const GanttSidebar = (props) => {
               </div>
             );
           }) : props.data.tasks.map((task, index) => {
+            console.log('--------------------')
+            console.log(props.view)
+            console.log(props.data)
             const project = task.project;
+            const user = props.data;
             return (
               <div
                 className="gantt-container-section-sidebar-dropdown-content-user"
@@ -63,8 +66,8 @@ const GanttSidebar = (props) => {
                 <div className="gantt-container-section-sidebar-dropdown-content-user-div">
                   <div className="user-info">
                     <img
-                      src={project.urlAvatar}
-                      alt={`Avatar de ${project.name}`}
+                      src={user.urlAvatar}
+                      alt={`Avatar de ${user.firstName} ${user.lastName}`}
                       className={"avatar-img"}
                     />
                     <div className="user-info-p">
