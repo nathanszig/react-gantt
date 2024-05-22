@@ -1,9 +1,9 @@
 import moment from 'moment';
 import {getDurationInDays, getDurationInWeeks, numberOfWeeksInMonth, weekIndexInMonth} from './dateUtils';
 
-export const PROJECT = "project";
-export const PERSO = "perso";
-export const TEAM = "team";
+export const PROJECTS = "projects";
+export const SINGLE_USER = "singleUser";
+export const USERS = "users";
 
 moment.updateLocale('fr', {
   week: {
@@ -36,6 +36,7 @@ export const calculateMonthWidthAndMargin = (startDate, endDate, firstWeekStartD
 export const calculateWeekTaskWidth = (startDate, endDate, width) => {
   const startDateMoment = moment(startDate);
   const durationInDays = getDurationInDays(startDate, endDate);
+  const widthPerDay = width / 5;
   // with moment.js calcul number of days between startDate and endDate without weekends
   let marginDays = 0;
   for (let i = 0; i < durationInDays; i++) {
@@ -44,7 +45,7 @@ export const calculateWeekTaskWidth = (startDate, endDate, width) => {
       marginDays++;
     }
   }
-  return marginDays !== 1 ? (marginDays+1) * 50 : width;
+  return marginDays !== 1 ? (marginDays+1) * widthPerDay : widthPerDay;
 }
 
 // Calculate the margin of a task for a week

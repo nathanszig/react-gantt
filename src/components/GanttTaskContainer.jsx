@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
-import {calculateWidthAndMargin, getWeekList, PERSO, TEAM} from '../assets/utils/ganttUtils';
+import {calculateWidthAndMargin, getWeekList, SINGLE_USER, USERS} from '../assets/utils/ganttUtils';
 
 const GanttTaskContainer = (props) => {
 
   const [timelineWidth, setTimelineWidth] = useState(null);
   const timelineWeeks = getWeekList(props.users);
   const modeMonth = props.modeMonth;
+  const stackedRef = useRef(null);
 
   useEffect(() => {
     const updateWidths = () => {
@@ -69,14 +70,30 @@ const GanttTaskContainer = (props) => {
       }
       let height = props.selectedDropdownId === selectedId ? '110px' : `calc(132px / ${nbStacked})`;
       let top = 0;
-      // Si la vue est TEAM, on calcule le top en fonction de l'index du projet sinon en fonction de l'index de la tâche
-      if (props.view !== TEAM) {
+
+      /* - Pour le mode semaine on ajoute la classe truncated si la width du container est plus petite que la width de la tâche
+           - Cette classe permet au hover de la tâche de s'afficher en entier
+           - La taille minimum étant de 1 semaine ce problème n'arrive pas en mode mois
+           - Si on passe en mode mois on enlève la classe truncated  si elle est présente
+         */
+      useEffect(() => {
+        if (stackedRef && stackedRef.current) {
+          if (stackedRef.current.offsetWidth > parseInt(width.match(/\d+/))) {
+            stackedRef.current.classList.add('truncated');
+          } else if (stackedRef.current.classList.contains('truncated')) {
+            stackedRef.current.classList.remove('truncated');
+          }
+        }
+      }, [stackedRef, modeMonth]);
+
+      // Si la vue est USERS, on calcule le top en fonction de l'index du projet sinon en fonction de l'index de la tâche
+      if (props.view !== USERS) {
         top = props.selectedDropdownId === selectedId
           ? `calc(115px * ${index})`
           : `calc(135px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
       } else {
         top = props.selectedDropdownId === selectedId
-          ? `calc(135px * ${projectIndex})`
+          ? `calc(115px * ${projectIndex})`
           : `calc(135px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
       }
       return (
@@ -87,6 +104,7 @@ const GanttTaskContainer = (props) => {
               style={{width: width, left: finalMargin, height: height, top: top }}
             >
               <div
+                ref={stackedRef}
                 className="gantt-container-section-main-tasks-t-content"
                 style={props.styleData.taskContainer}
               >
@@ -109,9 +127,9 @@ const GanttTaskContainer = (props) => {
   return (
     <div
       className="gantt-task-container"
-      style={getTaskContainerStyle(props.view === TEAM ? props.user : props.project)}
+      style={getTaskContainerStyle(props.view === USERS ? props.user : props.project)}
     >
-      {props.view !== TEAM
+      {props.view !== USERS
         ? renderTasks(props.project.tasks, props.project.id)
         : props.user.projects.map((project, index) => (
               renderTasks(project.tasks, props.user.id, index)

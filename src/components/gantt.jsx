@@ -5,7 +5,7 @@ import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import GanttViewPerso from './GanttViewPerso'
-import {removeProjectAllProjects, PERSO, PROJECT, TEAM} from "../assets/utils/ganttUtils";
+import {removeProjectAllProjects, SINGLE_USER, PROJECTS, USERS} from "../assets/utils/ganttUtils";
 import GanttViewTeams from "./GanttViewTeams";
 
 export function mergeStyles(target, source) {
@@ -45,7 +45,7 @@ export const handleMoveToEnd = () => {
 
 const Gantt = ({ customize, data }) => {
   const [testData, setTestData] = useState(data);
-  const [view, setView] = useState("project");
+  const [view, setView] = useState(PROJECTS);
   const [modeMonth, setModeMonth] = useState(false);
 
   const defaultStyles = {
@@ -82,13 +82,13 @@ const Gantt = ({ customize, data }) => {
   }
 
   const selectUser = (userId, newView = null) => {
-    if (view !== PERSO && userId !== null) {
+    if (view !== SINGLE_USER && userId !== null) {
       // Sort to only get the data of the selected user
       const selectedUser = data.users.filter(user => user.id === userId);
       setTestData({ users: [selectedUser[0]] });
-      setView(PERSO);
-    } else if (newView !== null && view !== newView && newView !== PERSO && userId === null) {
-      newView === PROJECT ? setTestData(removeProjectAllProjects(data)) : setTestData(data.users);
+      setView(SINGLE_USER);
+    } else if (newView !== null && view !== newView && newView !== SINGLE_USER && userId === null) {
+      newView === PROJECTS ? setTestData(removeProjectAllProjects(data)) : setTestData(data.users);
       setView(newView);
     }
   }
@@ -100,14 +100,14 @@ const Gantt = ({ customize, data }) => {
       <div className="gantt-container-filters">
         <div className="view-state-button">
           <button
-            className={view === PROJECT ? "active" : ""}
-            onClick={() => selectUser(null, PROJECT)}
+            className={view === PROJECTS ? "active" : ""}
+            onClick={() => selectUser(null, PROJECTS)}
           >
             Projects
           </button>
           <button
-            className={view === TEAM ? "active" : ""}
-            onClick={() => selectUser(null, TEAM)}
+            className={view === USERS ? "active" : ""}
+            onClick={() => selectUser(null, USERS)}
           >
             Users
           </button>
@@ -141,7 +141,7 @@ const Gantt = ({ customize, data }) => {
         </div>
       </div>
       {
-        view === PROJECT ?
+        view === PROJECTS ?
           <GanttViewProject
             customize={styles}
             data={testData}
@@ -149,7 +149,7 @@ const Gantt = ({ customize, data }) => {
             modeMonth={modeMonth}
           />
           :
-          view === PERSO ?
+          view === SINGLE_USER ?
             <GanttViewPerso
               customize={styles}
               data={testData}

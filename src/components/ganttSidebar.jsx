@@ -1,9 +1,9 @@
 import Icon from '../assets/pictos/arrow-left.svg';
-import { TEAM } from '../assets/utils/ganttUtils';
+import { USERS } from '../assets/utils/ganttUtils';
 
 const GanttSidebar = (props) => {
   // Déterminer le titre en fonction de la vue
-  let cardTitle = props.view === TEAM ? `${props.data.firstName} ${props.data.lastName}` : props.data.name;
+  let cardTitle = props.view === USERS ? `${props.data.firstName} ${props.data.lastName}` : props.data.name;
 
   const renderUserTask = (task, index) => {
     const user = task.user;
@@ -50,8 +50,8 @@ const GanttSidebar = (props) => {
       <div className="gantt-container-section-sidebar-task">
         <div className="gantt-container-section-sidebar-task-client">
           <p
-            className={`gantt-container-section-sidebar-task-client-name${props.view === TEAM ?'-team':''} `}
-            onClick={props.view === TEAM ? () => props.selectUser(props.data.id) : undefined}
+            className={`gantt-container-section-sidebar-task-client-name${props.view === USERS ?'-team':''} `}
+            onClick={props.view === USERS ? () => props.selectUser(props.data.id) : undefined}
           >
             {cardTitle}
           </p>
@@ -73,7 +73,7 @@ const GanttSidebar = (props) => {
       </div>
       {props.data.id === props.selectedDropdownId && (
         <div className="gantt-container-section-sidebar-dropdown-content">
-          {props.view !== TEAM
+          {props.view !== USERS
             ? props.data.tasks.map(renderUserTask)
             : props.data.projects.map(renderProject)
           }

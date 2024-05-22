@@ -2,6 +2,7 @@
     padding: 35px;
     position: relative;
     overflow: hidden;
+    cursor: default;
 
     &-filters {
         display: flex;
@@ -269,7 +270,7 @@
                 // height: 100%;
                 background-color: blue;
                 border-radius: 8px;
-                padding: 10px 20px 0px 20px;
+                padding: 10px 20px 0 20px;
                 box-sizing: border-box;
 
                 &.project {
@@ -324,6 +325,8 @@
                               display: flex;
                               flex-flow: row;
                               gap: 10px;
+                            }
+                            .user-info-p {
                               cursor: pointer;
                             }
                         }
@@ -401,9 +404,18 @@
                             flex-direction: row;
                             align-items: center;
                             gap: 20px;
+                            justify-content: space-around;
+                            overflow: hidden;
+                            transition: width 0.5s ease;
+                            min-width: 100%;
+
+                            &.truncated:hover{
+                              min-width: fit-content;
+                            }
 
                             p{
                                 width: fit-content;
+                                white-space: nowrap;
                             }
 
                             .title{
@@ -424,10 +436,8 @@
                         border-radius: 8px;
                         background: var(--light-grey, #F7F7F7);
                         width: 100%;
-                        padding: 0 18px;
                         max-height: 110px;
                         border: solid rgb(236, 236, 236) 2px;
-                        display: flex;
                         flex-direction: column;
                         padding: 10px;
 
