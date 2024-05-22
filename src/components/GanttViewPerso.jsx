@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import GanttTimelineHeader from "./ganttTimelineHeader";
 import GanttSidebar from "./ganttSidebar";
 
-import { getProjects } from '../assets/utils/ganttUtils';
+import {createAllProject, getProjects, SINGLE_USER, USERS} from '../assets/utils/ganttUtils';
 
 import { mergeStyles } from "./gantt";
 
@@ -23,27 +23,10 @@ const GanttViewPerso = ({ customize, data, selectUser, modeMonth }) => {
   };
 
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(data.users[0]);
   const [projects, setProjects] = useState([]);
   const [previousTasks, setPreviousTasks] = useState([]);
   const [selectedDropdownId, setSelectedDropdownId] = useState(null);
-  const user = data.users[0];
-  function createAllProject(){
-    user.tasks.forEach((task, index) => {
-      const newTask = {
-        id: index+1,
-        name: task.project.name + ' - ' + task.name,
-        start: task.start,
-        end: task.end,
-        description : task.description,
-        taskImgUrl: task.taskImgUrl,
-        project : {
-          name : "All Projects",
-          id : 'allProjects'
-        }
-      }
-      user.tasks.push(newTask);
-    });
-  }
 
   const getUsers = useCallback(() => {
     setUsers(data && data.users ? data.users : []);
@@ -51,7 +34,7 @@ const GanttViewPerso = ({ customize, data, selectUser, modeMonth }) => {
 
   useEffect(() => {
     if (users.length > 0) {
-      createAllProject();
+      setUser(createAllProject(user));
       setProjects(getProjects(users))
     }
   }, [users])
@@ -87,9 +70,10 @@ const GanttViewPerso = ({ customize, data, selectUser, modeMonth }) => {
       <div className="gantt-container-section-sidebar">
         {projects.map((project) => (
           <div className="gantt-container-section-sidebar-line" key={project.id}>
-            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId} toggleDropdown={toggleDropdown} view="perso" selectUser={selectUser}/>
+            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId}
+                          toggleDropdown={toggleDropdown} view={SINGLE_USER} selectUser={selectUser}/>
             <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project}
-                                styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth}/>
+                          styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth} view={SINGLE_USER}/>
           </div>
         ))}
       </div>

@@ -2,6 +2,7 @@
     padding: 35px;
     position: relative;
     overflow: hidden;
+    cursor: default;
 
     &-filters {
         display: flex;
@@ -269,7 +270,7 @@
                 // height: 100%;
                 background-color: blue;
                 border-radius: 8px;
-                padding: 10px 20px 0px 20px;
+                padding: 10px 20px 0 20px;
                 box-sizing: border-box;
 
                 &.project {
@@ -291,7 +292,7 @@
                     justify-content: flex-end;
 
                     img {
-                        width: 20%;
+                        width: 27%;
                         rotate: 270deg;
                     }
                 }
@@ -300,11 +301,15 @@
                     font-size: 12px;
                     padding: 3px;
                 }
+
+              &-client-name-team {
+                cursor: pointer;
+              }
             }
 
             &-dropdown {
                 &-content {
-                    &-user-div {
+                    &-user-div,&-project-div {
                         padding: 4px 20px;
                         border-top: 1px solid;
                         display: flex;
@@ -312,15 +317,17 @@
                         justify-content: center;
                         height: 110px;
                         max-height: 110px;
-                        .user-info{
+                        .user-info,.project-info{
                             display: flex;
                             flex-direction: column;
                             align-items: center;
                             &-p {
-                               display: flex;
-                                flex-flow: row;
-                                gap: 10px;
-                                cursor: pointer;
+                              display: flex;
+                              flex-flow: row;
+                              gap: 10px;
+                            }
+                            .user-info-p {
+                              cursor: pointer;
                             }
                         }
 
@@ -408,6 +415,7 @@
 
                             p{
                                 width: fit-content;
+                                white-space: nowrap;
                             }
 
                             .title{

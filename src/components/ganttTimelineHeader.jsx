@@ -65,7 +65,7 @@ const GanttTimelineHeader = (props) => {
                         >
                           {isCurrentMonth ? (
                             <div className="todayDiv">
-                              <p className="todayText"><b>Aujourd'hui</b></p>
+                              <p className="todayText"><b>Today</b></p>
                               <p className="monthDate">
                                 {monthStart.format("MMMM")}
                               </p>
@@ -107,7 +107,7 @@ const GanttTimelineHeader = (props) => {
                         >
                           {isCurrentWeek ? (
                             <div className="todayDiv">
-                              <p className="todayText"><b>Aujourd'hui</b></p>
+                              <p className="todayText"><b>Today</b></p>
                               <p className="weekDate">
                                 {moment(item.start).format("DD MMMM")} -{" "}
                                 {moment(item.end).format("DD MMMM")}

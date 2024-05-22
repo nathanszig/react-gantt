@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import GanttTimelineHeader from "./ganttTimelineHeader";
 import GanttSidebar from "./ganttSidebar";
-
-import { getProjects } from '../assets/utils/ganttUtils';
-
-import { mergeStyles } from "./gantt";
-
 import GanttTaskContainer from "./GanttTaskContainer";
+
+import {getProjects, PROJECTS, USERS} from '../assets/utils/ganttUtils';
+import { mergeStyles } from "./gantt";
 
 const GanttViewProject = ({ customize, data, selectUser, modeMonth}) => {
   const defaultStyles = {
@@ -61,9 +59,10 @@ const GanttViewProject = ({ customize, data, selectUser, modeMonth}) => {
       <div className="gantt-container-section-sidebar">
         {projects.map((project) => (
           <div className="gantt-container-section-sidebar-line" key={project.id}>
-            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId} toggleDropdown={toggleDropdown} view="project" selectUser={selectUser}/>
+            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId}
+                          toggleDropdown={toggleDropdown} view={PROJECTS} selectUser={selectUser}/>
             <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project}
-                                styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth}/>
+                          styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth} view={PROJECTS}/>
           </div>
         ))}
       </div>
