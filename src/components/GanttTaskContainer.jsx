@@ -96,6 +96,17 @@ const GanttTaskContainer = (props) => {
           ? `calc(115px * ${projectIndex})`
           : `calc(135px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
       }
+
+      let duration = '';
+      // calculer le nombre de jours entre la date de début et la date de fin si ca dépasse 30 jours on affiche le nombre en mois jours et si ca dépasse 365 jours on affiche le nombre en années mois jours
+      let nbDays = moment(task.end).diff(moment(task.start), 'days');
+      let nbMonths = moment(task.end).diff(moment(task.start), 'months');
+      let nbYears = moment(task.end).diff(moment(task.start), 'years');
+
+      nbYears > 0 ? duration += `${nbYears} an${nbYears > 1 ? 's' : ''}` : '';
+      nbMonths > 0 ? duration += nbYears > 0 ? (nbMonths - nbYears * 12 > 0 ? ` ${nbMonths - nbYears * 12} mois` : '') : ` ${nbMonths} mois` : '';
+      nbDays > 0 ? duration += nbMonths > 0 ? (nbDays - nbMonths * 30 > 0 ? ` ${nbDays - nbMonths * 30} jours` : '') : ` ${nbDays} jours` : '';
+
       return (
         <div className="gantt-container-section-main-tasks project" key={task.id}>
           <div className="gantt-container-section-main-tasks-m">
@@ -116,6 +127,7 @@ const GanttTaskContainer = (props) => {
                 </p>
                 <p className="title">{task.name}</p>
                 <p className="description">{task.description}</p>
+                <p className="nbDays">{duration}</p>
               </div>
             </div>
           </div>
