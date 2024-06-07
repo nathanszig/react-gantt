@@ -45,10 +45,7 @@ const GanttViewTeam = ({ mode }) => {
     return tasks;
   };
 
-  function returnTwoFirstsCharacters(string) {
-    return string ? string.substring(0, 2) : '';
-  }
-
+  // Get the list of weeks
   function getWeekList() {
     const startDate = moment.min(tasks.map((task) => moment(task.start).startOf("isoWeek")).flat());
     const endDate = moment.max(tasks.map((task) => moment(task.end).endOf('isoWeek')).flat());
@@ -67,11 +64,8 @@ const GanttViewTeam = ({ mode }) => {
     }
     return weekList;
   }
-  const calculateHeight = () => {
-    let height = 0;
 
-  };
-
+  // Calculate the width and margin of the task
   const calculateTaskStyle = (task, index) => {
     const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(
       task.start,
@@ -91,6 +85,7 @@ const GanttViewTeam = ({ mode }) => {
     return taskStyle;
   }
 
+  // Navigate to today
   function navigateToday() {
     const todayOnGantt = document.querySelector(".gantt-container-section .today");
     if (todayOnGantt) {
@@ -102,12 +97,12 @@ const GanttViewTeam = ({ mode }) => {
     }
   }
 
+  // Render the tasks
   return (
     <section className="gantt-container-section">
       <div className="gantt-container-section-timeline">
         <div className="gantt-container-section-timeline-header">
-          {
-            mode === 'Mois' ?
+          {mode === 'Mois' ?
               (
                 <div className="gantt-container-section-timeline-header">
                   {timelineWeeks.map((week, index) => {

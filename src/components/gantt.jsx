@@ -63,6 +63,7 @@ const Gantt = ({ customize, data }) => {
     },
   };
 
+  // Move the gantt to the left
   const handleMoveLeft = () => {
     const ganttContainer = document.querySelector(".gantt-container-section");
     if (ganttContainer) {
@@ -70,6 +71,7 @@ const Gantt = ({ customize, data }) => {
     }
   };
 
+  // Move the gantt to the right
   const handleMoveRight = () => {
     const ganttContainer = document.querySelector(".gantt-container-section");
     if (ganttContainer) {
@@ -77,11 +79,13 @@ const Gantt = ({ customize, data }) => {
     }
   };
 
+  // Change the mode of the gantt between month and week
   const changeMode = (mode) => {
     setModeMonth(mode);
   }
 
-  const selectUser = (userId, newView = null) => {
+  // Select the view to display and if it's a single user, display the user passed in parameter
+  const selectView = (userId, newView = null) => {
     if (view !== SINGLE_USER && userId !== null) {
       // Sort to only get the data of the selected user
       const selectedUser = data.users.filter(user => user.id === userId);
@@ -95,19 +99,20 @@ const Gantt = ({ customize, data }) => {
 
   const styles = mergeStyles(defaultStyles, customize);
 
+  // Render the project
   return (
     <div className="gantt-container" >
       <div className="gantt-container-filters">
         <div className="view-state-button">
           <button
             className={view === PROJECTS ? "active" : ""}
-            onClick={() => selectUser(null, PROJECTS)}
+            onClick={() => selectView(null, PROJECTS)}
           >
             Projects
           </button>
           <button
             className={view === USERS ? "active" : ""}
-            onClick={() => selectUser(null, USERS)}
+            onClick={() => selectView(null, USERS)}
           >
             Users
           </button>
@@ -145,20 +150,19 @@ const Gantt = ({ customize, data }) => {
           <GanttViewProject
             customize={styles}
             data={testData}
-            selectUser={selectUser}
+            selectView={selectView}
             modeMonth={modeMonth}
-          />
-          :
-          view === SINGLE_USER ?
+          /> : view === SINGLE_USER ?
             <GanttViewPerso
               customize={styles}
               data={testData}
-              selectUser={selectUser}
+              selectView={selectView}
               modeMonth={modeMonth}
-            /> : <GanttViewTeams
+            /> :
+            <GanttViewTeams
               customize={styles}
               data={testData}
-              selectUser={selectUser}
+              selectView={selectView}
               modeMonth={modeMonth}
             />
       }

@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from "moment";
-import { weekHaveTask, getWeekList, monthHaveTask } from '../assets/utils/ganttUtils'; // Assurez-vous d'avoir la fonction monthHaveTask dans vos utilitaires
+import {weekHaveTask, getWeekList, monthHaveTask} from '../assets/utils/ganttUtils';
 
 const GanttTimelineHeader = (props) => {
   const timelineWeeks = getWeekList(props.users);
@@ -8,6 +8,7 @@ const GanttTimelineHeader = (props) => {
   let weekIndex = 0;
   let monthIndex = 0;
 
+  // Group weeks by year
   const weeksByYear = timelineWeeks.reduce((acc, week) => {
     const year = moment(week.end, "YYYY-MM-DD").year();
     if (!acc[year]) {
@@ -17,6 +18,7 @@ const GanttTimelineHeader = (props) => {
     return acc;
   }, {});
 
+  // Group months by year
   const monthsByYear = timelineWeeks.reduce((acc, week) => {
     const year = moment(week.end, "YYYY-MM-DD").year();
     const month = moment(week.end, "YYYY-MM-DD").month();
@@ -29,6 +31,7 @@ const GanttTimelineHeader = (props) => {
     return acc;
   }, {});
 
+  // Return the timeline header
   return (
     <div className="gantt-container-section-timeline-header">
       {
@@ -38,8 +41,7 @@ const GanttTimelineHeader = (props) => {
               <b>{year}</b>
             </div>
             <div className="gantt-container-section-timeline-header-weeks-content">
-              {
-                modeMonth ?
+              {modeMonth ?
                   monthsByYear[year].map((month, index) => {
                     const monthStart = moment().year(year).month(month).startOf('month');
                     const monthEnd = moment().year(year).month(month).endOf('month');
