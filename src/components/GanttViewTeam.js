@@ -103,39 +103,39 @@ const GanttViewTeam = ({ mode }) => {
       <div className="gantt-container-section-timeline">
         <div className="gantt-container-section-timeline-header">
           {mode === 'Mois' ?
-              (
-                <div className="gantt-container-section-timeline-header">
-                  {timelineWeeks.map((week, index) => {
-                    const startOfWeek = moment(week.start, 'YYYY-MM-DD');
-                    const endOfWeek = moment(week.end, 'YYYY-MM-DD');
-                    const today = moment().startOf('day');
-                    const isCurrentWeek = today.isBetween(startOfWeek, endOfWeek, null, '[]');
-                    return (
-                      <div className={`gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""}`} key={index}>
-                        <p>
-                          {moment(week.start).format('DD MMMM')} - {moment(week.end).format('DD MMMM')}
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="gantt-container-section-timeline-header">
-                  {timelineWeeks.map((week, index) => {
-                    const startOfWeek = moment(week.start, 'YYYY-MM-DD');
-                    const endOfWeek = moment(week.end, 'YYYY-MM-DD');
-                    const today = moment().startOf('day');
-                    const isCurrentWeek = today.isBetween(startOfWeek, endOfWeek, null, '[]');
-                    return (
-                      <div className={`gantt-container-section-timeline-header-week ${isCurrentWeek ? "today" : ""}`} key={index}>
-                        <p>
-                          {moment(week.start).format('DD MMMM')} - {moment(week.end).format('DD MMMM')}
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              )
+            (
+              <div className="gantt-container-section-timeline-header">
+                {timelineWeeks.map((week, index) => {
+                  const startOfWeek = moment(week.start, 'YYYY-MM-DD');
+                  const endOfWeek = moment(week.end, 'YYYY-MM-DD');
+                  const today = moment().startOf('day');
+                  const isCurrentWeek = today.isBetween(startOfWeek, endOfWeek, null, '[]');
+                  return (
+                    <div className={`gantt-container-section-timeline-header-days ${isCurrentWeek ? "today" : ""}`} key={index}>
+                      <p>
+                        {moment(week.start).format('DD MMMM')} - {moment(week.end).format('DD MMMM')}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="gantt-container-section-timeline-header">
+                {timelineWeeks.map((week, index) => {
+                  const startOfWeek = moment(week.start, 'YYYY-MM-DD');
+                  const endOfWeek = moment(week.end, 'YYYY-MM-DD');
+                  const today = moment().startOf('day');
+                  const isCurrentWeek = today.isBetween(startOfWeek, endOfWeek, null, '[]');
+                  return (
+                    <div className={`gantt-container-section-timeline-header-week ${isCurrentWeek ? "today" : ""}`} key={index}>
+                      <p>
+                        {moment(week.start).format('DD MMMM')} - {moment(week.end).format('DD MMMM')}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            )
           }
         </div>
       </div>

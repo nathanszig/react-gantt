@@ -5,7 +5,7 @@ import '../styles/gantt.scss';
 import '../index.css';
 import GanttViewProject from './GanttViewProject'
 import GanttViewPerso from './GanttViewPerso'
-import {removeProjectAllProjects, SINGLE_USER, PROJECTS, USERS} from "../assets/utils/ganttUtils";
+import { removeProjectAllProjects, SINGLE_USER, PROJECTS, USERS } from "../assets/utils/ganttUtils";
 import GanttViewTeams from "./GanttViewTeams";
 
 export function mergeStyles(target, source) {
@@ -134,13 +134,13 @@ const Gantt = ({ customize, data }) => {
         <div className="gantt-container-filters-crt">
           <div className="gantt-container-filters-crt-block">
             <button className="gantt-container-filters-crt-block-btn-left" onClick={handleMoveLeft}>
-              <img src={arrowLeft} alt="Move Left"/>
+              <img src={arrowLeft} alt="Move Left" />
             </button>
             <p onClick={handleMoveToStart} style={styles.todayButton}>Début</p>
             <p onClick={handleMoveToToday} style={styles.todayButton}>Today</p>
             <p onClick={handleMoveToEnd} style={styles.todayButton}>Fin</p>
             <button className="gantt-container-filters-crt-block-btn-right" onClick={handleMoveRight}>
-              <img src={arrowRight} alt="Move Right"/>
+              <img src={arrowRight} alt="Move Right" />
             </button>
           </div>
         </div>

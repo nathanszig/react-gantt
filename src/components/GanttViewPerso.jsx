@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import GanttTimelineHeader from "./ganttTimelineHeader";
 import GanttSidebar from "./ganttSidebar";
 
-import {createAllProject, getProjects, SINGLE_USER} from '../assets/utils/ganttUtils';
+import { createAllProject, getProjects, SINGLE_USER } from '../assets/utils/ganttUtils';
 
 import { mergeStyles } from "./gantt";
 
@@ -59,7 +59,7 @@ const GanttViewPerso = ({ customize, data, selectView, modeMonth }) => {
   return (
     <section className="gantt-container-section">
       <div className="gantt-container-section-timeline">
-        <GanttTimelineHeader users={users} styleData={styles} modeMonth={modeMonth}/>
+        <GanttTimelineHeader users={users} styleData={styles} modeMonth={modeMonth} />
       </div>
       <div className={"gantt-perso-info"}>
         <img
@@ -73,9 +73,9 @@ const GanttViewPerso = ({ customize, data, selectView, modeMonth }) => {
         {projects.map((project) => (
           <div className="gantt-container-section-sidebar-line" key={project.id}>
             <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId}
-                          toggleDropdown={toggleDropdown} view={SINGLE_USER} selectView={selectView}/>
+              toggleDropdown={toggleDropdown} view={SINGLE_USER} selectView={selectView} />
             <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project}
-                          styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth} view={SINGLE_USER}/>
+              styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth} view={SINGLE_USER} />
           </div>
         ))}
       </div>

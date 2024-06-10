@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {getDurationInDays, getDurationInWeeks, numberOfWeeksInMonth, weekIndexInMonth} from './dateUtils';
+import { getDurationInDays, getDurationInWeeks, numberOfWeeksInMonth, weekIndexInMonth } from './dateUtils';
 
 export const PROJECTS = "projects";
 export const SINGLE_USER = "singleUser";
@@ -45,7 +45,7 @@ export const calculateWeekTaskWidth = (startDate, endDate, width) => {
       marginDays++;
     }
   }
-  return marginDays !== 1 ? (marginDays+1) * widthPerDay : widthPerDay;
+  return marginDays !== 1 ? (marginDays + 1) * widthPerDay : widthPerDay;
 }
 
 // Calculate the margin of a task for a week
@@ -111,17 +111,17 @@ export const calculateMonthTaskWidth = (startDate, endDate, width) => {
         weeksInMonth++;
       }
     }
-    if (weeksInMonth >  monthWeeks) {
-       widthPerWeek = width / weeksInMonth;
+    if (weeksInMonth > monthWeeks) {
+      widthPerWeek = width / weeksInMonth;
     } else {
-       widthPerWeek = width / monthWeeks;
+      widthPerWeek = width / monthWeeks;
     }
     totalWidth += weeksInMonth * widthPerWeek;
   }
 
 
   // add the margin between each month (3px)
-  return totalWidth + ((months.length-1) * 3);
+  return totalWidth + ((months.length - 1) * 3);
 }
 
 // Calculate the margin of a task for a month
@@ -134,165 +134,165 @@ export const calculateMonthTaskMarginLeft = (startDate, firstWeekStartDate, widt
   const marginPerWeek = width / numberOfWeeks;
   const monthWidth = numberOfMonth * (width + parseInt(timelineHeaderGap, 10));
 
-  return monthWidth + ((indexTaskFirstWeek-1) * marginPerWeek);
+  return monthWidth + ((indexTaskFirstWeek - 1) * marginPerWeek);
 }
 
 // Check if a week has tasks
 export const weekHaveTask = (users, startOfWeek, endOfWeek) => {
-    users.some((user) =>
-        user.tasks.some((task) =>
-            moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") ||
-            moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
-            moment(task.start).isBefore(startOfWeek) && (moment(task.end).isAfter(endOfWeek)) ||
-            moment(task.start).isBefore(startOfWeek) && moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
-            moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") && moment(task.end).isAfter(endOfWeek)
-        )
-    );
+  users.some((user) =>
+    user.tasks.some((task) =>
+      moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+      moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+      moment(task.start).isBefore(startOfWeek) && (moment(task.end).isAfter(endOfWeek)) ||
+      moment(task.start).isBefore(startOfWeek) && moment(task.end).isBetween(startOfWeek, endOfWeek, null, "[]") ||
+      moment(task.start).isBetween(startOfWeek, endOfWeek, null, "[]") && moment(task.end).isAfter(endOfWeek)
+    )
+  );
 }
 
 // Check if a month has tasks
 export const monthHaveTask = (users, startOfMonth, endOfMonth) => {
-    users.some((user) =>
-        user.tasks.some((task) =>
-            moment(task.start).isBetween(startOfMonth, endOfMonth, null, "[]") ||
-            moment(task.end).isBetween(startOfMonth, endOfMonth, null, "[]") ||
-            moment(task.start).isBefore(startOfMonth) && (moment(task.end).isAfter(endOfMonth)) ||
-            moment(task.start).isBefore(startOfMonth) && moment(task.end).isBetween(startOfMonth, endOfMonth, null, "[]") ||
-            moment(task.start).isBetween(startOfMonth, endOfMonth, null, "[]") && moment(task.end).isAfter(endOfMonth)
-        )
-    );
+  users.some((user) =>
+    user.tasks.some((task) =>
+      moment(task.start).isBetween(startOfMonth, endOfMonth, null, "[]") ||
+      moment(task.end).isBetween(startOfMonth, endOfMonth, null, "[]") ||
+      moment(task.start).isBefore(startOfMonth) && (moment(task.end).isAfter(endOfMonth)) ||
+      moment(task.start).isBefore(startOfMonth) && moment(task.end).isBetween(startOfMonth, endOfMonth, null, "[]") ||
+      moment(task.start).isBetween(startOfMonth, endOfMonth, null, "[]") && moment(task.end).isAfter(endOfMonth)
+    )
+  );
 }
 
 // Get the list of weeks between the start and end date of the tasks
 export const getWeekList = (users) => {
-    const startDate = moment.min(
-        users.map((user) =>
-            user.tasks.map((task) =>
-                moment(task.start)
-            )
-        ).flat()
-    );
+  const startDate = moment.min(
+    users.map((user) =>
+      user.tasks.map((task) =>
+        moment(task.start)
+      )
+    ).flat()
+  );
 
-    const endDate = moment.max(
-        users.flatMap((user) => {
-          return user.tasks.map((task) => {
-            return moment(task.end);
-          });
-        })
-    );
-
-    const weekList = [];
-    let currentWeek = startDate.clone().startOf("isoWeek");
-    while (currentWeek.isBefore(endDate)) {
-      const endWeek = currentWeek.clone().add(4, "days");
-      weekList.push({
-        start: currentWeek.format("YYYY-MM-DD"),
-        end: endWeek.format("YYYY-MM-DD"),
+  const endDate = moment.max(
+    users.flatMap((user) => {
+      return user.tasks.map((task) => {
+        return moment(task.end);
       });
-      currentWeek.add(7, "days");
-    }
-    return weekList;
-  };
+    })
+  );
+
+  const weekList = [];
+  let currentWeek = startDate.clone().startOf("isoWeek");
+  while (currentWeek.isBefore(endDate)) {
+    const endWeek = currentWeek.clone().add(4, "days");
+    weekList.push({
+      start: currentWeek.format("YYYY-MM-DD"),
+      end: endWeek.format("YYYY-MM-DD"),
+    });
+    currentWeek.add(7, "days");
+  }
+  return weekList;
+};
 
 // Sort projects by chronological order
 export const sortProjectByChronologicalOrder = (projects) => {
-    function getProjectDateRange(project) {
-      const startDates = project.tasks.map(task => new Date(task.start).getTime());
-      const endDates = project.tasks.map(task => new Date(task.end).getTime());
-      const startDate = new Date(Math.min(...startDates));
-      const endDate = new Date(Math.max(...endDates));
-      return { startDate, endDate };
-    }
+  function getProjectDateRange(project) {
+    const startDates = project.tasks.map(task => new Date(task.start).getTime());
+    const endDates = project.tasks.map(task => new Date(task.end).getTime());
+    const startDate = new Date(Math.min(...startDates));
+    const endDate = new Date(Math.max(...endDates));
+    return { startDate, endDate };
+  }
 
-    function compareProjects(a, b) {
-      // if id of the project is allProjects, it should be at the start
-      if (a.id === 'allProjects') return -1;
-      if (b.id === 'allProjects') return 1;
+  function compareProjects(a, b) {
+    // if id of the project is allProjects, it should be at the start
+    if (a.id === 'allProjects') return -1;
+    if (b.id === 'allProjects') return 1;
 
-      const dateRangeA = getProjectDateRange(a);
-      const dateRangeB = getProjectDateRange(b);
+    const dateRangeA = getProjectDateRange(a);
+    const dateRangeB = getProjectDateRange(b);
 
-      if (dateRangeA.startDate < dateRangeB.startDate) {
+    if (dateRangeA.startDate < dateRangeB.startDate) {
+      return -1;
+    } else if (dateRangeA.startDate > dateRangeB.startDate) {
+      return 1;
+    } else {
+      // If start dates are the same, sort based on end date
+      if (dateRangeA.endDate < dateRangeB.endDate) {
         return -1;
-      } else if (dateRangeA.startDate > dateRangeB.startDate) {
+      } else if (dateRangeA.endDate > dateRangeB.endDate) {
         return 1;
       } else {
-        // If start dates are the same, sort based on end date
-        if (dateRangeA.endDate < dateRangeB.endDate) {
-          return -1;
-        } else if (dateRangeA.endDate > dateRangeB.endDate) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return 0;
       }
     }
-
-    const sortedProjects = [...projects].sort(compareProjects);
-    // Sort tasks within each project
-    sortedProjects.forEach(project => {
-      project.tasks.sort((a, b) => new Date(a.start) - new Date(b.start));
-    });
-
-    return sortedProjects;
   }
+
+  const sortedProjects = [...projects].sort(compareProjects);
+  // Sort tasks within each project
+  sortedProjects.forEach(project => {
+    project.tasks.sort((a, b) => new Date(a.start) - new Date(b.start));
+  });
+
+  return sortedProjects;
+}
 
 // Get all the projects of the users
 export const getProjects = (users) => {
   const projectsMap = [];
   users.forEach((user) =>
-      user.tasks.forEach((task) => {
-        const project = task.project;
-        const projectId = project.id;
-        const taskId = task.id;
-        const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
-        task.user = excludeAttribute(user, 'tasks');
-        if (projectIndex === -1) {
-          projectsMap.push({
-            id: projectId,
-            name: project.name,
-            tasks: [task],
-            users: [user]
-          });
-        } else {
-          const taskIndex = projectsMap[projectIndex].tasks.findIndex((t) => t.id === taskId);
-          const userIndex = projectsMap[projectIndex].users.findIndex((u) => u.id === user.id);
-          if (taskIndex === -1) {
-            projectsMap[projectIndex].tasks.push(task);
-            if (userIndex === -1) {
-                projectsMap[projectIndex].users.push(user);
-            }
+    user.tasks.forEach((task) => {
+      const project = task.project;
+      const projectId = project.id;
+      const taskId = task.id;
+      const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
+      task.user = excludeAttribute(user, 'tasks');
+      if (projectIndex === -1) {
+        projectsMap.push({
+          id: projectId,
+          name: project.name,
+          tasks: [task],
+          users: [user]
+        });
+      } else {
+        const taskIndex = projectsMap[projectIndex].tasks.findIndex((t) => t.id === taskId);
+        const userIndex = projectsMap[projectIndex].users.findIndex((u) => u.id === user.id);
+        if (taskIndex === -1) {
+          projectsMap[projectIndex].tasks.push(task);
+          if (userIndex === -1) {
+            projectsMap[projectIndex].users.push(user);
           }
         }
-      })
+      }
+    })
   );
   return sortProjectByChronologicalOrder(projectsMap);
 }
 
 // Exclude an attribute from an object
 export const excludeAttribute = (obj, attributeToExclude) => {
-   const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
-   return rest;
+  const { [attributeToExclude]: excludedAttribute, ...rest } = obj;
+  return rest;
 }
 
 // Create a project called "All Projects" that contains all the tasks of the user
 export const createAllProject = (user) => {
-user.tasks.forEach((task, index) => {
-  const newTask = {
-    id: user.tasks.length + index,
-    name: task.project.name + ' - ' + task.name,
-    start: task.start,
-    end: task.end,
-    description : task.description,
-    taskImgUrl: task.taskImgUrl,
-    project : {
-      name : "All Projects",
-      id : 'allProjects'
+  user.tasks.forEach((task, index) => {
+    const newTask = {
+      id: user.tasks.length + index,
+      name: task.project.name + ' - ' + task.name,
+      start: task.start,
+      end: task.end,
+      description: task.description,
+      taskImgUrl: task.taskImgUrl,
+      project: {
+        name: "All Projects",
+        id: 'allProjects'
+      }
     }
-  }
-  user.tasks.push(newTask);
-});
-return user;
+    user.tasks.push(newTask);
+  });
+  return user;
 }
 
 // Remove the project "All Projects" from the user's tasks

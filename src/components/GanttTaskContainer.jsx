@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
-import {calculateWidthAndMargin, getWeekList, SINGLE_USER, USERS} from '../assets/utils/ganttUtils';
+import { calculateWidthAndMargin, getWeekList, SINGLE_USER, USERS } from '../assets/utils/ganttUtils';
 
 const GanttTaskContainer = (props) => {
 
@@ -30,7 +30,7 @@ const GanttTaskContainer = (props) => {
 
   // Calculate the width and margin of the task
   const calculateTaskStyle = (task) => {
-    const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(task.start,task.end,timelineWeeks[0].start, timelineWidth,modeMonth)
+    const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(task.start, task.end, timelineWeeks[0].start, timelineWidth, modeMonth)
     props.previousTasks.push({ widthPercentage, taskMarginLeft });
     return {
       width: `${widthPercentage}px`,
@@ -112,7 +112,7 @@ const GanttTaskContainer = (props) => {
           <div className="gantt-container-section-main-tasks-m">
             <div
               className={`gantt-container-section-main-tasks-t ${stacked ? 'stacked' : ''}`}
-              style={{width: width, left: finalMargin, height: height, top: top }}
+              style={{ width: width, left: finalMargin, height: height, top: top }}
             >
               <div
                 ref={stackedRef}
@@ -144,8 +144,8 @@ const GanttTaskContainer = (props) => {
       {props.view !== USERS
         ? renderTasks(props.project.tasks, props.project.id)
         : props.user.projects.map((project, index) => (
-              renderTasks(project.tasks, props.user.id, index)
-            )
+          renderTasks(project.tasks, props.user.id, index)
+        )
         )}
     </div>
   );

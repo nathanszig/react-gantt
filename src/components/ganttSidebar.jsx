@@ -53,7 +53,7 @@ const GanttSidebar = (props) => {
       <div className="gantt-container-section-sidebar-task">
         <div className="gantt-container-section-sidebar-task-client">
           <p
-            className={`gantt-container-section-sidebar-task-client-name${props.view === USERS ?'-team':''} `}
+            className={`gantt-container-section-sidebar-task-client-name${props.view === USERS ? '-team' : ''} `}
             onClick={props.view === USERS ? () => props.selectView(props.data.id) : undefined}
           >
             {cardTitle}
