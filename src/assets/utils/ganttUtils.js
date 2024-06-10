@@ -244,6 +244,7 @@ export const getProjects = (users) => {
     user.tasks.forEach((task) => {
       const project = task.project;
       const projectId = project.id;
+      const projectColor = project.color;
       const taskId = task.id;
       const projectIndex = projectsMap.findIndex((p) => p.id === projectId);
       task.user = excludeAttribute(user, 'tasks');
@@ -251,6 +252,7 @@ export const getProjects = (users) => {
         projectsMap.push({
           id: projectId,
           name: project.name,
+          color: projectColor,
           tasks: [task],
           users: [user]
         });

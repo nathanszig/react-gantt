@@ -11,6 +11,7 @@ export const fakeData = {
           "project": {
             "name": "project1",
             "id": 1,
+            "color": "red"
           },
           "name": "task1",
           "start": "12/25/2024",
@@ -23,6 +24,7 @@ export const fakeData = {
           "project": {
             "name": "project1",
             "id": 1,
+            "color": "red"
           },
           "name": "task2",
           "start": "12/19/2023",
@@ -43,6 +45,7 @@ export const fakeData = {
           "project": {
             "name": "project1",
             "id": 1,
+            "color": "red"
           },
           "name": "task3",
           "start": "12/05/2024",
@@ -55,6 +58,7 @@ export const fakeData = {
           "project": {
             "name": "project2",
             "id": 2,
+            "color": "blue"
           },
           "name": "task4",
           "start": "12/18/2023",
