@@ -39,7 +39,7 @@ const GanttTaskContainer = (props) => {
 
   const getTaskContainerStyle = (data) => {
     return props.selectedDropdownId === data.id
-      ? { flexDirection: 'column', marginTop: '150px' }
+      ? { flexDirection: 'column', marginTop: '110px' }
       : { flexDirection: 'row' };
   };
 
@@ -68,7 +68,7 @@ const GanttTaskContainer = (props) => {
           }
         }
       }
-      let height = props.selectedDropdownId === selectedId ? '110px' : `calc(132px / ${nbStacked})`;
+      let height = props.selectedDropdownId === selectedId ? '100px' : `calc(100px / ${nbStacked})`;
       let top = 0;
 
       /* - Pour le mode semaine on ajoute la classe truncated si la width du container est plus petite que la width de la tâche
@@ -89,12 +89,12 @@ const GanttTaskContainer = (props) => {
       // Si la vue est USERS, on calcule le top en fonction de l'index du projet sinon en fonction de l'index de la tâche
       if (props.view !== USERS) {
         top = props.selectedDropdownId === selectedId
-          ? `calc(115px * ${index})`
-          : `calc(135px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
+          ? `calc(100px * ${index})`
+          : `calc(100px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
       } else {
         top = props.selectedDropdownId === selectedId
-          ? `calc(115px * ${projectIndex})`
-          : `calc(135px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
+          ? `calc(100px * ${projectIndex})`
+          : `calc(100px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
       }
       return (
         <div className="gantt-container-section-main-tasks project" key={task.id}>
