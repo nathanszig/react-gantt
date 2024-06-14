@@ -4,6 +4,7 @@ import GanttSidebar from "./ganttSidebar";
 import GanttTaskContainer from "./GanttTaskContainer";
 import { getProjects, PROJECTS } from '../assets/utils/ganttUtils';
 import { mergeStyles } from "./gantt";
+import { colors, convertHexToRGBA } from '../constants/colors'
 
 const GanttViewProject = ({ customize, data, selectView, modeMonth }) => {
   const defaultStyles = {
@@ -47,21 +48,34 @@ const GanttViewProject = ({ customize, data, selectView, modeMonth }) => {
     }
   };
 
-  const styles = mergeStyles(defaultStyles, customize);
+  const baseStyles = mergeStyles(defaultStyles, customize);
+
+  // Function to generate dynamic styles for each project
+  const getDynamicStyles = (project) => {
+    console.log(project);
+    const dynamicStyles = {
+      sidebarProjects: {
+        background: colors[project.color],
+      }
+    };
+    const style = mergeStyles(baseStyles, dynamicStyles);
+    console.log(style);
+    return style;
+  };
 
   // Render the project
   return (
     <section className="gantt-container-section">
       <div className="gantt-container-section-timeline">
-        <GanttTimelineHeader users={users} styleData={styles} modeMonth={modeMonth} />
+        <GanttTimelineHeader users={users} styleData={baseStyles} modeMonth={modeMonth} />
       </div>
       <div className="gantt-container-section-sidebar">
         {projects.map((project) => (
           <div className="gantt-container-section-sidebar-line" key={project.id}>
-            <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId}
+            <GanttSidebar styleData={getDynamicStyles(project)} data={project} selectedDropdownId={selectedDropdownId}
               toggleDropdown={toggleDropdown} view={PROJECTS} selectView={selectView} />
             <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project}
-              styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth} view={PROJECTS} />
+              styleData={baseStyles} previousTasks={previousTasks} modeMonth={modeMonth} view={PROJECTS} />
           </div>
         ))}
       </div>
