@@ -58,7 +58,7 @@ export const fakeData = {
           "project": {
             "name": "project2",
             "id": 2,
-            "color": "blue"
+            "color": "yellow"
           },
           "name": "task4",
           "start": "12/18/2023",

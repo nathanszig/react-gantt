@@ -4,7 +4,6 @@ import GanttSidebar from "./ganttSidebar";
 import GanttTaskContainer from "./GanttTaskContainer";
 import { getProjects, PROJECTS } from '../assets/utils/ganttUtils';
 import { mergeStyles } from "./gantt";
-import { colors, convertHexToRGBA } from '../constants/colors'
 
 const GanttViewProject = ({ customize, data, selectView, modeMonth }) => {
   const defaultStyles = {
@@ -50,19 +49,6 @@ const GanttViewProject = ({ customize, data, selectView, modeMonth }) => {
 
   const baseStyles = mergeStyles(defaultStyles, customize);
 
-  // Function to generate dynamic styles for each project
-  const getDynamicStyles = (project) => {
-    console.log(project);
-    const dynamicStyles = {
-      sidebarProjects: {
-        background: colors[project.color],
-      }
-    };
-    const style = mergeStyles(baseStyles, dynamicStyles);
-    console.log(style);
-    return style;
-  };
-
   // Render the project
   return (
     <section className="gantt-container-section">
@@ -72,7 +58,7 @@ const GanttViewProject = ({ customize, data, selectView, modeMonth }) => {
       <div className="gantt-container-section-sidebar">
         {projects.map((project) => (
           <div className="gantt-container-section-sidebar-line" key={project.id}>
-            <GanttSidebar styleData={getDynamicStyles(project)} data={project} selectedDropdownId={selectedDropdownId}
+            <GanttSidebar styleData={baseStyles} data={project} selectedDropdownId={selectedDropdownId}
               toggleDropdown={toggleDropdown} view={PROJECTS} selectView={selectView} />
             <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project}
               styleData={baseStyles} previousTasks={previousTasks} modeMonth={modeMonth} view={PROJECTS} />

@@ -314,10 +314,12 @@ export const transformUsersData = (users) => {
     user.tasks.forEach(task => {
       const projectId = task.project.id;
       const projectName = task.project.name;
+      const projectColor = task.project.color;
       if (!projectsMap[projectId]) {
         projectsMap[projectId] = {
           id: projectId,
           name: projectName,
+          color: projectColor,
           tasks: []
         };
       }
