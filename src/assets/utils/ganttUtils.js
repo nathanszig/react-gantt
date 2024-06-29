@@ -279,7 +279,7 @@ export const excludeAttribute = (obj, attributeToExclude) => {
 
 // Create a project called "All Projects" that contains all the tasks of the user
 export const createAllProject = (user) => {
-  user.tasks.forEach((task, index) => {
+  user.tasks.forEach((task, index = 1) => {
     const newTask = {
       id: user.tasks.length + index,
       name: task.project.name + ' - ' + task.name,
@@ -289,7 +289,8 @@ export const createAllProject = (user) => {
       taskImgUrl: task.taskImgUrl,
       project: {
         name: "All Projects",
-        id: 'allProjects'
+        id: 'allProjects',
+        color: task.project.color
       }
     }
     user.tasks.push(newTask);

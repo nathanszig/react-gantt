@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import { calculateWidthAndMargin, getWeekList, SINGLE_USER, USERS } from '../assets/utils/ganttUtils';
-import {colorsUtils} from "../assets/utils/colorsUtils";
-import {mergeStyles} from "./gantt";
 
 const GanttTaskContainer = (props) => {
 
@@ -50,6 +48,7 @@ const GanttTaskContainer = (props) => {
   // Render the tasks
   const renderTasks = (tasks, selectedId, projectIndex = 0, projectColor) => {
     return tasks.map((task, index) => {
+      projectColor = task.project && task.project.color ? task.project.color  : projectColor;
       let nbDays = moment(task.end).diff(moment(task.start), 'days');
       let nbMonths = moment(task.end).diff(moment(task.start), 'months');
       let nbYears = moment(task.end).diff(moment(task.start), 'years');
