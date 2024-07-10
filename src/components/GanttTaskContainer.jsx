@@ -28,6 +28,7 @@ const GanttTaskContainer = (props) => {
     return () => window.removeEventListener('resize', updateWidths); // Clean up the event listener
   }, [modeMonth]);
 
+  // Calculate the width and margin of the task
   const calculateTaskStyle = (task) => {
     const { widthPercentage, taskMarginLeft } = calculateWidthAndMargin(task.start,task.end,timelineWeeks[0].start, timelineWidth,modeMonth)
     props.previousTasks.push({ widthPercentage, taskMarginLeft });
@@ -37,19 +38,24 @@ const GanttTaskContainer = (props) => {
     };
   };
 
+  // Get the task container style
   const getTaskContainerStyle = (data) => {
     return props.selectedDropdownId === data.id
       ? { flexDirection: 'column', marginTop: '110px' }
       : { flexDirection: 'row' };
   };
 
+  // Render the tasks
   const renderTasks = (tasks, selectedId, projectIndex = 0) => {
     return tasks.map((task, index) => {
+      let nbDays = moment(task.end).diff(moment(task.start), 'days');
+      let nbMonths = moment(task.end).diff(moment(task.start), 'months');
+      let nbYears = moment(task.end).diff(moment(task.start), 'years');
       let { width, left } = calculateTaskStyle(task);
       let regex = /(?<=calc\()\d+(\.\d+)?(?=px\))/;
       let finalMargin = parseInt(left.match(regex));
 
-      // Vérifier si cette tâche se chevauche avec une autre tâche dans le même projet
+      // Check if the task is stacked
       let stacked = false;
       let nbStacked = 1;
       let idstack = 1;
@@ -71,11 +77,7 @@ const GanttTaskContainer = (props) => {
       let height = props.selectedDropdownId === selectedId ? '100px' : `calc(100px / ${nbStacked})`;
       let top = 0;
 
-      /* - Pour le mode semaine on ajoute la classe truncated si la width du container est plus petite que la width de la tâche
-           - Cette classe permet au hover de la tâche de s'afficher en entier
-           - La taille minimum étant de 1 semaine ce problème n'arrive pas en mode mois
-           - Si on passe en mode mois on enlève la classe truncated  si elle est présente
-         */
+      // Check if the task is truncated
       useEffect(() => {
         if (stackedRef && stackedRef.current) {
           if (stackedRef.current.offsetWidth > parseInt(width.match(/\d+/))) {
@@ -86,7 +88,7 @@ const GanttTaskContainer = (props) => {
         }
       }, [stackedRef, modeMonth]);
 
-      // Si la vue est USERS, on calcule le top en fonction de l'index du projet sinon en fonction de l'index de la tâche
+      // If the view is USERS calculate the top with the project index else calculate it with the idstack
       if (props.view !== USERS) {
         top = props.selectedDropdownId === selectedId
           ? `calc(100px * ${index} + 10px)`
@@ -96,6 +98,15 @@ const GanttTaskContainer = (props) => {
           ? `calc(130px * ${projectIndex})`
           : `calc(100px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''} + 10px)`;
       }
+
+      // Calculate the duration of the task in years, months and days
+      let duration = '';
+
+      nbYears > 0 ? duration += `${nbYears} an${nbYears > 1 ? 's' : ''}` : '';
+      nbMonths > 0 ? duration += nbYears > 0 ? (nbMonths - nbYears * 12 > 0 ? ` ${nbMonths - nbYears * 12} mois` : '') : ` ${nbMonths} mois` : '';
+      nbDays > 0 ? duration += nbMonths > 0 ? (nbDays - nbMonths * 30 > 0 ? ` ${nbDays - nbMonths * 30} jours` : '') : ` ${nbDays} jours` : '';
+
+      // Return the task
       return (
         <div className="gantt-container-section-main-tasks project" key={task.id}>
           <div className="gantt-container-section-main-tasks-m">
@@ -116,6 +127,7 @@ const GanttTaskContainer = (props) => {
                 </p>
                 <p className="title">{task.name}</p>
                 <p className="description">{task.description}</p>
+                <p className="nbDays">{duration}</p>
               </div>
             </div>
           </div>

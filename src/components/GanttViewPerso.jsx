@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import GanttTimelineHeader from "./ganttTimelineHeader";
 import GanttSidebar from "./ganttSidebar";
 
-import {createAllProject, getProjects, SINGLE_USER, USERS} from '../assets/utils/ganttUtils';
+import {createAllProject, getProjects, SINGLE_USER} from '../assets/utils/ganttUtils';
 
 import { mergeStyles } from "./gantt";
 
 import GanttTaskContainer from "./GanttTaskContainer";
 
-const GanttViewPerso = ({ customize, data, selectUser, modeMonth }) => {
+const GanttViewPerso = ({ customize, data, selectView, modeMonth }) => {
   const defaultStyles = {
     sidebarProjects: {
       background: '#fff',
@@ -44,6 +44,7 @@ const GanttViewPerso = ({ customize, data, selectUser, modeMonth }) => {
     setPreviousTasks([]);
   }, [getUsers]);
 
+  // Toggle the dropdown
   const toggleDropdown = (id) => {
     if (selectedDropdownId === id) {
       setSelectedDropdownId(null);
@@ -54,6 +55,7 @@ const GanttViewPerso = ({ customize, data, selectUser, modeMonth }) => {
 
   const styles = mergeStyles(defaultStyles, customize);
 
+  // Render the project
   return (
     <section className="gantt-container-section">
       <div className="gantt-container-section-timeline">
@@ -71,7 +73,7 @@ const GanttViewPerso = ({ customize, data, selectUser, modeMonth }) => {
         {projects.map((project) => (
           <div className="gantt-container-section-sidebar-line" key={project.id}>
             <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId}
-                          toggleDropdown={toggleDropdown} view={SINGLE_USER} selectUser={selectUser}/>
+                          toggleDropdown={toggleDropdown} view={SINGLE_USER} selectView={selectView}/>
             <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project}
                           styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth} view={SINGLE_USER}/>
           </div>

@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-// fonction qui retourne le nombre de jours entre deux dates
+// function that returns the number of days between two dates
 export const getDurationInDays = (startAt, endAt) => {
   const startDate = new Date(startAt);
   const endDate = new Date(endAt);
@@ -8,16 +8,14 @@ export const getDurationInDays = (startAt, endAt) => {
   return Math.round(differenceInTime / (1000 * 3600 * 24));
 }
 
-// fonction qui le nombre de semaine à partir de deux dates (semaine de début et fin compris et entre les deux dates)
+// function that returns the number of weeks between two dates
 export const getDurationInWeeks = (startAt, endAt) => {
-  // Calculate the difference in weeks
-  // Return the difference in weeks plus 1 to account for the ending week
   const startDate = moment(startAt).startOf("weeks");
   const endDate = moment(endAt).endOf("weeks");
   return endDate.diff(startDate, 'weeks') + 1;
 }
 
-// fonction qui retourne quel l'index de la semaine données dans son mois a partir d'une date moment
+// function that return the index of the week in his month based on the date
 export const weekIndexInMonth = (date) => {
   const startOfMonth = moment(date).clone().startOf('month');
   // Calculate the number of days in the first week of the month
@@ -36,6 +34,8 @@ export const weekIndexInMonth = (date) => {
   return moment(date).isoWeek() - startOfMonth.isoWeek() + 1;
 }
 
+// function that returns the number of weeks in a month based on the date
+// For that call weekIndexInMonth with the last day of the month to know the week index of the last day so the number of weeks in the month
 export const numberOfWeeksInMonth = (date) => {
   return weekIndexInMonth(moment(date).clone().endOf('month').format('YYYY-MM-DD'));
 }

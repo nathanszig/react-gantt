@@ -91,11 +91,11 @@ export const calculateMonthTaskWidth = (startDate, endDate, width) => {
     }
 
   }
-  // trier les mois par ordre croissant
+  // sort months by chronological order
   months.sort((a, b) => moment(a).isBefore(b) ? -1 : 1);
 
-  // pour chaque mois on calcul le nombre de semaine pour définir la taille d'une semaine
-  // puis on multiplie cette taille par le nombre de semaine de cette tâche dans le mois
+  // for each week, calcul the number of week and then the width of one week
+  // then multiply by the number of weeks of this task in the month
   let totalWidth = 0;
 
   for (let m = 0; m < months.length; m++) {
@@ -105,7 +105,7 @@ export const calculateMonthTaskWidth = (startDate, endDate, width) => {
     const monthWeeks = numberOfWeeksInMonth(moment(month));
 
 
-    // Pour chaque semaine, vérifions si elle est dans le mois en cours
+    // For each week, check if it's in the month
     for (let i = 0; i < allWeeks.length; i++) {
       if (moment(allWeeks[i]).format('YYYY-MM') === month) {
         weeksInMonth++;
@@ -120,7 +120,7 @@ export const calculateMonthTaskWidth = (startDate, endDate, width) => {
   }
 
 
-  // on ajoute 3px de marge entre chaque mois
+  // add the margin between each month (3px)
   return totalWidth + ((months.length-1) * 3);
 }
 

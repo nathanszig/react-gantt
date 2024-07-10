@@ -2,9 +2,10 @@ import Icon from '../assets/pictos/arrow-left.svg';
 import { USERS } from '../assets/utils/ganttUtils';
 
 const GanttSidebar = (props) => {
-  // Déterminer le titre en fonction de la vue
+  // Define the card title based on the view
   let cardTitle = props.view === USERS ? `${props.data.firstName} ${props.data.lastName}` : props.data.name;
 
+  // Render the user task
   const renderUserTask = (task, index) => {
     const user = task.user;
     return (
@@ -20,7 +21,7 @@ const GanttSidebar = (props) => {
               className={"avatar-img"}
             />
             <div className="user-info-p">
-              <p onClick={() => props.selectUser(user.id)}>{user.firstName} {user.lastName}</p>
+              <p onClick={() => props.selectView(user.id)}>{user.firstName} {user.lastName}</p>
             </div>
           </div>
         </div>
@@ -28,6 +29,7 @@ const GanttSidebar = (props) => {
     );
   };
 
+  // Render the project
   const renderProject = (project, index) => {
     return (
       <div
@@ -45,13 +47,14 @@ const GanttSidebar = (props) => {
     );
   };
 
+  // Return the sidebar
   return (
     <div className="gantt-container-section-sidebar-tasks project" style={props.styleData.sidebarProjects}>
       <div className="gantt-container-section-sidebar-task">
         <div className="gantt-container-section-sidebar-task-client">
           <p
             className={`gantt-container-section-sidebar-task-client-name${props.view === USERS ?'-team':''} `}
-            onClick={props.view === USERS ? () => props.selectUser(props.data.id) : undefined}
+            onClick={props.view === USERS ? () => props.selectView(props.data.id) : undefined}
           >
             {cardTitle}
           </p>

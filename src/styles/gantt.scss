@@ -88,9 +88,10 @@
                     background: none;
                     border: none;
                     width: 100%;
-
+                    display: flex;
+                    cursor: pointer;
                     img {
-                        width: 10%;
+                        width: 13%;
                     }
                 }
 
@@ -421,7 +422,7 @@
                             flex-direction: row;
                             align-items: center;
                             gap: 20px;
-                            justify-content: space-around;
+                            justify-content: flex-start;
                             overflow: hidden;
                             transition: width 0.5s ease;
                             min-width: 100%;
@@ -435,10 +436,24 @@
                                 white-space: nowrap;
                             }
 
+                            .description {
+                              width: 150px;
+                              text-overflow: ellipsis;
+                              overflow-x: hidden;
+                              white-space: nowrap;
+                              display: inline-block;
+                            }
+
                             .title{
                                 margin: 0;
                                 padding: 0;
                             }
+
+                            .nbDays{
+                                margin: 0;
+                                padding: 0;
+                            }
+
                         }
                     }
 
@@ -457,6 +472,15 @@
                         border: solid rgb(236, 236, 236) 2px;
                         flex-direction: column;
                         padding: 10px;
+
+                        &.truncated .description {
+                          display: -webkit-box;
+                          -webkit-box-orient: vertical;
+                          -webkit-line-clamp: 2;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          max-height: 3em;
+                        }
 
                         p {
                             font-size: 14px;
@@ -477,8 +501,9 @@
                             margin-bottom: 5px;
                         }
 
-                        .description {
-                            font-size: 12px;
+                        .nbDays {
+                          margin-top: auto;
+                          font-size: 12px;
                         }
                     }
 
