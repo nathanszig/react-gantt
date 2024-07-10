@@ -95,6 +95,8 @@ const Gantt = ({ customize, data }) => {
 
   const styles = mergeStyles(defaultStyles, customize);
 
+  
+
   return (
     <div className="gantt-container" >
       <div className="gantt-container-filters">

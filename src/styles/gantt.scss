@@ -530,6 +530,8 @@
         }
     }
 
+    
+
     @media screen and (max-width : 1300px) {
         .gantt-container {
             &-sidebar {
@@ -542,5 +544,23 @@
                 width: calc(calc(100% - 270px) - 6em);
             }
         }
+    }
+}
+
+.modal{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.481);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content{
+        background-color: white;
+        width: 80%;
+        min-height: 50%;
+        border-radius: 12px;
     }
 }

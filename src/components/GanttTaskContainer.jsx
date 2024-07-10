@@ -89,12 +89,12 @@ const GanttTaskContainer = (props) => {
       // Si la vue est USERS, on calcule le top en fonction de l'index du projet sinon en fonction de l'index de la tâche
       if (props.view !== USERS) {
         top = props.selectedDropdownId === selectedId
-          ? `calc(100px * ${index})`
+          ? `calc(100px * ${index} + 10px)`
           : `calc(100px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
       } else {
         top = props.selectedDropdownId === selectedId
-          ? `calc(100px * ${projectIndex})`
-          : `calc(100px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
+          ? `calc(130px * ${projectIndex})`
+          : `calc(100px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''} + 10px)`;
       }
       return (
         <div className="gantt-container-section-main-tasks project" key={task.id}>
