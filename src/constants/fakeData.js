@@ -15,7 +15,7 @@ export const fakeData = {
                     "name": "task1",
                     "start": "12/25/2024",
                     "end": "12/29/2024",
-                    "description": "la tache de benji",
+                    "description": "début de la tache ici commence zzzzzzzzz zzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzzzzzzzz zzzzzz zzzzzzzzzzzzzzz zzzzzzzzzzzzzz zzzzzz zzzzzzzzzzzzzzz zzzzzzzzzzzzzz zzzzzz zzzzzz",
                     "taskImgUrl": "",
                 },
                 {
@@ -59,7 +59,7 @@ export const fakeData = {
                     "name": "task4",
                     "start": "12/18/2023",
                     "end": "01/02/2024",
-                    "description": "la deuxième mission de nathan",
+                    "description": "LEE DEBUT DU TEXT mission de nathan la deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathan",
                     "taskImgUrl": "",
                 },
             ]

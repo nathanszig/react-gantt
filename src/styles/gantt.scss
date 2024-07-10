@@ -418,6 +418,14 @@
                                 white-space: nowrap;
                             }
 
+                            .description {
+                              width: 150px;
+                              text-overflow: ellipsis;
+                              overflow-x: hidden;
+                              white-space: nowrap;
+                              display: inline-block;
+                            }
+
                             .title{
                                 margin: 0;
                                 padding: 0;
@@ -446,6 +454,15 @@
                         border: solid rgb(236, 236, 236) 2px;
                         flex-direction: column;
                         padding: 10px;
+
+                        &.truncated .description {
+                          display: -webkit-box;
+                          -webkit-box-orient: vertical;
+                          -webkit-line-clamp: 2;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          max-height: 3em;
+                        }
 
                         p {
                             font-size: 14px;
