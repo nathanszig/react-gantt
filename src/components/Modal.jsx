@@ -4,7 +4,7 @@ export const Modal = ({ isOpen, onClose, onTaskClick, task, customize }) => {
   return (
     isOpen ?
       <div className="modal" onClick={onClose}>
-        <div className='content' onClick={(e) => e.stopPropagation()} style={customize ? customize.modal : {}}>
+        <div className='content' onClick={(e) => e.stopPropagation()} style={customize ? customize.modal ? customize.modal : {} : {}}>
           <div className="modal-header">
             <h2>{task ? `${task.name}` : ''}</h2>
             {task.project && task.project.name && <p>{task.project.name} - {task.user.lastName} {task.user.firstName}</p>}

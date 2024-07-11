@@ -114,7 +114,7 @@ const Gantt = ({ customize, data, onTaskClick }) => {
   // Render the project
   return (
     <div>
-      <Modal isOpen={modal} onClose={handleClose} task={selectedTask}/>
+      <Modal isOpen={modal} onClose={handleClose} task={selectedTask} customize={styles}/>
       <div className="gantt-container" >
         <div className="gantt-container-filters">
           <div className="view-state-button">
