@@ -106,8 +106,8 @@ const GanttTaskContainer = (props) => {
       let duration = '';
 
       nbYears > 0 ? duration += `${nbYears} an${nbYears > 1 ? 's' : ''}` : '';
-      nbMonths > 0 ? duration += nbYears > 0 ? (nbMonths - nbYears * 12 > 0 ? ` ${nbMonths - nbYears * 12} mois` : '') : ` ${nbMonths} mois` : '';
-      nbDays > 0 ? duration += nbMonths > 0 ? (nbDays - nbMonths * 30 > 0 ? ` ${nbDays - nbMonths * 30} jours` : '') : ` ${nbDays} jours` : '';
+      nbMonths > 0 ? duration += nbYears > 0 ? (nbMonths - nbYears * 12 > 0 ? ` ${nbMonths - nbYears * 12} months` : '') : ` ${nbMonths} months` : '';
+      nbDays > 0 ? duration += nbMonths > 0 ? (nbDays - nbMonths * 30 > 0 ? ` ${nbDays - nbMonths * 30} days` : '') : ` ${nbDays} days` : '';
       // Return the task
       return (
         <div className="gantt-container-section-main-tasks project" key={task.id} onClick={() => onTaskClick(task)}>
@@ -138,7 +138,6 @@ const GanttTaskContainer = (props) => {
                   </span>
                 </p>
                 <p className="title">{task.name}</p>
-                <p className="description">{task.description}</p>
                 <p className="nbDays">{duration}</p>
               </div>
             </div>

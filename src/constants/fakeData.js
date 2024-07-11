@@ -12,10 +12,10 @@ export const fakeData = {
                         "name": "Website Redesign",
                         "id": 1
                     },
-                    "name": "Design Homepage",
+                    "name": "Design Homepage Design Homepage",
                     "start": "12/25/2024",
                     "end": "12/29/2024",
-                    "description": "Create a modern design for the homepage.",
+                    "description": "Create a modern design for the homepage. Create a modern design for the homepage. Create a modern design for the homepage. Create a modern design for the homepage. Create a modern design for the homepage. Create a modern design for the homepage. Create a modern design for the homepage. Create a modern design for the homepage.",
                     "taskImgUrl": "",
                 },
                 {
@@ -68,7 +68,7 @@ export const fakeData = {
             "id": 3,
             "firstName": "Alice",
             "lastName": "Johnson",
-            "urlAvatar": 'https://example.com/avatar3.png',
+            "urlAvatar": 'https://imgs.search.brave.com/t4L94ou3SfcKiE_0WyoTVv5QuhOCRaI5DDe29Lg75Oc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xNDA3Mi8xNDA3/MjY1Ni5wbmc',
             "tasks": [
                 {
                     "id": 5,
@@ -100,7 +100,7 @@ export const fakeData = {
             "id": 4,
             "firstName": "John",
             "lastName": "Doe",
-            "urlAvatar": 'https://example.com/avatar4.png',
+            "urlAvatar": 'https://imgs.search.brave.com/t4L94ou3SfcKiE_0WyoTVv5QuhOCRaI5DDe29Lg75Oc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xNDA3Mi8xNDA3/MjY1Ni5wbmc',
             "tasks": [
                 {
                     "id": 7,

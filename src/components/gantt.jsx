@@ -7,6 +7,7 @@ import GanttViewProject from './GanttViewProject'
 import GanttViewPerso from './GanttViewPerso'
 import {removeProjectAllProjects, SINGLE_USER, PROJECTS, USERS} from "../assets/utils/ganttUtils";
 import GanttViewTeams from "./GanttViewTeams";
+import { Modal } from './Modal';
 
 export function mergeStyles(target, source) {
 
@@ -47,6 +48,17 @@ const Gantt = ({ customize, data, onTaskClick }) => {
   const [testData, setTestData] = useState(data);
   const [view, setView] = useState(PROJECTS);
   const [modeMonth, setModeMonth] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+
+    const handleClose = () => {
+      setModal(false);
+    };
+
+    const handleTaskClick = (task) => {
+      setSelectedTask(task);
+      setModal(true);
+    };
 
   const defaultStyles = {
     todayButton: {
@@ -101,74 +113,77 @@ const Gantt = ({ customize, data, onTaskClick }) => {
 
   // Render the project
   return (
-    <div className="gantt-container" >
-      <div className="gantt-container-filters">
-        <div className="view-state-button">
-          <button
-            className={view === PROJECTS ? "active" : ""}
-            onClick={() => selectView(null, PROJECTS)}
-          >
-            Projects
-          </button>
-          <button
-            className={view === USERS ? "active" : ""}
-            onClick={() => selectView(null, USERS)}
-          >
-            Users
-          </button>
-        </div>
-        <div className="mode-state-button">
-          <button
-            className={modeMonth ? "active" : ""}
-            onClick={() => changeMode(true)}
-          >
-            Mois
-          </button>
-          <button
-            className={!modeMonth ? "active" : ""}
-            onClick={() => changeMode(false)}
-          >
-            Semaine
-          </button>
-        </div>
-        <div className="gantt-container-filters-crt">
-          <div className="gantt-container-filters-crt-block">
-            <button className="gantt-container-filters-crt-block-btn-left" onClick={handleMoveLeft}>
-              <img src={arrowLeft} alt="Move Left"/>
+    <div>
+      <Modal isOpen={modal} onClose={handleClose} task={selectedTask}/>
+      <div className="gantt-container" >
+        <div className="gantt-container-filters">
+          <div className="view-state-button">
+            <button
+              className={view === PROJECTS ? "active" : ""}
+              onClick={() => selectView(null, PROJECTS)}
+            >
+              Projects
             </button>
-            <p onClick={handleMoveToStart} style={styles.todayButton}>Début</p>
-            <p onClick={handleMoveToToday} style={styles.todayButton}>Today</p>
-            <p onClick={handleMoveToEnd} style={styles.todayButton}>Fin</p>
-            <button className="gantt-container-filters-crt-block-btn-right" onClick={handleMoveRight}>
-              <img src={arrowRight} alt="Move Right"/>
+            <button
+              className={view === USERS ? "active" : ""}
+              onClick={() => selectView(null, USERS)}
+            >
+              Users
             </button>
           </div>
+          <div className="mode-state-button">
+            <button
+              className={modeMonth ? "active" : ""}
+              onClick={() => changeMode(true)}
+            >
+              Month
+            </button>
+            <button
+              className={!modeMonth ? "active" : ""}
+              onClick={() => changeMode(false)}
+            >
+              Week
+            </button>
+          </div>
+          <div className="gantt-container-filters-crt">
+            <div className="gantt-container-filters-crt-block">
+              <button className="gantt-container-filters-crt-block-btn-left" onClick={handleMoveLeft}>
+                <img src={arrowLeft} alt="Move Left"/>
+              </button>
+              <p onClick={handleMoveToStart} style={styles.todayButton}>Start</p>
+              <p onClick={handleMoveToToday} style={styles.todayButton}>Today</p>
+              <p onClick={handleMoveToEnd} style={styles.todayButton}>End</p>
+              <button className="gantt-container-filters-crt-block-btn-right" onClick={handleMoveRight}>
+                <img src={arrowRight} alt="Move Right"/>
+              </button>
+            </div>
+          </div>
         </div>
+        {
+          view === PROJECTS ?
+            <GanttViewProject
+              customize={styles}
+              data={testData}
+              selectView={selectView}
+              modeMonth={modeMonth}
+              onTaskClick={handleTaskClick}
+            /> : view === SINGLE_USER ?
+              <GanttViewPerso
+                customize={styles}
+                data={testData}
+                selectView={selectView}
+                modeMonth={modeMonth}
+                onTaskClick={handleTaskClick}
+              /> :
+              <GanttViewTeams
+                customize={styles}
+                data={testData}
+                selectView={selectView}
+                modeMonth={modeMonth}
+                onTaskClick={handleTaskClick}
+              />
+        }
       </div>
-      {
-        view === PROJECTS ?
-          <GanttViewProject
-            customize={styles}
-            data={testData}
-            selectView={selectView}
-            modeMonth={modeMonth}
-            onTaskClick={onTaskClick}
-          /> : view === SINGLE_USER ?
-            <GanttViewPerso
-              customize={styles}
-              data={testData}
-              selectView={selectView}
-              modeMonth={modeMonth}
-              onTaskClick={onTaskClick}
-            /> :
-            <GanttViewTeams
-              customize={styles}
-              data={testData}
-              selectView={selectView}
-              modeMonth={modeMonth}
-              onTaskClick={onTaskClick}
-            />
-      }
     </div>
   );
 };

@@ -1,12 +1,13 @@
 import React from 'react';
 import closeIcon from '../assets/pictos/close.svg';
-export const Modal = ({ isOpen, onClose, onTaskClick, task }) => {
+export const Modal = ({ isOpen, onClose, onTaskClick, task, customize }) => {
   return (
     isOpen ?
       <div className="modal" onClick={onClose}>
-        <div className='content' onClick={(e) => e.stopPropagation()}>
+        <div className='content' onClick={(e) => e.stopPropagation()} style={customize ? customize.modal : {}}>
           <div className="modal-header">
-            <h1>{task ? `Tâche: ${task.name}` : ''}</h1>
+            <h2>{task ? `${task.name}` : ''}</h2>
+            {task.project && task.project.name && <p>{task.project.name} - {task.user.lastName} {task.user.firstName}</p>}
             <img
               src={closeIcon}
               alt="Close the modal"
@@ -16,14 +17,14 @@ export const Modal = ({ isOpen, onClose, onTaskClick, task }) => {
                 onClose();
               }}
             />
+            <div className='time'>
+              <p>{task.start && `${task.start}`} - {task.end && `${task.end}`}</p>
+            </div>
           </div>
           {task ? (
             <div>
-            {task.project && task.project.name && <p>{`Projet: ${task.project.name}`}</p>}
-              {task.user && task.user && <p>{`Assigné à : ${task.user.firstName} ${task.user.lastName} `}</p>}
-              <p>{task.description || 'No description available'}</p>
-              <p>{task.start && `Start: ${task.start}`}</p>
-              <p>{task.end && `End: ${task.end}`}</p>
+          
+              <p>{task.description}</p>
               {task.taskImgUrl && <img src={task.taskImgUrl} alt="Task Image" />}
             </div>
           ) : (

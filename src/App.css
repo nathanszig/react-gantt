@@ -51,11 +51,6 @@
   text-align: left;
 }
 
-.gantt-container {
-  width: 80%;
-  float: right;
-}
-
 
 .gantt-row {
   display: flex;
