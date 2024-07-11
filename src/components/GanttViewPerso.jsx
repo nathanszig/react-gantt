@@ -8,7 +8,7 @@ import { mergeStyles } from "./gantt";
 
 import GanttTaskContainer from "./GanttTaskContainer";
 
-const GanttViewPerso = ({ customize, data, selectView, modeMonth }) => {
+const GanttViewPerso = ({ customize, data, selectView, modeMonth, onTaskClick }) => {
   const defaultStyles = {
     sidebarProjects: {
       background: '#fff',
@@ -74,8 +74,9 @@ const GanttViewPerso = ({ customize, data, selectView, modeMonth }) => {
           <div className="gantt-container-section-sidebar-line" key={project.id}>
             <GanttSidebar styleData={styles} data={project} selectedDropdownId={selectedDropdownId}
                           toggleDropdown={toggleDropdown} view={SINGLE_USER} selectView={selectView}/>
-            <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project}
-                          styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth} view={SINGLE_USER}/>
+            <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} project={project} styleData={styles}
+              previousTasks={previousTasks} modeMonth={modeMonth} view={SINGLE_USER} onTaskClick={onTaskClick}
+            />
           </div>
         ))}
       </div>

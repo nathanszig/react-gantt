@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import {calculateWidthAndMargin, getWeekList, SINGLE_USER, USERS} from '../assets/utils/ganttUtils';
+import info from '../assets/pictos/info.svg';
 
 const GanttTaskContainer = (props) => {
 
@@ -8,6 +9,7 @@ const GanttTaskContainer = (props) => {
   const timelineWeeks = getWeekList(props.users);
   const modeMonth = props.modeMonth;
   const stackedRef = useRef(null);
+  const { onTaskClick } = props;
 
   useEffect(() => {
     const updateWidths = () => {
@@ -47,6 +49,7 @@ const GanttTaskContainer = (props) => {
 
   // Render the tasks
   const renderTasks = (tasks, selectedId, projectIndex = 0) => {
+    console.log(tasks)
     return tasks.map((task, index) => {
       let nbDays = moment(task.end).diff(moment(task.start), 'days');
       let nbMonths = moment(task.end).diff(moment(task.start), 'months');
@@ -105,10 +108,9 @@ const GanttTaskContainer = (props) => {
       nbYears > 0 ? duration += `${nbYears} an${nbYears > 1 ? 's' : ''}` : '';
       nbMonths > 0 ? duration += nbYears > 0 ? (nbMonths - nbYears * 12 > 0 ? ` ${nbMonths - nbYears * 12} mois` : '') : ` ${nbMonths} mois` : '';
       nbDays > 0 ? duration += nbMonths > 0 ? (nbDays - nbMonths * 30 > 0 ? ` ${nbDays - nbMonths * 30} jours` : '') : ` ${nbDays} jours` : '';
-
       // Return the task
       return (
-        <div className="gantt-container-section-main-tasks project" key={task.id}>
+        <div className="gantt-container-section-main-tasks project" key={task.id} onClick={() => onTaskClick(task)}>
           <div className="gantt-container-section-main-tasks-m">
             <div
               className={`gantt-container-section-main-tasks-t ${stacked ? 'stacked' : ''}`}
@@ -119,6 +121,16 @@ const GanttTaskContainer = (props) => {
                 className="gantt-container-section-main-tasks-t-content"
                 style={props.styleData.taskContainer}
               >
+                <img
+                  src={info}
+                  alt="Info"
+                  className="info-icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onTaskClick(task);
+                  }}
+                  style={{position: 'absolute', top: '5px', right: '5px', cursor: 'pointer'}}
+                />
                 <p>
                   <span>
                     {moment(task.start, 'MM/DD/YYYY').format('DD/MM/YYYY')} -{' '}
@@ -144,7 +156,7 @@ const GanttTaskContainer = (props) => {
       {props.view !== USERS
         ? renderTasks(props.project.tasks, props.project.id)
         : props.user.projects.map((project, index) => (
-              renderTasks(project.tasks, props.user.id, index)
+          renderTasks(project.tasks, props.user.id, index)
             )
         )}
     </div>
@@ -152,3 +164,4 @@ const GanttTaskContainer = (props) => {
 };
 
 export default GanttTaskContainer;
+

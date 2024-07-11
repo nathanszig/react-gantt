@@ -43,7 +43,7 @@ export const handleMoveToEnd = () => {
   }
 }
 
-const Gantt = ({ customize, data }) => {
+const Gantt = ({ customize, data, onTaskClick }) => {
   const [testData, setTestData] = useState(data);
   const [view, setView] = useState(PROJECTS);
   const [modeMonth, setModeMonth] = useState(false);
@@ -152,18 +152,21 @@ const Gantt = ({ customize, data }) => {
             data={testData}
             selectView={selectView}
             modeMonth={modeMonth}
+            onTaskClick={onTaskClick}
           /> : view === SINGLE_USER ?
             <GanttViewPerso
               customize={styles}
               data={testData}
               selectView={selectView}
               modeMonth={modeMonth}
+              onTaskClick={onTaskClick}
             /> :
             <GanttViewTeams
               customize={styles}
               data={testData}
               selectView={selectView}
               modeMonth={modeMonth}
+              onTaskClick={onTaskClick}
             />
       }
     </div>

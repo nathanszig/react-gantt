@@ -13,7 +13,7 @@ function App() {
             "borderRadius": "5px"
         },
         "taskContainer": {
-            "background": "#e3881d", 
+            "background": "#e3881d",
             "color": "#ffff",
             "border": "1px solid #000"
         },
@@ -29,7 +29,7 @@ function App() {
             "borderRadius": "5px"
         },
     }
-    
+
     const style2 = {
         "daysContainer": {
             "background": "#daebff",
@@ -38,7 +38,7 @@ function App() {
             "borderRadius": "5px"
         },
         "taskContainer": {
-            "background": "#5ca8fe", 
+            "background": "#5ca8fe",
             "color": "#ffff",
             "border": "1px solid #000",
             "borderRadius": "5px"
@@ -56,7 +56,7 @@ function App() {
             "borderRadius": "5px"
         },
     }
-    
+
     const style3 = {
         "daysContainer": {
             "background": "#e8e6df",
@@ -65,7 +65,7 @@ function App() {
             "borderRadius": "0"
         },
         "taskContainer": {
-            "background": "#9f987c", 
+            "background": "#9f987c",
             "color": "#ffff",
             "border": "1px solid #000",
             "borderRadius": "0"
@@ -83,7 +83,7 @@ function App() {
             "borderRadius": "0"
         },
     }
-    
+
     const style4 = {
             "todayButton": {
                 "background": "#ffff",
@@ -110,22 +110,28 @@ function App() {
     }
 
     const [currentStyle, setCurrentStyle] = useState(style1);
-    const [modal, setModal] = useState(true);
+    const [modal, setModal] = useState(false);
+    const [selectedTask, setSelectedTask] = useState(null);
 
     const handleClose = () => {
-        setModal(false);
+      setModal(false);
+    };
+
+    const handleTaskClick = (task) => {
+      setSelectedTask(task);
+      setModal(true);
     };
 
     return (
         <div className="App">
-            <Modal isOpen={modal} onClose={handleClose}/>
+            <Modal isOpen={modal} onClose={handleClose} task={selectedTask} />
             <div>
                 <button onClick={() => setCurrentStyle(style1)}>Style 1</button>
                 <button onClick={() => setCurrentStyle(style2)}>Style 2</button>
                 <button onClick={() => setCurrentStyle(style3)}>Style 3</button>
                 <button onClick={() => setCurrentStyle(style4)}>Style 4</button>
             </div>
-            <Gantt data={fakeData} customize={currentStyle}/>
+            <Gantt data={fakeData} customize={currentStyle} onTaskClick={handleTaskClick}/>
         </div>
     );
 }

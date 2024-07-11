@@ -7,7 +7,7 @@ import GanttTaskContainer from "./GanttTaskContainer";
 import {transformUsersData,USERS} from '../assets/utils/ganttUtils';
 import { mergeStyles } from "./gantt";
 
-const GanttViewTeam = ({ customize, data, selectView, modeMonth }) => {
+const GanttViewTeam = ({ customize, data, selectView, modeMonth, onTaskClick }) => {
   const defaultStyles = {
     sidebarProjects: {
       background: '#fff',
@@ -54,7 +54,9 @@ const GanttViewTeam = ({ customize, data, selectView, modeMonth }) => {
                 <GanttSidebar styleData={styles} data={user} selectedDropdownId={selectedDropdownId}
                       toggleDropdown={toggleDropdown} view={USERS} selectView={selectView}/>
                 <GanttTaskContainer users={users} selectedDropdownId={selectedDropdownId} user={user}
-                      styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth} view={USERS}/>
+                      styleData={styles} previousTasks={previousTasks} modeMonth={modeMonth}
+                      view={USERS} onTaskClick={onTaskClick}
+                />
               </div>
             ))
         }
