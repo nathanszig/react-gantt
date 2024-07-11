@@ -98,13 +98,13 @@ The component expects customize in the following structure:
     "daysContainer": {
       /** your custom css **/
     },
-    "weeksContainer": {
-      /** your custom css **/
-    },
     "taskContainer": {
       /** your custom css **/
     },
     "sidebarProjects": {
+      /** your custom css **/
+    },
+    "modal": {
       /** your custom css **/
     }
 }
