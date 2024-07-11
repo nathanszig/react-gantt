@@ -2,64 +2,128 @@ export const fakeData = {
     "users": [
         {
             "id": 1,
-            "firstName" : "Benjamin",
+            "firstName": "Benjamin",
             "lastName": "Burstein",
             "urlAvatar": 'https://imgs.search.brave.com/t4L94ou3SfcKiE_0WyoTVv5QuhOCRaI5DDe29Lg75Oc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xNDA3Mi8xNDA3/MjY1Ni5wbmc',
-            "tasks" : [
+            "tasks": [
                 {
                     "id": 1,
                     "project": {
-                        "name": "project1",
+                        "name": "Website Redesign",
                         "id": 1
                     },
-                    "name": "task1",
+                    "name": "Design Homepage",
                     "start": "12/25/2024",
                     "end": "12/29/2024",
-                    "description": "début de la tache ici commence zzzzzzzzz zzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzzzzzzzz zzzzzz zzzzzzzzzzzzzzz zzzzzzzzzzzzzz zzzzzz zzzzzzzzzzzzzzz zzzzzzzzzzzzzz zzzzzz zzzzzz",
+                    "description": "Create a modern design for the homepage.",
                     "taskImgUrl": "",
                 },
                 {
-                    "id": 3,
+                    "id": 2,
                     "project": {
-                        "name": "project1",
-                        "id": 1
+                        "name": "Mobile App Development",
+                        "id": 2
                     },
-                    "name": "task2",
-                    "start": "12/19/2023",
-                    "end": "05/15/2024",
-                    "description": "la tache de benji",
+                    "name": "Implement Authentication",
+                    "start": "01/10/2024",
+                    "end": "02/20/2024",
+                    "description": "Develop the login and registration functionalities.",
                     "taskImgUrl": "",
                 },
             ]
         },
         {
             "id": 2,
-            "firstName" : "Nathan",
-            "lastName": "szigeti",
+            "firstName": "Nathan",
+            "lastName": "Szigeti",
             "urlAvatar": 'https://imgs.search.brave.com/t4L94ou3SfcKiE_0WyoTVv5QuhOCRaI5DDe29Lg75Oc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xNDA3Mi8xNDA3/MjY1Ni5wbmc',
-            "tasks" : [
+            "tasks": [
                 {
-                    "id": 2,
+                    "id": 3,
                     "project": {
-                        "name": "project1",
+                        "name": "Website Redesign",
                         "id": 1
                     },
-                    "name": "task3",
+                    "name": "Optimize SEO",
                     "start": "12/05/2024",
-                    "end": "01/03/2025",
-                    "description": "la mission de nathan",
+                    "end": "12/15/2024",
+                    "description": "Improve the website's search engine ranking.",
                     "taskImgUrl": "",
                 },
                 {
-                    "id": 2,
+                    "id": 4,
                     "project": {
-                        "name": "project2",
-                        "id": 2
+                        "name": "Marketing Campaign",
+                        "id": 3
                     },
-                    "name": "task4",
+                    "name": "Social Media Ads",
                     "start": "12/18/2023",
                     "end": "01/02/2024",
-                    "description": "LEE DEBUT DU TEXT mission de nathan la deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathanla deuxième mission de nathan",
+                    "description": "Create and manage ads for social media platforms.",
+                    "taskImgUrl": "",
+                },
+            ]
+        },
+        {
+            "id": 3,
+            "firstName": "Alice",
+            "lastName": "Johnson",
+            "urlAvatar": 'https://example.com/avatar3.png',
+            "tasks": [
+                {
+                    "id": 5,
+                    "project": {
+                        "name": "Mobile App Development",
+                        "id": 2
+                    },
+                    "name": "Design User Interface",
+                    "start": "01/15/2024",
+                    "end": "03/15/2024",
+                    "description": "Create UI designs for the mobile app.",
+                    "taskImgUrl": "",
+                },
+                {
+                    "id": 6,
+                    "project": {
+                        "name": "Marketing Campaign",
+                        "id": 3
+                    },
+                    "name": "Email Marketing",
+                    "start": "02/01/2024",
+                    "end": "02/28/2024",
+                    "description": "Develop email marketing strategies and content.",
+                    "taskImgUrl": "",
+                },
+            ]
+        },
+        {
+            "id": 4,
+            "firstName": "John",
+            "lastName": "Doe",
+            "urlAvatar": 'https://example.com/avatar4.png',
+            "tasks": [
+                {
+                    "id": 7,
+                    "project": {
+                        "name": "Website Redesign",
+                        "id": 1
+                    },
+                    "name": "Develop Backend",
+                    "start": "03/01/2024",
+                    "end": "06/01/2024",
+                    "description": " Create and integrate backend functionalities.",
+                    "taskImgUrl": "",
+                },
+                {
+                    "id": 8,
+                    "project": {
+                        "name": "Mobile App Development",
+                        "id": 2
+                    },
+                    "name": "QA Testing",
+                    "start": "04/01/2024",
+                    "end": "05/01/2024",
+                    "description": "Perform quality assurance tests.",
                     "taskImgUrl": "",
                 },
             ]

@@ -41,7 +41,7 @@ const GanttTaskContainer = (props) => {
   // Get the task container style
   const getTaskContainerStyle = (data) => {
     return props.selectedDropdownId === data.id
-      ? { flexDirection: 'column', marginTop: '150px' }
+      ? { flexDirection: 'column', marginTop: '110px' }
       : { flexDirection: 'row' };
   };
 
@@ -74,7 +74,7 @@ const GanttTaskContainer = (props) => {
           }
         }
       }
-      let height = props.selectedDropdownId === selectedId ? '110px' : `calc(132px / ${nbStacked})`;
+      let height = props.selectedDropdownId === selectedId ? '100px' : `calc(100px / ${nbStacked})`;
       let top = 0;
 
       // Check if the task is truncated
@@ -91,12 +91,12 @@ const GanttTaskContainer = (props) => {
       // If the view is USERS calculate the top with the project index else calculate it with the idstack
       if (props.view !== USERS) {
         top = props.selectedDropdownId === selectedId
-          ? `calc(115px * ${index})`
-          : `calc(135px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
+          ? `calc(100px * ${index} + 10px)`
+          : `calc(100px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
       } else {
         top = props.selectedDropdownId === selectedId
-          ? `calc(115px * ${projectIndex})`
-          : `calc(135px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''})`;
+          ? `calc(130px * ${projectIndex})`
+          : `calc(100px / ${nbStacked} * ${idstack - 1} ${idstack > 1 ? '+ 5px' : ''} + 10px)`;
       }
 
       // Calculate the duration of the task in years, months and days

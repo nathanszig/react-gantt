@@ -6,36 +6,38 @@
 
     &-filters {
         display: flex;
-        margin-bottom: 30px;
         align-items: center;
         position: sticky;
         left: 0;
         // space-between;
         z-index: 999;
         background-color: #fff;
-        padding: 10px 20px;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
         border-radius: 8px;
         top: 0;
-        max-width: 98%;
         gap: 20px;
 
         .view-state-button {
             display: flex;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+
+            & button:nth-child(1) {
+                border-radius: 8px 0 0 8px;
+            }
+
+            & button:nth-child(2) {
+                border-radius: 0 8px 8px 0;
+            }
 
             button {
               padding: 10px 20px;
               border: none;
-              background-color: #ccc;
+              background: white;
               cursor: pointer;
-              transition: background-color 0.3s ease;
-
-              &:not(:last-child) {
-                border-right: 1px solid #999;
-              }
 
               &.active {
-                background-color: #007bff;
+                background-color: #474747;
                 color: #fff;
               }
             }
@@ -43,20 +45,25 @@
 
         .mode-state-button {
             display: flex;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+
+            & button:nth-child(1) {
+                border-radius: 8px 0 0 8px;
+            }
+
+            & button:nth-child(2) {
+                border-radius: 0 8px 8px 0;
+            }
 
             button {
                 padding: 10px 20px;
                 border: none;
-                background-color: #ccc;
+                background: white;
                 cursor: pointer;
-                transition: background-color 0.3s ease;
-
-                &:not(:last-child) {
-                    border-right: 1px solid #999;
-                }
 
                 &.active {
-                    background-color: #007bff;
+                    background-color: #474747;
                     color: #fff;
                 }
             }
@@ -69,14 +76,18 @@
         }
 
         &-crt {
+            margin-left: auto;
+
             &-block {
                 display: flex;
                 align-items: center;
+                justify-content: flex-end;
                 gap: 20px;
 
                 button {
                     background: none;
                     border: none;
+                    width: 100%;
                     display: flex;
                     cursor: pointer;
                     img {
@@ -101,6 +112,7 @@
     }
 
     &-section {
+        padding-top: 10px;
         margin: 0 auto;
         height: 800px;
         width: 100%;
@@ -177,10 +189,18 @@
 
               &-days {
                 width: 250px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
               }
 
               &-month {
                 width: 1000px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
               }
 
               &-month,&-days {
@@ -199,13 +219,11 @@
 
                 div {
                   display: flex;
-                  flex-flow: column;
 
                   p {
                     margin: auto;
                     text-align: center;
                     font-size: 14px;
-                    padding: 15px 20px;
                   }
                 }
 
@@ -283,7 +301,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                height: 132px;
+                height: 100px;
                 // padding-bottom: 10px;
 
                 &-icon {
@@ -537,6 +555,8 @@
         }
     }
 
+    
+
     @media screen and (max-width : 1300px) {
         .gantt-container {
             &-sidebar {
@@ -549,5 +569,23 @@
                 width: calc(calc(100% - 270px) - 6em);
             }
         }
+    }
+}
+
+.modal{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.481);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content{
+        background-color: white;
+        width: 80%;
+        min-height: 50%;
+        border-radius: 12px;
     }
 }
