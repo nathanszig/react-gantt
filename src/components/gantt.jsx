@@ -104,7 +104,7 @@ const Gantt = ({ customize, data, onTaskClick }) => {
       setTestData({ users: [selectedUser[0]] });
       setView(SINGLE_USER);
     } else if (newView !== null && view !== newView && newView !== SINGLE_USER && userId === null) {
-      newView === PROJECTS ? setTestData(removeProjectAllProjects(data)) : setTestData(data.users);
+      newView === PROJECTS ? setTestData(removeProjectAllProjects(data)) : setTestData(removeProjectAllProjects(data).users);
       setView(newView);
     }
   }

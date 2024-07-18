@@ -49,7 +49,6 @@ const GanttTaskContainer = (props) => {
 
   // Render the tasks
   const renderTasks = (tasks, selectedId, projectIndex = 0) => {
-    console.log(tasks)
     return tasks.map((task, index) => {
       let nbDays = moment(task.end).diff(moment(task.start), 'days');
       let nbMonths = moment(task.end).diff(moment(task.start), 'months');
